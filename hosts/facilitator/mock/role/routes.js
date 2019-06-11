@@ -44,7 +44,7 @@ export const constantRoutes = [
         meta: { title: '控制台', icon: 'dashboard', affix: true }
       }
     ]
-  },
+  }
 ]
 
 export const asyncRoutes = [
