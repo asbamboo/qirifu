@@ -84,16 +84,36 @@ export const constantRoutes = [
  * the routes that need to be dynamically loaded based on user roles
  */
 export const asyncRoutes = [
-  
+
   {
     path: '/system',
     component: Layout,
-    redirect: '/system/setting',
+    redirect: 'noRedirect',
+    name: 'SystemSetting',
+    meta: { title: '系统设置', icon: 'edit' },
     children: [
+      // {
+      //   path: 'setting/system-info',
+      //   component: () => import('@/views/system/setting/system-info'),
+      //   name: 'SystemSettingSystemInfo',
+      //   meta: { title: '系统信息', icon: 'edit' }
+      // },
+      // {
+      //   path: 'setting/database-info',
+      //   component: () => import('@/views/system/setting/database-info'),
+      //   name: 'SystemSettingDatabaseInfo',
+      //   meta: { title: '数据库', icon: 'edit' }
+      // },
+      // {
+      //   path: 'setting/asbamboo-info',
+      //   component: () => import('@/views/system/setting/asbamboo-info'),
+      //   name: 'SystemSettingAsbambooInfo',
+      //   meta: { title: '班布聚合', icon: 'edit' }
+      // },
       {
         path: 'setting',
         component: () => import('@/views/system/setting'),
-        name: '系统设置',
+        name: 'SystemSettingComposite',
         meta: { title: '系统设置', icon: 'edit' }
       }
     ]
