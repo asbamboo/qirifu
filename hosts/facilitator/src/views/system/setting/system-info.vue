@@ -62,10 +62,10 @@ export default {
       })
     },
     submitForm() {
-      this.ajax = true
       if(this.ajax == true){
         return
       }
+      this.ajax = true
       settingSystemInfo(this.system_info).then(response => {
         this.ajax = false
         this.$message({

@@ -1,13 +1,13 @@
 <template>
   <div class="app-container">
     <el-tabs v-model="active_tab">
-      <el-tab-pane label="基本设置" name="system_info">
+      <el-tab-pane label="基本设置" name="system_info" lazy>
         <system-info-form />
       </el-tab-pane>
-      <el-tab-pane label="数据库" name="database_info">
+      <el-tab-pane label="数据库" name="database_info" lazy>
         <database-info-form />
       </el-tab-pane>
-      <el-tab-pane label="班布聚合" name="asbamboo_info">
+      <el-tab-pane label="班布聚合" name="asbamboo_info" lazy>
         <asbamboo-info-form />
       </el-tab-pane>
     </el-tabs>

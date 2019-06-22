@@ -90,7 +90,8 @@ export default {
   name: 'DatabaseInfoForm',
   data() {
     return {
-      database_info: Object.assign({}, database_info)
+      database_info: Object.assign({}, database_info),
+      ajax: false
     }
   },
   created() {
@@ -98,18 +99,30 @@ export default {
   },
   methods: {
     fetchData() {
+      if(this.ajax == true){
+        return
+      }
+      this.ajax = true
       fetchDatabaseInfo().then(response => {
         this.database_info = response.data
+        this.ajax = false
       }).catch(err => {
         console.log(err)
+        this.ajax = false
       })
     },
     submitForm() {
+      if(this.ajax == true){
+        return
+      }
+      this.ajax = true
       settingDatabaseInfo(this.database_info).then(response => {
+        this.ajax = false
         this.$message({
           message: response.message
         })
       }).catch(err => {
+        this.ajax = false
         console.log(err)
       })
     }

@@ -52,7 +52,8 @@ export default {
   name: 'AsbambooInfoForm',
   data() {
     return {
-      asbamboo_info: Object.assign({}, asbamboo_info)
+      asbamboo_info: Object.assign({}, asbamboo_info),
+      ajax: false
     }
   },
   created() {
@@ -60,18 +61,30 @@ export default {
   },
   methods: {
     fetchData() {
+      if(this.ajax == true){
+        return
+      }
+      this.ajax = true
       fetchAsbambooInfo().then(response => {
         this.asbamboo_info = response.data
+        this.ajax = false
       }).catch(err => {
         console.log(err)
+        this.ajax = false
       })
     },
     submitForm() {
+      if(this.ajax == true){
+        return
+      }
+      this.ajax = true
       settingAsbambooInfo(this.asbamboo_info).then(response => {
+        this.ajax = false
         this.$message({
           message: response.message
         })
       }).catch(err => {
+        this.ajax = false
         console.log(err)
       })
     }
