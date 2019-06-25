@@ -89,32 +89,55 @@ export const asyncRoutes = [
     path: '/system',
     component: Layout,
     redirect: 'noRedirect',
-    name: 'SystemSetting',
+    name: 'systemSetting',
     meta: { title: '系统设置', icon: 'edit' },
     children: [
       // {
       //   path: 'setting/system-info',
       //   component: () => import('@/views/system/setting/system-info'),
-      //   name: 'SystemSettingSystemInfo',
+      //   name: 'systemSettingSystemInfo',
       //   meta: { title: '系统信息', icon: 'edit' }
       // },
       // {
       //   path: 'setting/database-info',
       //   component: () => import('@/views/system/setting/database-info'),
-      //   name: 'SystemSettingDatabaseInfo',
+      //   name: 'systemSettingDatabaseInfo',
       //   meta: { title: '数据库', icon: 'edit' }
       // },
       // {
       //   path: 'setting/asbamboo-info',
       //   component: () => import('@/views/system/setting/asbamboo-info'),
-      //   name: 'SystemSettingAsbambooInfo',
+      //   name: 'systemSettingAsbambooInfo',
       //   meta: { title: '班布聚合', icon: 'edit' }
       // },
       {
         path: 'setting',
         component: () => import('@/views/system/setting'),
-        name: 'SystemSettingComposite',
+        name: 'systemSettingComposite',
         meta: { title: '系统设置', icon: 'edit' }
+      }
+    ]
+  },
+
+  {
+    path: '/merchant',
+    component: Layout,
+    redirect: 'noRedirect',
+    name: 'merchant',
+    meta: { title: '商户管理', icon: 'edit' },
+    children: [
+      {
+        path: 'list',
+        component: () => import('@/views/merchant/list'),
+        name: 'merchantList',
+        meta: { title: '商户列表', icon: 'edit' }
+      },
+      {
+        path: 'detail/:id',
+        component: () => import('@/views/merchant/detail'),
+        name: 'merchantDetail',
+        meta: { title: '商户详情', icon: 'edit' },
+        hidden: true
       }
     ]
   },
