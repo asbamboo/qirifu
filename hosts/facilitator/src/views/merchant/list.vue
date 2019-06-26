@@ -1,6 +1,16 @@
 <template>
   <div class="app-container">
-    <el-table v-loading="listLoading" :data="list" border fit highlight-current-row style="width: 100%">
+
+    <div class="filter-container">
+      <el-input v-model="list_query.name" placeholder="商户简称" style="width: 200px;" class="filter-item" @keyup.enter.native="handleFilter" />
+      <el-input v-model="list_query.link_man" placeholder="联系人姓名" style="width: 200px;" class="filter-item" @keyup.enter.native="handleFilter" />
+      <el-input v-model="list_query.link_phone" placeholder="联系人手机" style="width: 200px;" class="filter-item" @keyup.enter.native="handleFilter" />
+      <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter">
+        Search
+      </el-button>
+    </div>
+
+    <el-table v-loading="list_loding" :data="list" border fit highlight-current-row style="width: 100%">
 
       <el-table-column align="center" label="商户简称">
         <template slot-scope="scope">
@@ -43,7 +53,7 @@
       </el-table-column>
     </el-table>
 
-    <pagination v-show="total>0" :total="total" :page.sync="listQuery.page" :limit.sync="listQuery.limit" @pagination="getList" />
+    <pagination v-show="total>0" :total="total" :page.sync="list_query.page" :limit.sync="list_query.limit" @pagination="getList" />
   </div>
 </template>
 
@@ -58,8 +68,11 @@ export default {
     return {
       list: null,
       total: 0,
-      listLoading: true,
-      listQuery: {
+      list_loding: true,
+      list_query: {
+        name: '',
+        link_man: '',
+        link_phone: '',
         page: 1,
         limit: 10
       }
@@ -70,12 +83,16 @@ export default {
   },
   methods: {
     getList() {
-      this.listLoading = true
-      fetchList(this.listQuery).then(response => {
+      this.list_loding = true
+      fetchList(this.list_query).then(response => {
         this.list = response.data.items
         this.total = response.data.total
-        this.listLoading = false
+        this.list_loding = false
       })
+    },
+    handleFilter() {
+      this.list_query.page = 1
+      this.getList()
     }
   }
 }

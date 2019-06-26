@@ -35,10 +35,12 @@ export default [
     url: '/merchant/lists',
     type: 'get',
     response: config => {
-      const { name, page = 1, limit = 10 } = config.query
+      const { name, link_man, link_phone, page = 1, limit = 10 } = config.query
 
       let mockList = List.filter(item => {
         if (name && item.name.indexOf(name) < 0) return false
+        if (link_man && item.link_man.indexOf(link_man) < 0) return false
+        if (link_phone && item.link_phone.toString().indexOf(link_phone) < 0) return false
         return true
       })
 
