@@ -150,12 +150,17 @@ export const asyncRoutes = [
   },
 
   {
-    path: 'external-link',
+    path: '/trade',
     component: Layout,
+    redirect: 'noRedirect',
+    name: 'trade',
+    meta: { title: '交易管理', icon: 'edit' },
     children: [
       {
-        path: 'http://www.asbamboo.com',
-        meta: { title: '班布聚合官网', icon: 'link' }
+        path: 'list',
+        component: () => import('@/views/trade/list'),
+        name: 'tradeList',
+        meta: { title: '交易列表', icon: 'edit' }
       }
     ]
   },

@@ -6,13 +6,15 @@ import role from './role'
 import systemSetting from './system-setting'
 import merchantChannel from './merchant-channel'
 import merchant from './merchant'
+import trade from './trade'
 
 const mocks = [
   ...user,
   ...role,
   ...systemSetting,
   ...merchantChannel,
-  ...merchant
+  ...merchant,
+  ...trade
 ]
 
 // for front mock
