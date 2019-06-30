@@ -5,8 +5,8 @@
       <el-input v-model="list_query.name" placeholder="商户简称" style="width: 200px;" class="filter-item" @keyup.enter.native="handleFilter" />
       <el-input v-model="list_query.link_man" placeholder="联系人姓名" style="width: 200px;" class="filter-item" @keyup.enter.native="handleFilter" />
       <el-input v-model="list_query.link_phone" placeholder="联系人手机" style="width: 200px;" class="filter-item" @keyup.enter.native="handleFilter" />
-      <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter">
-        Search
+      <el-button class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter">
+        查询
       </el-button>
     </div>
 
@@ -30,23 +30,28 @@
         </template>
       </el-table-column>
 
-      <el-table-column align="center" label="创建时间">
+      <el-table-column align="center" label="创建时间" width="160">
         <template slot-scope="scope">
           <span>{{ scope.row.create_ymdhis }}</span>
         </template>
       </el-table-column>
 
-      <el-table-column align="center" label="修改时间">
+      <el-table-column align="center" label="修改时间" width="160">
         <template slot-scope="scope">
           <span>{{ scope.row.update_ymdhis }}</span>
         </template>
       </el-table-column>
 
-      <el-table-column align="center" label="操作" width="120">
+      <el-table-column align="center" label="操作" width="210">
         <template slot-scope="scope">
-          <router-link :to="'/merchant/detail/'+scope.row.id">
-            <el-button type="primary" size="small" icon="el-icon-edit">
+          <router-link :to="'/merchant/detail/'+scope.row.seq">
+            <el-button type="primary" size="small" icon="el-icon-view">
               详情
+            </el-button>
+          </router-link>
+          <router-link :to="'/merchant/channel/'+scope.row.seq">
+            <el-button type="primary" size="small" icon="el-icon-edit">
+              支付通道
             </el-button>
           </router-link>
         </template>

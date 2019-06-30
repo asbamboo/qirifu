@@ -90,8 +90,8 @@ export default [
       return {
         code: 20000,
         data: {
-          app_key: '@string(13)',
-          secret: '@string(32)'
+          app_key: '@string(abcdefghijklmnopqrstuvwxyz01234567890, 13)',
+          secret: '@string(abcdefghijklmnopqrstuvwxyz01234567890, 32)'
         }
       }
     }

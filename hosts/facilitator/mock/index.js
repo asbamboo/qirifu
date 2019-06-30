@@ -4,12 +4,14 @@ import { param2Obj } from '../src/utils'
 import user from './user'
 import role from './role'
 import systemSetting from './system-setting'
+import merchantChannel from './merchant-channel'
 import merchant from './merchant'
 
 const mocks = [
   ...user,
   ...role,
   ...systemSetting,
+  ...merchantChannel,
   ...merchant
 ]
 

@@ -8,10 +8,18 @@ export function fetchList(query) {
   })
 }
 
-export function fetchDetail(id) {
+export function fetchDetail(seq) {
   return request({
     url: '/merchant/detail',
     method: 'get',
-    params: { id }
+    params: { seq }
+  })
+}
+
+export function fetchChannelInfo(seq){
+  return request({
+    url: '/merchant/channel',
+    method: 'get',
+    params: { seq }
   })
 }

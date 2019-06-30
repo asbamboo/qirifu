@@ -5,7 +5,7 @@ const count = 100
 
 for (let i = 0; i < count; i++) {
   List.push(Mock.mock({
-    id: '@increment',
+    seq: '@increment',
     name: '@ctitle(2, 4)', //企业简称
     fullname: '@name 有限公司', //企业全称
     profession: '@ctitle(2,6)', //行业
@@ -29,6 +29,7 @@ for (let i = 0; i < count; i++) {
     'files|0-10': [{id:'@increment', url: '@url', name: '@word'}] //上传的资料
   }))
 }
+
 
 export default [
   {
@@ -60,9 +61,9 @@ export default [
     url: '/merchant/detail',
     type: 'get',
     response: config => {
-      const { id } = config.query
+      const { seq } = config.query
       for (const item of List) {
-        if (item.id === +id) {
+        if (item.seq === +seq) {
           return {
             code: 20000,
             data: item
@@ -70,6 +71,99 @@ export default [
         }
       }
     }
-  }
+  },
 
+  {
+    url: '/merchant/channel',
+    type: 'get',
+    response: config => {
+      const { seq } = config.query
+      let merchant = null
+      for (const item of List) {
+        if (item.seq === +seq) {
+          merchant = item
+        }
+      }
+      let alipay_is_ok = Math.round(Math.random())
+      let wxpay_is_ok = Math.round(Math.random())
+      let channel =
+      {
+        alipay: {
+          is_ok: alipay_is_ok,
+          history: [
+            {
+              'seq': '@increment',
+              'status': '商户申请开通。',
+              'time': '2019-01-01 00:00:00'
+            },
+            {
+              'seq': '@increment',
+              'status': '资料已提交到支付宝、等待审核。',
+              'time': '2019-01-02 00:00:00'
+            },
+            {
+              'seq': '@increment',
+              'status': '审核未通过，需要商户补充或修改资料。',
+              'time': '2019-01-02 00:00:00'
+            },
+            {
+              'seq': '@increment',
+              'status': '资料重新提交到支付宝、等待审核。',
+              'time': '2019-01-02 00:00:00'
+            },
+            {
+              'seq': '@increment',
+              'status': '审核通过，等待商户支付宝账号授权。',
+              'time': '2019-01-03 00:00:00'
+            }
+          ]
+        },
+        wxpay: {
+          is_ok: wxpay_is_ok,
+          history: [
+            {
+              'seq': '@increment',
+              'status': '商户申请开通。',
+              'time': '2019-01-01 00:00:00'
+            },
+            {
+              'seq': '@increment',
+              'status': '资料已提交到微信、等待审核。',
+              'time': '2019-01-02 00:00:00'
+            },
+            {
+              'seq': '@increment',
+              'status': '审核未通过，需要商户补充或修改资料。',
+              'time': '2019-01-02 00:00:00'
+            },
+            {
+              'seq': '@increment',
+              'status': '资料重新提交到微信、等待审核。',
+              'time': '2019-01-02 00:00:00'
+            }
+
+          ]
+        }
+      }
+
+      if(alipay_is_ok){
+        channel.alipay.history.push({
+          'seq': '@increment',
+          'status': '正式开通。商户号(seller_id):2088102146225135',
+          'time': '2019-01-04 00:00:00'
+        });
+      }
+      if(wxpay_is_ok){
+        channel.wxpay.history.push({
+          'seq': '@increment',
+          'status': '审核通过，正式开通。商户号(sub_mch_id):1900000109',
+          'time': '2019-01-04 00:00:00'
+        });
+      }
+      return {
+        code: 20000,
+        data: { channel : channel, merchant: merchant }
+      }
+    }
+  },
 ]

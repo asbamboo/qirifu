@@ -133,10 +133,17 @@ export const asyncRoutes = [
         meta: { title: '商户列表', icon: 'edit' }
       },
       {
-        path: 'detail/:id',
+        path: 'detail/:seq',
         component: () => import('@/views/merchant/detail'),
         name: 'merchantDetail',
         meta: { title: '商户详情', icon: 'edit' },
+        hidden: true
+      },
+      {
+        path: 'channel/:seq',
+        component: () => import('@/views/merchant/channel'),
+        name: 'merchantChannel',
+        meta: { title: '支付通道', icon: 'edit' },
         hidden: true
       }
     ]

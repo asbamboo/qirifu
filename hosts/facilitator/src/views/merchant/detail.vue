@@ -78,11 +78,11 @@ export default {
     }
   },
   created() {
-    this.fetchData(this.$route.params.id)
+    this.fetchData(this.$route.params.seq)
   },
   methods: {
-    fetchData(id) {
-      fetchDetail(id).then(response => {
+    fetchData(seq) {
+      fetchDetail(seq).then(response => {
         this.merchant = response.data
       }).catch(err => {
         console.log(err)
