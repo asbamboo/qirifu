@@ -19,7 +19,6 @@ export default [
     }
   },
 
-
   {
     url: '/register',
     type: 'post',

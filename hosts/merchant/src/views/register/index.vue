@@ -159,7 +159,6 @@ export default {
           }).catch(err => {
             this.ajax = false
           })
-          console.log('@todo register function')
         } else {
           console.log('error submit!!')
           return false

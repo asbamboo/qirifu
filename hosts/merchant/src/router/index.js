@@ -90,6 +90,73 @@ export const constantRoutes = [
  */
 export const asyncRoutes = [
 
+  {
+    path: '/information',
+    component: Layout,
+    redirect: 'noRedirect',
+    name: 'information',
+    alwaysShow: true,
+    meta: { title: '信息中心', icon: 'edit' },
+    children: [
+      {
+        path: 'login',
+        component: () => import('@/views/information/login'),
+        name: 'informationLogin',
+        meta: { title: '账号信息', icon: 'edit' }
+      },
+      {
+        path: 'merchant',
+        component: () => import('@/views/information/merchant'),
+        name: 'informationMerchant',
+        meta: { title: '商户资料', icon: 'edit' }
+      },
+      {
+        path: 'qrcode',
+        component: () => import('@/views/information/qrcode'),
+        name: 'informationQrcode',
+        meta: { title: '二维码', icon: 'edit' }
+      },
+      {
+        path: 'channel',
+        component: () => import('@/views/information/channel'),
+        name: 'informationChannel',
+        meta: { title: '支付通道', icon: 'edit' }
+      }
+    ]
+  },
+
+  {
+    path: '/trade',
+    component: Layout,
+    redirect: 'noRedirect',
+    name: 'trade',
+    meta: { title: '交易管理', icon: 'edit' },
+    children: [
+      {
+        path: 'list',
+        component: () => import('@/views/trade/list'),
+        name: 'tradeList',
+        meta: { title: '交易列表', icon: 'edit' }
+      }
+    ]
+  },
+
+  {
+    path: '/message',
+    component: Layout,
+    redirect: 'noRedirect',
+    name: 'message',
+    meta: { title: '消息管理', icon: 'edit' },
+    children: [
+      {
+        path: 'inbox',
+        component: () => import('@/views/message/inbox'),
+        name: 'messageInbox',
+        meta: { title: '收到的消息', icon: 'edit' }
+      }
+    ]
+  },
+
   // 404 page must be placed at the end !!!
   { path: '*', redirect: '/404', hidden: true }
 ]
