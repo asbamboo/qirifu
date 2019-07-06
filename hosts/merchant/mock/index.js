@@ -5,12 +5,14 @@ import user from './user'
 import role from './role'
 import register from './register'
 import informationLogin from './information-login'
+import informationMerchant from './information-merchant'
 
 const mocks = [
   ...user,
   ...role,
   ...register,
-  ...informationLogin
+  ...informationLogin,
+  ...informationMerchant
 ]
 
 // for front mock
