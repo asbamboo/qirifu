@@ -70,6 +70,11 @@ export const constantRoutes = [
     hidden: true
   },
   {
+    path: '/window-print',
+    component: () => import('@/views/print/qrcode'),
+    hidden: true
+  },
+  {
     path: '/',
     component: Layout,
     redirect: '/dashboard',

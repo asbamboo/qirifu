@@ -6,13 +6,15 @@ import role from './role'
 import register from './register'
 import informationLogin from './information-login'
 import informationMerchant from './information-merchant'
+import informationQrcode from './information-qrcode'
 
 const mocks = [
   ...user,
   ...role,
   ...register,
   ...informationLogin,
-  ...informationMerchant
+  ...informationMerchant,
+  ...informationQrcode
 ]
 
 // for front mock
