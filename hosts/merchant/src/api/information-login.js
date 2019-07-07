@@ -6,6 +6,7 @@ export function getData() {
     method: 'get'
   })
 }
+
 export function settingAccount(data) {
   let qs = require('qs');
   return request({
