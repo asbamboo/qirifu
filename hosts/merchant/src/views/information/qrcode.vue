@@ -5,7 +5,7 @@
       </div>
       <el-divider></el-divider>
       <router-link target="_blank" to="/window-print">
-        <el-button type="primary" :disable="ajax">打印</el-button>
+        <el-button type="primary" :disabled="ajax">打印</el-button>
       </router-link>
   </div>
 </template>
@@ -30,17 +30,15 @@ export default{
       this.generateQrcodeCanvas()
     }
   },
-  mounted() {
-    this.generateQrcodeCanvas()
-  },
   methods: {
     fetchData() {
       this.ajax = true
       getQrcodeData().then(response => {
         this.qrcode = response.data.qrcode
-        // this.ajax = false
+        this.ajax = false
       }).catch(err => {
-        // this.ajax = false
+        console.log(err)
+        this.ajax = false
       })
     },
     generateQrcodeCanvas() {
