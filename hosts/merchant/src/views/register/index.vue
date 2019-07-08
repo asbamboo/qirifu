@@ -124,8 +124,10 @@ export default {
   },
   methods: {
     doSendCaptcha() {
+      console.log(process.env.VUE_APP_BASE_API)
       this.captcha_sended = 'yes'
       sendCaptcha(this.register_form).then(response => {
+        console.log(response)
         this.$message({
           message: response.message,
           showClose: true

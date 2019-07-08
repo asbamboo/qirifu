@@ -9,6 +9,7 @@ import informationMerchant from './information-merchant'
 import informationQrcode from './information-qrcode'
 import informationChannel from './information-channel'
 import trade from './trade'
+import messageInbox from './message-inbox'
 
 const mocks = [
   ...user,
@@ -18,7 +19,8 @@ const mocks = [
   ...informationMerchant,
   ...informationQrcode,
   ...informationChannel,
-  ...trade
+  ...trade,
+  ...messageInbox
 ]
 
 // for front mock

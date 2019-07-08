@@ -1,7 +1,7 @@
 import request from '@/utils/request'
+import qs from 'qs'
 
 export function sendCaptcha(data) {
-  let qs = require('qs');
   return request({
     url: '/register/send-captcha',
     method: 'post',
@@ -10,7 +10,6 @@ export function sendCaptcha(data) {
 }
 
 export function register(data) {
-  let qs = require('qs');
   return request({
     url: '/register',
     method: 'post',
