@@ -32,7 +32,7 @@ export default [
       )
 
       return {
-        code: 20000,
+        status: 'success',
         data: {
           total: mockList.length,
           items: pageList
@@ -51,7 +51,7 @@ export default [
         if (item.seq === +post.seq) {
           item.is_read = true
           return {
-            code: 20000,
+            status: 'success',
             message: '消息状态修改为已阅读'
           }
         }

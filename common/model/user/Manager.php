@@ -16,8 +16,6 @@ use asbamboo\qirifu\common\exception\MessageException;
  */
 class Manager
 {
-    use Validator;
-
     /**
      *
      * @var FactoryInterface
@@ -124,12 +122,11 @@ class Manager
      * @param bool $user_is_enable
      * @return Manager
      */
-    public function create($user_type, $user_password, $user_balance, $user_is_enable) : Manager
+    public function create($user_type, $user_password, $user_is_enable) : Manager
     {
         $this->Entity->setUserId($this->generateUserId());
         $this->Entity->setType($user_type);
         $this->Entity->setPassword($user_password);
-        $this->Entity->setBalance($user_balance);
         $this->Entity->setIsEnable($user_is_enable);
 
         $this->validateCreate($this->Entity);
@@ -221,7 +218,6 @@ class Manager
      */
     public function validateCreate() : void
     {
-        $this->validateBalance($this->Entity->getBalance());
     }
 
     /**

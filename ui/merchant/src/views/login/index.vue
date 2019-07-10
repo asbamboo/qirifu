@@ -70,7 +70,7 @@ export default {
       }
     }
     const validatePassword = (rule, value, callback) => {
-      if (value.length < 6) {
+      if (value.length < 1) {
         callback(new Error('请输入有效的密码'))
       } else {
         callback()

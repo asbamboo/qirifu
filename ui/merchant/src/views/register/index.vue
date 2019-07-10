@@ -3,6 +3,7 @@
     <el-form
       ref="registerForm"
       :model="register_form"
+      :rules="rules"
       class="register-form"
       autocomplete="on"
       label-position="left"
@@ -50,7 +51,7 @@
           v-model="register_form.confirm_password"
           type="password"
           placeholder="请再次输入密码"
-          name="password"
+          name="confirm_password"
           tabindex="3"
           autocomplete="on"
         />
@@ -64,7 +65,7 @@
           v-model="register_form.captcha"
           type="text"
           placeholder="请输入验证码"
-          name="password"
+          name="captcha"
           tabindex="4"
           autocomplete="off"
         />
@@ -109,12 +110,50 @@ import { sendCaptcha, register } from '@/api/register'
 export default {
   name: 'Register',
   data() {
+    const validateConfirmPassword = (rule, value, callback) => {
+      if (value != this.password) {
+        callback(new Error('两次密码输入不一致'))
+      } else {
+        callback()
+      }
+    }
     return {
       register_form: {
         email: '',
         password: '',
         confirm_password: '',
         captcha: ''
+      },
+      rules: {
+        email: [{
+          required: true,
+          message:
+          '请输入有效的Email',
+          trigger: 'blur',
+          type: 'email'
+        }],
+        password:[{
+          required: true,
+          message:
+          '请输入密码',
+          trigger: 'blur'
+        }],
+        confirm_password:[{
+          required: true,
+          message:
+          '请再次输入密码',
+          trigger: 'blur',
+          },{
+          required: true,
+          trigger: 'blur',
+          validateConfirmPassword
+        }],
+        captcha:[{
+          required: true,
+          message:
+          '请输入验证码',
+          trigger: 'blur'
+        }]
       },
       captcha_sended: 'no',
       captcha_resend_limit: 120,

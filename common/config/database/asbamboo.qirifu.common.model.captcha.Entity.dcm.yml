@@ -1,0 +1,55 @@
+asbamboo\qirifu\common\model\captcha\Entity:
+  type: entity
+  table: t_captcha
+  id:
+    seq:
+      type: integer
+      options:
+        unsigned: true
+        comment: '序号'
+      generator:
+        strategy: AUTO
+  fields:
+    target:
+      unique: true
+      type: string
+      length: 255
+      nullable: false
+      options:
+        default: ''
+        comment: '发送目标'       
+    value:
+      type: string
+      length: 45
+      nullable: false
+      options:
+        default: ''
+        comment: '验证码值'
+    create_time:
+      type: integer
+      nullable: false
+      options:
+        default: '0'
+        unsigned: true
+        comment: '添加时间'
+    create_ip:
+      type: string
+      length: 45
+      nullable: false
+      options:
+        default: ''
+        comment: '添加人ip'
+    update_time:
+      type: integer
+      nullable: false
+      options:
+        default: '0'
+        unsigned: true
+        comment: '修改时间'
+    update_ip:
+      type: string
+      length: 45
+      nullable: false
+      options:
+        default: ''
+        comment: '修改人ip'

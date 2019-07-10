@@ -11,7 +11,7 @@ export function sendCaptcha(data) {
 
 export function register(data) {
   return request({
-    url: '/register',
+    url: '/register/action',
     method: 'post',
     data: qs.stringify(data)
   })
