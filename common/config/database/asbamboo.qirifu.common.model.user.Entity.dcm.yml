@@ -1,0 +1,78 @@
+asbamboo\qirifu\common\model\user\Entity:
+  type: entity
+  table: t_user
+  id:
+    seq:
+      type: integer
+      options:
+        unsigned: true
+        comment: '序号'
+      generator:
+        strategy: AUTO
+  fields:
+    user_id:
+      unique: true
+      type: string
+      length: 13
+      nullable: false
+      options:
+        fixed: true
+        default: ''
+        comment: '用户id'
+    type:
+      type: smallint
+      nullable: false
+      options:
+        default: '0'
+        unsigned: true
+        comment: '0:商户 1:服务商'
+    password:
+      type: string
+      length: 255
+      nullable: false
+      options: 
+        default: ''
+        comment: '用户密码'
+    is_enable:
+      type: boolean
+      nullable: false
+      options:
+        default: '0'
+        unsigned: true
+        comment: '是否可用'
+    create_time:
+      type: integer
+      nullable: false
+      options:
+        default: '0'
+        unsigned: true
+        comment: '添加时间'
+    create_user:
+      type: string
+      length: 13
+      nullable: false
+      options:
+        fixed: true
+        default: ''
+        comment: '添加人id'
+    update_time:
+      type: integer
+      nullable: false
+      options:
+        default: '0'
+        unsigned: true
+        comment: '修改时间'    
+    update_user:
+      type: string
+      length: 13
+      nullable: false
+      options:
+        fixed: true
+        default: ''
+        comment: '修改人id'
+    version:
+      type: smallint
+      version: true
+      options:
+        unsigned: true      
+        default: '0'

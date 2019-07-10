@@ -1,0 +1,19 @@
+{
+	"name" : "asbamboo/qirifu",
+	"type" : "project",
+	"autoload" : {
+		"psr-4" : {
+			"asbamboo\\qirifu\\" : ""
+		}
+	},
+	"require" : {
+		"asbamboo/framework" : "^1.0",
+		"swiftmailer/swiftmailer" : "^6.2"
+	},
+	"authors" : [{
+			"name" : "李春寅",
+			"email" : "licy2013@aliyun.com"
+		}
+	],
+	"minimum-stability" : "dev"
+}

@@ -1,0 +1,94 @@
+asbamboo\qirifu\common\model\account\Entity:
+  type: entity
+  table: t_account
+  id:
+    seq:
+      type: integer
+      options:
+        unsigned: true
+        comment: '序号'
+      generator:
+        strategy: AUTO
+  fields:
+    user_id:
+      type: string
+      length: 13
+      nullable: false
+      options:
+        fixed: true
+        default: ''
+        comment: '用户id'
+    type:
+      type: smallint
+      nullable: false
+      options:
+        default: '0'
+        unsigned: true
+        comment: '账号种类：如0:email'
+    value:
+      unique: true
+      type: string
+      length: 255
+      nullable: false
+      options: 
+        default: ''
+        comment: '账号值'
+    is_enable:
+      type: boolean
+      nullable: false
+      options:
+        default: '0'
+        unsigned: true
+        comment: '是否可用'
+    create_time:
+      type: integer
+      nullable: false
+      options:
+        default: '0'
+        unsigned: true
+        comment: '添加时间'
+    create_user:
+      type: string
+      length: 13
+      nullable: false
+      options:
+        fixed: true
+        default: ''
+        comment: '添加人id'
+    create_ip:
+      type: string
+      length: 45
+      nullable: false
+      options:
+        fixed: true
+        default: ''
+        comment: '添加人ip'
+    update_time:
+      type: integer
+      nullable: false
+      options:
+        default: '0'
+        unsigned: true
+        comment: '修改时间'    
+    update_user:
+      type: string
+      length: 13
+      nullable: false
+      options:
+        fixed: true
+        default: ''
+        comment: '修改人id'
+    update_ip:
+      type: string
+      length: 45
+      nullable: false
+      options:
+        fixed: true
+        default: ''
+        comment: '修改人ip'
+    version:
+      type: smallint
+      version: true
+      options:
+        unsigned: true      
+        default: '0'
