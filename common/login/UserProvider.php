@@ -56,7 +56,7 @@ class UserProvider implements UserProviderInterface
         $Account    = $this->AccountRepository->findOneByValue($login_name);
 
         if(empty( $Account )){
-            throw new MessageException('用户不存在。');
+            throw new MessageException('用户不存在,或密码错误。');
         }
 
         if($Account->getIsEnable() == false){

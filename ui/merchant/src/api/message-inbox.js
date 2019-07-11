@@ -1,4 +1,5 @@
 import request from '@/utils/request'
+import qs from 'qs'
 
 export function getList(query) {
   return request({
@@ -9,8 +10,6 @@ export function getList(query) {
 }
 
 export function readMessage(seq) {
-  let qs = require('qs');
-
   return request({
     url: '/message/inbox/read',
     method: 'post',

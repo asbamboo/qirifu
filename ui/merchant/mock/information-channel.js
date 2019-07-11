@@ -71,7 +71,7 @@ export default [
       }
 
       return {
-        code: 20000,
+        status: 'success',
         data: { channel : channel }
       }
     }

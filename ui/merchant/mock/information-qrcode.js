@@ -9,7 +9,7 @@ export default [
         qrcode: '@url'
       })
       return {
-        code: 20000,
+        status: 'success',
         data: data
       }
     }

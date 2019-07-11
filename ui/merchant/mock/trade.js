@@ -65,7 +65,7 @@ export default [
       )
 
       return {
-        code: 20000,
+        status: 'success',
         data: {
           total: mockList.length,
           items: pageList
@@ -79,7 +79,7 @@ export default [
     type: 'get',
     response: config => {
       return {
-        code: 20000,
+        status: 'success',
         data: {
           channels: channels
         }

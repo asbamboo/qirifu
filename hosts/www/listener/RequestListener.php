@@ -57,6 +57,7 @@ class RequestListener
         $none_login_urls    = [
             $this->Router->generateUrl('register_send_captcha'),
             $this->Router->generateUrl('register_action'),
+            $this->Router->generateUrl('user_login'),
         ];
         if(!in_array($cur_url, $none_login_urls) && !in_array(Constant::USER_ROLE_LOGINED, $cur_roles)){
             return exit((new JsonResponse(['status' => 'no-login', 'message'=>'请登录']))->send());

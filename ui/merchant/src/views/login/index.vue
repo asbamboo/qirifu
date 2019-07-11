@@ -6,15 +6,15 @@
         <h3 class="title">商户登录</h3>
       </div>
 
-      <el-form-item prop="username">
+      <el-form-item prop="login_name">
         <span class="svg-container">
           <svg-icon icon-class="user" />
         </span>
         <el-input
-          ref="username"
-          v-model="loginForm.username"
+          ref="loginName"
+          v-model="loginForm.login_name"
           placeholder="请输入登录名"
-          name="username"
+          name="login_name"
           type="text"
           tabindex="1"
           autocomplete="on"
@@ -22,17 +22,17 @@
       </el-form-item>
 
       <el-tooltip v-model="capsTooltip" content="Caps lock is On" placement="right" manual>
-        <el-form-item prop="password">
+        <el-form-item prop="login_password">
           <span class="svg-container">
             <svg-icon icon-class="password" />
           </span>
           <el-input
             :key="passwordType"
-            ref="password"
-            v-model="loginForm.password"
+            ref="loginPassword"
+            v-model="loginForm.login_password"
             :type="passwordType"
             placeholder="请输入密码"
-            name="password"
+            name="login_password"
             tabindex="2"
             autocomplete="on"
             @keyup.native="checkCapslock"
@@ -62,14 +62,14 @@
 export default {
   name: 'Login',
   data() {
-    const validateUsername = (rule, value, callback) => {
+    const validateLoginName = (rule, value, callback) => {
       if (value.trim() == '') {
         callback(new Error('请输入有效的登录名'))
       } else {
         callback()
       }
     }
-    const validatePassword = (rule, value, callback) => {
+    const validateLoginPassword = (rule, value, callback) => {
       if (value.length < 1) {
         callback(new Error('请输入有效的密码'))
       } else {
@@ -78,12 +78,20 @@ export default {
     }
     return {
       loginForm: {
-        username: '',
-        password: ''
+        login_name: '',
+        login_password: ''
       },
       loginRules: {
-        username: [{ required: true, trigger: 'blur', validator: validateUsername }],
-        password: [{ required: true, trigger: 'blur', validator: validatePassword }]
+        login_name: [{
+          required: true,
+          trigger: 'blur',
+          validator: validateLoginName
+        }],
+        login_password: [{
+          required: true,
+          trigger: 'blur',
+          validator: validateLoginPassword
+        }]
       },
       passwordType: 'password',
       capsTooltip: false,
@@ -109,14 +117,11 @@ export default {
     // window.addEventListener('storage', this.afterQRScan)
   },
   mounted() {
-    if (this.loginForm.username === '') {
-      this.$refs.username.focus()
-    } else if (this.loginForm.password === '') {
-      this.$refs.password.focus()
+    if (this.loginForm.login_name === '') {
+      this.$refs.loginName.focus()
+    } else if (this.loginForm.login_password === '') {
+      this.$refs.loginPassword.focus()
     }
-  },
-  destroyed() {
-    // window.removeEventListener('storage', this.afterQRScan)
   },
   methods: {
     checkCapslock({ shiftKey, key } = {}) {
@@ -138,7 +143,7 @@ export default {
         this.passwordType = 'password'
       }
       this.$nextTick(() => {
-        this.$refs.password.focus()
+        this.$refs.loginPassword.focus()
       })
     },
     handleLogin() {
@@ -167,24 +172,6 @@ export default {
         return acc
       }, {})
     }
-    // afterQRScan() {
-    //   if (e.key === 'x-admin-oauth-code') {
-    //     const code = getQueryObject(e.newValue)
-    //     const codeMap = {
-    //       wechat: 'code',
-    //       tencent: 'code'
-    //     }
-    //     const type = codeMap[this.auth_type]
-    //     const codeName = code[type]
-    //     if (codeName) {
-    //       this.$store.dispatch('LoginByThirdparty', codeName).then(() => {
-    //         this.$router.push({ path: this.redirect || '/' })
-    //       })
-    //     } else {
-    //       alert('第三方登录失败')
-    //     }
-    //   }
-    // }
   }
 }
 </script>

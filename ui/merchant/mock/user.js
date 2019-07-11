@@ -11,13 +11,11 @@ const tokens = {
 const users = {
   'admin-token': {
     roles: ['admin'],
-    introduction: 'I am a super administrator',
     avatar: 'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif',
-    name: 'Super Admin'
+    name: 'Super d Admin'
   },
   'editor-token': {
     roles: ['editor'],
-    introduction: 'I am an editor',
     avatar: 'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif',
     name: 'Normal Editor'
   }
@@ -29,14 +27,14 @@ export default [
     url: '/user/login',
     type: 'post',
     response: config => {
-      const { username } = config.body
-      const token = tokens[username]
+      const post = config.body
+      const token = tokens[post.login_name]
 
       // mock error
       if (!token) {
         return {
           status: 'failed',
-          message: 'Account and password are incorrect.'
+          message: '账号或者密码错误.'
         }
       }
 

@@ -1,4 +1,5 @@
 import request from '@/utils/request'
+import qs from 'qs'
 
 export function getMerchantInfo() {
   return request({
@@ -8,7 +9,6 @@ export function getMerchantInfo() {
 }
 
 export function saveMerchantInfo(data) {
-  let qs = require('qs');
   return request({
     url: '/information/merchant/save',
     method: 'post',

@@ -6,7 +6,7 @@ export default [
     type: 'post',
     response: () => {
       return {
-        code: 20000,
+        status: 'success',
         message: '操作成功'
       }
     }
@@ -42,7 +42,7 @@ export default [
       })
 
       return {
-        code: 20000,
+        status: 'success',
         data: item,
         editable: true
       }

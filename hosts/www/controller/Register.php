@@ -31,14 +31,8 @@ class Register extends ControllerAbstract
      *
      * @return \asbamboo\http\ResponseInterface
      */
-    public function sendCaptcha(
-        ServerRequest $Request,
-        AccountRepository $AccountRepository,
-        RegisterEmailManager $RegisterEmailManager,
-        CaptchaManager $CaptchaManager,
-        CaptchaRepository $CaptchaRepository
-
-    ){
+    public function sendCaptcha(ServerRequest $Request)
+    {
         try{
             /**
              * request params
@@ -47,6 +41,7 @@ class Register extends ControllerAbstract
             $account_value_email    = $Request->getPostParam('email');
 
             $this->validateValue($account_value_email, AccountCode::TYPE_EMAIL);
+            $AccountRepository  = $this->Container->get(AccountRepository::class);
             if($AccountRepository->isExistValue($account_value_email)){
                 throw new MessageException('该email地址已经被注册.');
             }
@@ -54,14 +49,17 @@ class Register extends ControllerAbstract
             /**
              * make captcha
              */
-            $captcha = strtoupper(base_convert(mt_rand(1679616, 60466175), 10, 36));    /* 10000 - ZZZZZ */
-            $CaptchaEntity = $CaptchaRepository->findOneByTarget($account_value_email);
+            $captcha            = strtoupper(base_convert(mt_rand(1679616, 60466175), 10, 36));    /* 10000 - ZZZZZ */
+            $CaptchaRepository  = $this->Container->get(CaptchaRepository::class);
+            $CaptchaEntity      = $CaptchaRepository->findOneByTarget($account_value_email);
+            $CaptchaManager     = $this->Container->get(CaptchaManager::class);
             $CaptchaManager->load($CaptchaEntity);
             $CaptchaManager->createOrUpdate($account_value_email, $captcha);
 
             /**
              * 发送注册邮件
              */
+            $RegisterEmailManager   = $this->Container->get(RegisterEmailManager::class);
             $RegisterEmailManager->sendTo($account_value_email, $captcha);
 
             $Db = $this->Container->get(DbFactoryInterface::class);
@@ -81,7 +79,7 @@ class Register extends ControllerAbstract
         }
     }
 
-    public function action(ServerRequest $Request, AccountRepository $AccountRepository, AccountManager $AccountManager, UserManager $UserManager, CaptchaRepository $CaptchaRepository)
+    public function action(ServerRequest $Request)
     {
         try{
             /**
@@ -95,6 +93,7 @@ class Register extends ControllerAbstract
             $account_is_enable      = true;
             $user_is_enable         = true;
 
+            $AccountRepository  = $this->Container->get(AccountRepository::class);
             if($AccountRepository->isExistValue($account_value_email)){
                 throw new MessageException('该email地址，已经被注册。');
             }
@@ -113,13 +112,16 @@ class Register extends ControllerAbstract
                 throw new MessageException('请输入验证码。');
             }
 
+            $CaptchaRepository  = $this->Container->get(CaptchaRepository::class);
             $CaptchaEntity = $CaptchaRepository->findOneByTarget($account_value_email);
             if(empty($CaptchaEntity) || $CaptchaEntity->getValue() != strtoupper($captcha)){
                 throw new MessageException('验证码错误。');
             }
 
             if($AccountRepository->isExistValue($account_value_email) == false){
+                $UserManager        = $this->Container->get(UserManager::class);
                 $UserEntity         = $UserManager->load();
+                $AccountManager     = $this->Container->get(AccountManager::class);
                 $AccountEntity      = $AccountManager->load();
                 $UserManager->create(
                     UserCode::TYPE_USER,
