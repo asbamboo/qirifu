@@ -19,6 +19,30 @@
         </el-col>
       </el-row>
       <el-row>
+        <el-col :md="8">
+          <el-form-item label-width="100px" label="管理员账号:">
+            <el-input
+              v-model="system_info.user"
+              type="text"
+              name="system_user"
+              placeholder="请输入管理员账号"
+            />
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <el-row>
+        <el-col :md="8">
+          <el-form-item label-width="100px" label="管理员密码:">
+            <el-input
+              v-model="system_info.password"
+              type="password"
+              name="system_password"
+              placeholder="请输入管理员密码"
+            />
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <el-row>
         <el-col :offset="3">
           <el-button type="primary" plain @click="submitForm">
             提交修改
@@ -33,7 +57,9 @@
 import { fetchSystemInfo, settingSystemInfo } from '@/api/system-setting'
 
 const system_info = {
-  name: ''
+  name: '',
+  user: '',
+  password: ''
 }
 
 export default {

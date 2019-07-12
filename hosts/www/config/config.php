@@ -2,7 +2,6 @@
 use asbamboo\framework\config\RouterConfig;
 use asbamboo\qirifu\hosts\www\login\UserProvider;
 use asbamboo\security\user\login\Login;
-use asbamboo\security\gurad\authorization\Authenticator;
 use asbamboo\framework\config\EventListenerConfig;
 use asbamboo\session\Session;
 use asbamboo\session\handler\PdoHandler;
@@ -26,7 +25,11 @@ $config = array_merge_recursive($common_config,[
      *************************************************************************************************************/
     Session::class              => [
         'init_params'           => [
-            'sessionHandler'    => new PdoHandler(new PDO('mysql:host=' . Parameter::DB_HOST . ';dbname=' . Parameter::DB_NAME, Parameter::DB_USER, Parameter::DB_PASSWORD)),
+            'sessionHandler'    => new PdoHandler(new PDO(
+                    'mysql:host=' . Parameter::instance()->get('DB_HOST'). ';dbname=' . Parameter::instance()->get('DB_NAME'),
+                    Parameter::instance()->get('DB_USER'),
+                    Parameter::instance()->get('DB_PASSWORD')
+                )),
             'option'            => ['cookie_domain'=>$_SERVER['SERVER_NAME'], 'name' => md5('qrfuser')],
         ],
     ],

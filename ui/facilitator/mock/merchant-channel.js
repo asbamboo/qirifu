@@ -13,7 +13,7 @@ export default [
         { key : 9, status: 'ok', label: '正式开通'}
       ]
       return {
-        code: 20000,
+        status: 'success',
         data: {
           items: items
         }
@@ -28,7 +28,7 @@ export default [
       let code = 20000
       let message = '成功'
       return {
-        code: code,
+        status: 'success',
         message: message
       }
     }
@@ -47,7 +47,7 @@ export default [
         { key : 9, status: 'ok', label: '正式开通'}
       ]
       return {
-        code: 20000,
+        status: 'success',
         data: {
           items: items
         }
@@ -59,10 +59,9 @@ export default [
     url: '/merchant/channel-wxpay-create-history',
     type: 'post',
     response: config => {
-      let code = 20000
       let message = '成功'
       return {
-        code: code,
+        status: 'success',
         message: message
       }
     }

@@ -15,11 +15,11 @@ trait SwiftMailerTrait
      */
     public function createSwiftMailer()
     {
-        $Swift_SmtpTransport    = new \Swift_SmtpTransport(\CommonConstant::MAILER_HOST);
-        $Swift_SmtpTransport->setUsername(\CommonConstant::MAILER_USER);
-        $Swift_SmtpTransport->setPassword(\CommonConstant::MAILER_PASSWORD);
-        $Swift_SmtpTransport->setPort(\CommonConstant::MAILER_PORT);
-        $Swift_SmtpTransport->setEncryption(\CommonConstant::MAILER_ENCRYPTION);
+        $Swift_SmtpTransport    = new \Swift_SmtpTransport(\Parameter::instance()->get('MAILER_HOST'));
+        $Swift_SmtpTransport->setUsername(\Parameter::instance()->get('MAILER_USER'));
+        $Swift_SmtpTransport->setPassword(\Parameter::instance()->get('MAILER_PASSWORD'));
+        $Swift_SmtpTransport->setPort(\Parameter::instance()->get('MAILER_PORT'));
+        $Swift_SmtpTransport->setEncryption(\Parameter::instance()->get('MAILER_ENCRYPTION'));
         return new \Swift_Mailer($Swift_SmtpTransport);
     }
 }

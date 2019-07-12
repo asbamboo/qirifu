@@ -3,7 +3,6 @@ use asbamboo\framework\config\DbConfig;
 use asbamboo\framework\config\EventListenerConfig;
 
 include __DIR__ . DIRECTORY_SEPARATOR . 'Parameter.php';
-include __DIR__ . DIRECTORY_SEPARATOR . 'CommonConstant.php';
 
 return [
     /*************************************************************************************************************

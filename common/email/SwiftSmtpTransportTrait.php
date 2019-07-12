@@ -15,9 +15,9 @@ trait SwiftSmtpTransportTrait
      */
     public function create()
     {
-        $Swift_SmtpTransport    = new \Swift_SmtpTransport(\CommonConstant::MAILER_HOST);
-        $Swift_SmtpTransport->setUsername(\CommonConstant::MAILER_USER);
-        $Swift_SmtpTransport->setPassword(\CommonConstant::MAILER_PASSWORD);
+        $Swift_SmtpTransport    = new \Swift_SmtpTransport(\Parameter::instance()->get('MAILER_HOST'));
+        $Swift_SmtpTransport->setUsername(\Parameter::instance()->get('MAILER_USER'));
+        $Swift_SmtpTransport->setPassword(\Parameter::instance()->get('MAILER_PASSWORD'));
         return $Swift_SmtpTransport;
     }
 }

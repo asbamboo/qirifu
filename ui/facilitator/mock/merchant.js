@@ -48,7 +48,7 @@ export default [
       const pageList = mockList.filter((item, index) => index < limit * page && index >= limit * (page - 1))
 
       return {
-        code: 20000,
+        status: 'success',
         data: {
           total: mockList.length,
           items: pageList
@@ -65,7 +65,7 @@ export default [
       for (const item of List) {
         if (item.seq === +seq) {
           return {
-            code: 20000,
+            status: 'success',
             data: item
           }
         }
@@ -161,7 +161,7 @@ export default [
         });
       }
       return {
-        code: 20000,
+        status: 'success',
         data: { channel : channel, merchant: merchant }
       }
     }

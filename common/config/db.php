@@ -1,12 +1,12 @@
 <?php
 return [
     'connection'    => [
-        'driver'    => Parameter::DB_DRIVER,
-        'host'      => Parameter::DB_HOST,
-        'dbname'    => Parameter::DB_NAME,
-        'user'      => Parameter::DB_USER,
-        'password'  => Parameter::DB_PASSWORD,
-        'charset'   => Parameter::DB_CHARSET,
+        'driver'    => Parameter::instance()->get('DB_DRIVER'),
+        'host'      => Parameter::instance()->get('DB_HOST'),
+        'dbname'    => Parameter::instance()->get('DB_NAME'),
+        'user'      => Parameter::instance()->get('DB_USER'),
+        'password'  => Parameter::instance()->get('DB_PASSWORD'),
+        'charset'   => Parameter::instance()->get('DB_CHARSET'),
     ],'metadata'    => [
         'path'      => [__DIR__ . '/database'],
         'type'      => 'yaml',

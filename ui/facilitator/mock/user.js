@@ -11,13 +11,11 @@ const tokens = {
 const users = {
   'admin-token': {
     roles: ['admin'],
-    introduction: 'I am a super administrator',
     avatar: 'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif',
     name: 'Super Admin'
   },
   'editor-token': {
     roles: ['editor'],
-    introduction: 'I am an editor',
     avatar: 'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif',
     name: 'Normal Editor'
   }
@@ -29,19 +27,19 @@ export default [
     url: '/user/login',
     type: 'post',
     response: config => {
-      const { username } = config.body
-      const token = tokens[username]
+      const post = config.body
+      const token = tokens[post.login_name]
 
       // mock error
       if (!token) {
         return {
-          code: 60204,
+          status: 'failed',
           message: 'Account and password are incorrect.'
         }
       }
 
       return {
-        code: 20000,
+        status: 'success',
         data: token
       }
     }
@@ -58,13 +56,13 @@ export default [
       // mock error
       if (!info) {
         return {
-          code: 50008,
+          status: 'failed',
           message: 'Login failed, unable to get user details.'
         }
       }
 
       return {
-        code: 20000,
+        status: 'success',
         data: info
       }
     }
@@ -76,7 +74,7 @@ export default [
     type: 'post',
     response: _ => {
       return {
-        code: 20000,
+        status: 'success',
         data: 'success'
       }
     }
