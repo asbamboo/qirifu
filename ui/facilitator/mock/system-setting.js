@@ -8,7 +8,9 @@ export default [
       return {
         status: 'success',
         data: {
-          name: '七日付'
+          name: '七日付',
+          user: 'admin',
+          password: 'password'
         }
       }
     }
@@ -43,7 +45,8 @@ export default [
           port: '3306',
           database: 'qirifu',
           username: 'root',
-          password: 'root'
+          password: 'root',
+          charset: 'utf8mb4'
         }
       }
     }
@@ -77,7 +80,58 @@ export default [
         message = '请输入数据库密码。'
       }
       return {
-        code: status,
+        status: status,
+        message: message
+      }
+    }
+  },
+
+  {
+    url: '/system/setting/email-info',
+    type: 'get',
+    response: config => {
+      return {
+        status: 'success',
+        data: {
+          "host":'@domain',
+          "port":'@natural(99, 9000)',
+          "encryption":"ssl",
+          "user":"qirifu",
+          "password":"qirifu_password"
+        }
+      }
+    }
+  },
+
+  {
+    url: '/system/setting/email-info',
+    type: 'post',
+    response: config => {
+      let status = 'success'
+      let message = '成功'
+      let email_info = config.body
+      if( email_info.host == ''){
+        status = 'failed'
+        message = '请输入email host。'
+      }
+      if( email_info.port == ''){
+        status = 'failed'
+        message = '请输入email port。'
+      }
+      if( email_info.encryption == ''){
+        status = 'failed'
+        message = '请输入email encryption。'
+      }
+      if( email_info.user == ''){
+        status = 'failed'
+        message = '请输入email账号。'
+      }
+      if( email_info.password == ''){
+        status = 'failed'
+        message = '请输入email密码。'
+      }
+      return {
+        status: status,
         message: message
       }
     }
@@ -101,19 +155,19 @@ export default [
     url: '/system/setting/asbamboo-info',
     type: 'post',
     response: config => {
-      let code = 20000
+      let status = 'success'
       let message = '成功'
       let asbamboo_info = config.body
       if( asbamboo_info.app_key == ''){
-        code = 500
+        status = 'failed'
         message = '请输入app_key。'
       }
       if( asbamboo_info.secret == ''){
-        code = 500
+        status = 'failed'
         message = '请输入secret。'
       }
       return {
-        code: code,
+        status: status,
         message: message
       }
     }

@@ -19,7 +19,7 @@
       </el-row>
       <el-row>
         <el-col :md="12">
-          <el-form-item label-width="75px" label="Security:">
+          <el-form-item label-width="75px" label="Secret:">
             <el-input
               v-model="asbamboo_info.secret"
               type="text"

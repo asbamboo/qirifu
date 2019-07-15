@@ -65,6 +65,18 @@
         </el-col>
       </el-row>
       <el-row>
+        <el-col :md="8">
+          <el-form-item label-width="100px" label="字符集:">
+            <el-input
+              v-model="database_info.charset"
+              type="text"
+              name="database_charset"
+              placeholder="请输入数据库字符集"
+            />
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <el-row>
         <el-col :offset="3">
           <el-button type="primary" plain @click="submitForm">
             提交修改
@@ -83,7 +95,8 @@ const database_info = {
   port: '',
   database: '',
   username: '',
-  password: ''
+  password: '',
+  charset: ''
 };
 
 export default {

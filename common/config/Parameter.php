@@ -32,6 +32,8 @@ class Parameter
      */
     private $parameters;
 
+    private $is_reset = false;
+
     /**
      * 类的实例
      * @var object
@@ -40,7 +42,7 @@ class Parameter
 
     private function __construct()
     {
-        $this->parameters   = json_decode(file_get_contents(dirname(dirname(__DIR__)) . DIRECTORY_SEPARATOR . 'qirifu.json'), true);
+        $this->parameters   = json_decode(file_get_contents($this->getJsonPath()), true);
     }
 
     public static function instance() : self
@@ -51,8 +53,29 @@ class Parameter
         return static::$instance;
     }
 
-    public function get(string $key)
+    public function get(string $key) /*: mixed*/
     {
         return $this->parameters[$key];
+    }
+
+    public function set(string $key, /*mixed*/ $value) : bool
+    {
+        if($this->parameters[$key] != $value){
+            $this->parameters[$key] = $value;
+            $this->is_reset   = true;
+        }
+        return true;
+    }
+
+    public function getJsonPath()
+    {
+        return dirname(dirname(__DIR__)) . DIRECTORY_SEPARATOR . 'qirifu.json';
+    }
+
+    public function __destruct()
+    {
+        if($this->is_reset == true){
+            file_put_contents($this->getJsonPath(), json_encode($this->parameters));
+        }
     }
 }

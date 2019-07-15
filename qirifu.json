@@ -1,16 +1,1 @@
-{
-	"SYSTEM_NAME": "七日付",
-	"SYSTEM_ADMIN": "qirifu_admin",
-	"SYSTEM_PASSWORD": "qirifu_password",
-	"DB_DRIVER": "pdo_mysql",
-	"DB_HOST": "127.0.0.1",
-	"DB_NAME": "qirifu",
-	"DB_USER": "root",
-	"DB_PASSWORD": "root",
-	"DB_CHARSET": "utf8mb4",
-	"MAILER_HOST": "smtp.aliyun.com",
-	"MAILER_PORT": "465",
-	"MAILER_ENCRYPTION": "ssl",
-	"MAILER_USER": "qirifu@aliyun.com",
-	"MAILER_PASSWORD": "qirifu123456"
-}
+{"SYSTEM_NAME":"\u4e03\u65e5\u4ed8","SYSTEM_ADMIN":"admin","SYSTEM_PASSWORD":"admin","DB_DRIVER":"pdo_mysql","DB_HOST":"127.0.0.1","DB_PORT":"3306","DB_NAME":"qirifu","DB_USER":"root","DB_PASSWORD":"root","DB_CHARSET":"utf8mb4","MAILER_HOST":"smtp.aliyun.com","MAILER_PORT":"465","MAILER_ENCRYPTION":"ssl","MAILER_USER":"qirifu@aliyun.com","MAILER_PASSWORD":"qirifu123456","ASBAMBOO_APPKEY":"5c3074f378913","ASBAMBOO_APPSERECT":"3a91aa8a688e812ad8c9013eea122dae"}

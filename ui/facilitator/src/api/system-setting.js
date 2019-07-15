@@ -32,6 +32,22 @@ export function settingDatabaseInfo(data) {
   })
 }
 
+export function fetchEmailInfo() {
+  return request({
+    url: '/system/setting/email-info',
+    method: 'get'
+  })
+}
+
+export function settingEmailInfo(data) {
+  let qs = require('qs');
+  return request({
+    url: '/system/setting/email-info',
+    method: 'post',
+    data: qs.stringify(data)
+  })
+}
+
 export function fetchAsbambooInfo() {
   return request({
     url: '/system/setting/asbamboo-info',
