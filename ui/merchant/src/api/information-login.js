@@ -3,14 +3,14 @@ import qs from 'qs'
 
 export function getData() {
   return request({
-    url: '/information/login/info',
+    url: '/account/info',
     method: 'get'
   })
 }
 
 export function settingAccount(data) {
   return request({
-    url: '/information/login/setting-account',
+    url: '/account/setting-account',
     method: 'post',
     data: qs.stringify(data)
   })
@@ -18,7 +18,7 @@ export function settingAccount(data) {
 
 export function settingEmail(data) {
   return request({
-    url: '/information/login/setting-email',
+    url: '/account/setting-email',
     method: 'post',
     data: qs.stringify(data)
   })
@@ -26,7 +26,7 @@ export function settingEmail(data) {
 
 export function settingPhone(data) {
   return request({
-    url: '/information/login/setting-phone',
+    url: '/account/setting-phone',
     method: 'post',
     data: qs.stringify(data)
   })
@@ -34,7 +34,7 @@ export function settingPhone(data) {
 
 export function resetPassword(data) {
   return request({
-    url: '/information/login/reset-password',
+    url: '/account/reset-password',
     method: 'post',
     data: qs.stringify(data)
   })
@@ -42,7 +42,7 @@ export function resetPassword(data) {
 
 export function sendCaptcha(data) {
   return request({
-    url: '/information/login/send-captcha',
+    url: '/account/send-captcha',
     method: 'post',
     data: qs.stringify(data)
   })

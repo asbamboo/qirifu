@@ -1,7 +1,7 @@
 export default [
 
   {
-    url: '/information/login/info',
+    url: '/account/info',
     type: 'get',
     response: config => {
 
@@ -19,7 +19,7 @@ export default [
   },
 
   {
-    url: '/information/login/setting-account',
+    url: '/account/setting-account',
     type: 'post',
     response: data => {
       const post = data.body
@@ -39,7 +39,7 @@ export default [
   },
 
   {
-    url: '/information/login/setting-email',
+    url: '/account/setting-email',
     type: 'post',
     response: data => {
       const post = data.body
@@ -66,7 +66,7 @@ export default [
   },
 
   {
-    url: '/information/login/setting-phone',
+    url: '/account/setting-phone',
     type: 'post',
     response: data => {
       const post = data.body
@@ -93,7 +93,7 @@ export default [
   },
 
   {
-    url: '/information/login/reset-password',
+    url: '/account/reset-password',
     type: 'post',
     response: data => {
       const post = data.body
@@ -127,7 +127,7 @@ export default [
   },
 
   {
-    url: '/information/login/send-captcha',
+    url: '/account/send-captcha',
     type: 'post',
     response: data => {
       const post = data.body

@@ -81,6 +81,16 @@ class Repository
     }
 
     /**
+     *
+     * @param string $user_id
+     * @return Entity[]|NULL
+     */
+    public function findAllByUserIdAndType(string $user_id, $type) : ?array
+    {
+        return $this->Repository->findBy(['user_id' => $user_id, 'type' => $type]);
+    }
+
+    /**
      * 根据seq查询
      *
      * @param array $account_seqs

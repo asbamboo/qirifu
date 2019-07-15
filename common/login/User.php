@@ -97,6 +97,15 @@ class User implements UserInterface
 
     /**
      *
+     * @return UserEntity
+     */
+    public function getUserEntity() : UserEntity
+    {
+        return $this->UserEntity;
+    }
+
+    /**
+     *
      * {@inheritDoc}
      * @see \asbamboo\security\user\UserInterface::getRoles()
      */
