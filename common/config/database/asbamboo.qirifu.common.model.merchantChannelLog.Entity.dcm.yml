@@ -1,0 +1,53 @@
+asbamboo\qirifu\common\model\merchantChannelLog\Entity:
+  type: entity
+  table: t_merchant_channel_log
+  id:
+    seq:
+      type: integer
+      options:
+        unsigned: true
+        comment: '序号'
+      generator:
+        strategy: AUTO
+  fields:
+    merchant_channel_seq:
+      type: integer
+      nullable: false
+      options:
+        default: '0'
+        comment: '文件id'
+    merchant_status:
+      type: smallint
+      nullable: false
+      options:
+        default: '0'
+        comment: '状态'
+    merchant_status_label:
+      type: string
+      nullable: false
+      length: 255
+      options:
+        default: '0'
+        comment: '页面展示的状态描述'
+    desc:
+      type: string
+      nullable: false
+      length: 255
+      options:
+        default: '0'
+        comment: '说明'
+    create_time:
+      type: integer
+      nullable: false
+      options:
+        default: '0'
+        unsigned: true
+        comment: '添加时间'
+    create_user:
+      type: string
+      length: 13
+      nullable: false
+      options:
+        fixed: true
+        default: ''
+        comment: '添加人id'

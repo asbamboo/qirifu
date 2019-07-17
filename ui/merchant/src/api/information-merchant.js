@@ -3,14 +3,14 @@ import qs from 'qs'
 
 export function getMerchantInfo() {
   return request({
-    url: '/information/merchant/get-info',
+    url: '/merchant/get-info',
     method: 'get'
   })
 }
 
 export function saveMerchantInfo(data) {
   return request({
-    url: '/information/merchant/save',
+    url: '/merchant/save',
     method: 'post',
     data: qs.stringify(data)
   })

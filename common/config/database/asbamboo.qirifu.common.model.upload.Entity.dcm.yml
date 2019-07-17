@@ -1,0 +1,86 @@
+asbamboo\qirifu\common\model\upload\Entity:
+  type: entity
+  table: t_upload
+  id:
+    seq:
+      type: integer
+      options:
+        unsigned: true
+        comment: '序号'
+      generator:
+        strategy: AUTO
+  fields:
+    fileid:
+      unique: true
+      type: string
+      length: 13
+      nullable: false
+      options:
+        fixed: true
+        default: ''
+        comment: '文件id'       
+    path:
+      type: string
+      length: 255
+      nullable: false
+      options:
+        default: ''
+        comment: '文件路径'
+    name:
+      type: string
+      length: 255
+      nullable: false
+      options:
+        default: ''
+        comment: '文件名称'
+    media_type:
+      type: string
+      length: 255
+      nullable: false
+      options:
+        default: ''
+        comment: 'header类型'
+    create_time:
+      type: integer
+      nullable: false
+      options:
+        default: '0'
+        unsigned: true
+        comment: '添加时间'
+    create_user:
+      type: string
+      length: 13
+      nullable: false
+      options:
+        fixed: true
+        default: ''
+        comment: '添加人id'
+    create_ip:
+      type: string
+      length: 45
+      nullable: false
+      options:
+        default: ''
+        comment: '添加人ip'
+    update_time:
+      type: integer
+      nullable: false
+      options:
+        default: '0'
+        unsigned: true
+        comment: '修改时间'
+    update_user:
+      type: string
+      length: 13
+      nullable: false
+      options:
+        fixed: true
+        default: ''
+        comment: '修改人id'
+    update_ip:
+      type: string
+      length: 45
+      nullable: false
+      options:
+        default: ''
+        comment: '修改人ip'

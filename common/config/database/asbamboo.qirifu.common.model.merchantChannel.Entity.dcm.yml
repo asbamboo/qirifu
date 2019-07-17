@@ -1,0 +1,84 @@
+asbamboo\qirifu\common\model\merchantChannel\Entity:
+  type: entity
+  table: t_merchant_channel
+  uniqueConstraints:
+    ux_merchant_channel_merchant_type:
+      columns: [ merchant_seq, type]
+    ux_merchant_channel_user_type:
+      columns: [ user_id, type]
+  id:
+    seq:
+      type: integer
+      options:
+        unsigned: true
+        comment: '序号'
+      generator:
+        strategy: AUTO
+  fields:
+    merchant_seq:
+      type: integer
+      nullable: false
+      options:
+        default: '0'
+        comment: '文件id'
+    user_id:
+      type: string
+      length: 13
+      nullable: false
+      options:
+        fixed: true
+        default: ''
+        comment: '文件id'       
+    type:
+      type: smallint
+      nullable: false
+      options:
+        default: '0'
+        comment: '渠道类型，如:1支付宝，2微信支付'
+    status:
+      type: smallint
+      nullable: false
+      options:
+        default: '0'
+        comment: '状态'
+    key_info:
+      type: array
+      nullable: false
+      options:
+        comment: '与渠道对接的关键信息'
+    create_time:
+      type: integer
+      nullable: false
+      options:
+        default: '0'
+        unsigned: true
+        comment: '添加时间'
+    create_user:
+      type: string
+      length: 13
+      nullable: false
+      options:
+        fixed: true
+        default: ''
+        comment: '添加人id'
+    update_time:
+      type: integer
+      nullable: false
+      options:
+        default: '0'
+        unsigned: true
+        comment: '修改时间'
+    update_user:
+      type: string
+      length: 13
+      nullable: false
+      options:
+        fixed: true
+        default: ''
+        comment: '修改人id'
+    version:
+      type: smallint
+      version: true
+      options:
+        unsigned: true      
+        default: '0'

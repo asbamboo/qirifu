@@ -1,0 +1,33 @@
+asbamboo\qirifu\common\model\merchantDetail\Entity:
+  type: entity
+  table: t_merchant_detail
+  id:
+    seq:
+      type: integer
+      options:
+        unsigned: true
+        comment: '序号'
+      generator:
+        strategy: AUTO
+  fields:
+    user_id:
+      unique: true
+      type: string
+      length: 13
+      nullable: false
+      options:
+        fixed: true
+        default: ''
+        comment: '用户id'
+    merchant_seq:
+      unique: true
+      type: integer
+      nullable: false
+      options:
+        default: '0'
+        comment: '文件id'       
+    data:
+      type: array
+      nullable: false
+      options:
+        comment: '商户简称'

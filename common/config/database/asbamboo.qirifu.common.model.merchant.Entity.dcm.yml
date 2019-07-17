@@ -1,0 +1,78 @@
+asbamboo\qirifu\common\model\merchant\Entity:
+  type: entity
+  table: t_merchant
+  id:
+    seq:
+      type: integer
+      options:
+        unsigned: true
+        comment: '序号'
+      generator:
+        strategy: AUTO
+  fields:
+    user_id:
+      unique: true
+      type: string
+      length: 13
+      nullable: false
+      options:
+        fixed: true
+        default: ''
+        comment: '文件id'       
+    name:
+      type: string
+      length: 45
+      nullable: false
+      options:
+        default: ''
+        comment: '商户简称'
+    link_man:
+      type: string
+      length: 255
+      nullable: false
+      options:
+        default: ''
+        comment: '联系人姓名'
+    link_phone:
+      type: string
+      length: 255
+      nullable: false
+      options:
+        default: ''
+        comment: '联系电话'
+    create_time:
+      type: integer
+      nullable: false
+      options:
+        default: '0'
+        unsigned: true
+        comment: '添加时间'
+    create_user:
+      type: string
+      length: 13
+      nullable: false
+      options:
+        fixed: true
+        default: ''
+        comment: '添加人id'
+    update_time:
+      type: integer
+      nullable: false
+      options:
+        default: '0'
+        unsigned: true
+        comment: '修改时间'
+    update_user:
+      type: string
+      length: 13
+      nullable: false
+      options:
+        fixed: true
+        default: ''
+        comment: '修改人id'
+    version:
+      type: smallint
+      version: true
+      options:
+        unsigned: true      
+        default: '0'

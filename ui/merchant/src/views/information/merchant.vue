@@ -187,11 +187,11 @@ const merchant = {
   legal_id_type: '身份证',
   legal_id_no: '',
   legal_id_indate: '',
-  bank_account_type: '对公',
+  bank_account_type: '对公账户',
   bank_name: '',
   bank_account_name: '',
   bank_account_no: '',
-  files: [/*seq,name,url*/]
+  files: [/*fileid,name,url*/]
 }
 
 export default {
@@ -222,11 +222,24 @@ export default {
       this.file_dialog_url = file.url
       this.file_dialog_visible = true
     },
-    handleFileUploaded(response, file, fileList) {
-      this.merchant.files.push(response)
+    handleFileUploaded(response, file, file_list) {
+      this.merchant.files = file_list
+      for(var i in this.merchant.files){
+        if(!this.merchant.files[i].fileid && this.merchant.files[i].response){
+          let fileid  = this.merchant.files[i].response.fileid;
+          let url = this.merchant.files[i].response.url;
+          let name = this.merchant.files[i].response.name;
+          this.merchant.files[i].fileid = fileid;
+          this.merchant.files[i].url = url;
+          this.merchant.files[i].name = name;
+        }
+      }
+      console.log(this.merchant.files);
     },
-    handleFileRemove(file, fileList){
-      this.merchant.files = fileList
+    handleFileRemove(file, file_list){
+      console.log("preremove:", this.merchant.files);
+      this.merchant.files = file_list
+      console.log("afterremove:", this.merchant.files);
     },
     fetchData() {
       this.ajax = true

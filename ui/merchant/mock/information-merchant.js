@@ -2,7 +2,7 @@ import Mock from 'mockjs'
 
 export default [
   {
-    url: '/information/merchant/save',
+    url: '/merchant/save',
     type: 'post',
     response: () => {
       return {
@@ -13,7 +13,7 @@ export default [
   },
 
   {
-    url: '/information/merchant/get-info',
+    url: '/merchant/get-info',
     type: 'get',
     response: () => {
       const item = Mock.mock({
@@ -38,7 +38,7 @@ export default [
         bank_name: '中国银行', //开户银行
         create_ymdhis: '@datetime', //创建时间
         update_ymdhis: '@datetime', //最后修改时间
-        'files|0-10': [{seq:'@increment', url: '@image', name: '@word'}] //上传的资料
+        'files|0-10': [{fileid:'@increment', url: '@image', name: '@word'}] //上传的资料
       })
 
       return {

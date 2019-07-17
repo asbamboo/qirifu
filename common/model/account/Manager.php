@@ -8,6 +8,7 @@ use asbamboo\security\user\AnonymousUser;
 use asbamboo\http\ServerRequestInterface;
 use asbamboo\qirifu\common\exception\MessageException;
 use Doctrine\DBAL\LockMode;
+use asbamboo\qirifu\common\Constant;
 
 /**
  * 管理账号表的操作
@@ -165,6 +166,10 @@ class Manager
     public function validateCreate()
     {
         $this->validateValue($this->Entity->getValue(), $this->Entity->getType());
+
+        if(substr($this->Entity->getValue(), 0, 6) == Constant::ACCOUNT_ADMIN_PREFIX){
+            throw new MessageException(Code::TYPES[$this->Entity->getType()] . '已经存在。');
+        }
 
         if($this->Repository->isExistValue($this->Entity->getValue())){
             throw new MessageException(Code::TYPES[$this->Entity->getType()] . '已经存在。');

@@ -42,7 +42,7 @@ $config = array_merge_recursive($common_config,[
     UserProvider::class         =>
         ['init_params'          => [
             'users'             => [
-                [Parameter::instance()->get('SYSTEM_ADMIN'), Parameter::instance()->get('SYSTEM_PASSWORD'), [Constant::USER_ROLE_LOGINED]]
+                [Parameter::instance()->get('SYSTEM_ADMIN'), Parameter::instance()->get('SYSTEM_PASSWORD'), [Constant::USER_ROLE_LOGINED, Constant::USER_ROLE_ADMIN]]
             ]
         ]
     ],
