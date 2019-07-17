@@ -1,7 +1,12 @@
 <template>
   <div class="app-container">
     <el-collapse v-model="active_collapse">
-      <el-collapse-item title="企业/个体工商户" name="collapse-item-com">
+      <el-collapse-item name="collapse-item-com">
+        <template slot="title">
+          <div>
+            <h4>企业/个体工商户</h4>
+          </div>
+        </template>
         <div>简称：{{ merchant.name }}</div>
         <div>全称：{{ merchant.fullname }}</div>
         <div>行业：{{ merchant.profession }}</div>
@@ -12,27 +17,52 @@
         <div>添加日期：{{ merchant.create_ymdhis }}</div>
         <div>修改日期：{{ merchant.update_ymdhis }}</div>
       </el-collapse-item>
-      <el-collapse-item title="联系人" name="collapse-item-linkman">
+      <el-collapse-item name="collapse-item-linkman">
+        <template slot="title">
+          <div>
+            <h4>联系人</h4>
+          </div>
+        </template>
         <div>姓名：{{ merchant.link_man }}</div>
         <div>联系电话：{{ merchant.link_phone }}</div>
         <div>email：{{ merchant.link_email }}</div>
       </el-collapse-item>
-      <el-collapse-item title="法定代表人" name="collapse-item-legalman">
+      <el-collapse-item name="collapse-item-legalman">
+        <template slot="title">
+          <div>
+            <h4>法定代表人</h4>
+          </div>
+        </template>
         <div>证件类型：{{ merchant.legal_id_type }}</div>
         <div>证件号码：{{ merchant.legal_id_no }}</div>
         <div>证件有效期：{{ merchant.legal_id_indate }}</div>
       </el-collapse-item>
-      <el-collapse-item title="结算账户" name="collapse-item-bank">
+      <el-collapse-item name="collapse-item-bank">
+        <template slot="title">
+          <div>
+            <h4>结算账户</h4>
+          </div>
+        </template>
         <div>账户类型：{{ merchant.bank_account_type }}</div>
         <div>开户银行：{{ merchant.bank_name }}</div>
         <div>开户名称：{{ merchant.bank_account_name }}</div>
         <div>结算账号：{{ merchant.bank_account_no }}</div>
       </el-collapse-item>
       <el-collapse-item title="上传资料" name="collapse-item-files">
-        <div >
-          <a v-for="f in merchant.files" v-bind:href="f.url" target="_blank">
-            {{ f.name }}
-          </a>
+        <template slot="title">
+          <div>
+            <h4>上传资料</h4>
+          </div>
+        </template>
+        <div v-for="f in merchant.files" class="merchant-image-box">
+            <a v-bind:href="f.url" target="_blank">
+              <el-image
+                :src="f.url"
+                fit="scale-down"
+                style="width: 100%; height:200px; border: #eeeeee;"
+              ></el-image>
+              {{ f.name }}
+            </a>
         </div>
       </el-collapse-item>
     </el-collapse>
@@ -73,7 +103,8 @@ export default {
         'collapse-item-com',
         // 'collapse-item-linkman',
         // 'collapse-item-legalman',
-        // 'collapse-item-bank'
+        // 'collapse-item-bank',
+        'collapse-item-files'
       ]
     }
   },
@@ -91,3 +122,13 @@ export default {
   }
 }
 </script>
+
+<style>
+.merchant-image-box {
+
+  width:200px;
+  text-align:center;
+  float:left;
+  margin: 5px;
+}
+</style>

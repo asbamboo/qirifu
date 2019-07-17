@@ -33,6 +33,7 @@ asbamboo\qirifu\common\model\merchantChannelLog\Entity:
       type: string
       nullable: false
       length: 255
+      column: 'log_desc'
       options:
         default: '0'
         comment: '说明'

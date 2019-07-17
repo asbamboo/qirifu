@@ -47,18 +47,29 @@ class User extends ControllerAbstract
 
     public function info()
     {
-        /**
-         *
-         * @var UserTokenInterface $UserToken
-         */
-        $UserToken  = $this->Container->get(UserTokenInterface::class);
-        $User       = $UserToken->getUser();
+        try
+        {
+            /**
+             *
+             * @var UserTokenInterface $UserToken
+             */
+            $UserToken  = $this->Container->get(UserTokenInterface::class);
+            $User       = $UserToken->getUser();
 
-        return $this->successJson('用户信息', [
-            'roles'     => $User->getRoles(),
-            'name'      => '服务商',
-            'avatar'    => 'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif',
-        ]);
+            return $this->successJson('用户信息', [
+                'roles'     => $User->getRoles(),
+                'name'      => '服务商',
+                'avatar'    => 'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif',
+            ]);
+
+        }catch(MessageException $e){
+            return $this->failedJson($e->getMessage());
+        }catch(\Exception $e){
+            if($this->Container->get(KernelInterface::class)->getIsDebug()){
+                return $this->failedJson((string) $e);
+            }
+            return $this->failedJson();
+        }
     }
 
     /**

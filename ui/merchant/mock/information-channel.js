@@ -1,11 +1,13 @@
 export default [
   {
-    url: '/information/channel/get-info',
+    url: '/channel/get-info',
     type: 'get',
     response: () => {
       let channel =
       {
         alipay: {
+          is_apply: false,
+          status: 'refuse',
           history: [
             {
               'seq': '@increment',
@@ -40,6 +42,8 @@ export default [
           ]
         },
         wxpay: {
+          is_apply: false,
+          status: 'refuse',
           history: [
             {
               'seq': '@increment',
@@ -73,6 +77,26 @@ export default [
       return {
         status: 'success',
         data: { channel : channel }
+      }
+    }
+  },
+  {
+    url: '/channel/new',
+    type: 'post',
+    response: () => {
+      return {
+        status: 'success',
+        message: '操作成功'
+      }
+    }
+  },
+  {
+    url: '/channel/update',
+    type: 'post',
+    response: () => {
+      return {
+        status: 'success',
+        message: '操作成功'
       }
     }
   }

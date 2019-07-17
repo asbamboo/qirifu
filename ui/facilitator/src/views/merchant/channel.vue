@@ -10,7 +10,7 @@
             <h4>支付宝支付</h4>
           </div>
         </template>
-        <div v-if="alipay_is_ok == false">
+        <div v-if="show_alipay_dialog">
           <alipay-dialog></alipay-dialog>
           <el-divider></el-divider>
         </div>
@@ -28,7 +28,7 @@
         <template slot="title">
           <h4>微信支付</h4>
         </template>
-        <div v-if="wxpay_is_ok == false">
+        <div v-if="show_wxpay_dialog">
           <wxpay-dialog></wxpay-dialog>
           <el-divider></el-divider>
         </div>
@@ -65,9 +65,9 @@ export default {
   components: { AlipayDialog, WxpayDialog },
   data() {
     return {
-      alipay_is_ok: false,
+      show_alipay_dialog: false,
       alipay_timelines: Object.assign({}, alipay_timelines),
-      wxpay_is_ok: false,
+      show_wxpay_dialog: false,
       wxpay_timelines: Object.assign({}, wxpay_timelines),
       merchant: merchant,
       active_collapse: ['collapse-item-alipay', 'collapse-item-wxpay']
@@ -80,11 +80,15 @@ export default {
     fetchData(seq) {
       fetchChannelInfo(seq).then(response => {
 
-        this.alipay_is_ok = response.data.channel.alipay.is_ok
         this.alipay_timelines = response.data.channel.alipay.history
+        let alipay_is_ok = response.data.channel.alipay.is_ok
+        let alipay_is_apply = response.data.channel.alipay.is_apply
+        this.show_alipay_dialog  = !alipay_is_ok && alipay_is_apply
 
-        this.wxpay_is_ok = response.data.channel.wxpay.is_ok
         this.wxpay_timelines = response.data.channel.wxpay.history
+        let wxpay_is_ok = response.data.channel.wxpay.is_ok
+        let wxpay_is_apply = response.data.channel.wxpay.is_apply
+        this.show_wxpay_dialog  = !wxpay_is_ok && wxpay_is_apply
 
         this.merchant = response.data.merchant
 

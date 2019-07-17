@@ -90,6 +90,7 @@ export default [
       {
         alipay: {
           is_ok: alipay_is_ok,
+          is_apply: true,
           history: [
             {
               'seq': '@increment',
@@ -120,6 +121,7 @@ export default [
         },
         wxpay: {
           is_ok: wxpay_is_ok,
+          is_apply: true,
           history: [
             {
               'seq': '@increment',
