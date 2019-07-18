@@ -13,6 +13,9 @@
       <el-tab-pane label="班布聚合" name="asbamboo_info" lazy>
         <asbamboo-info-form />
       </el-tab-pane>
+      <el-tab-pane label="其他" name="etc_info" lazy>
+        <etc-info-form />
+      </el-tab-pane>
     </el-tabs>
   </div>
 </template>
@@ -23,6 +26,7 @@ import SystemInfoForm from './setting/system-info'
 import DatabaseInfoForm from './setting/database-info'
 import AsbambooInfoForm from './setting/asbamboo-info'
 import EmailInfoForm from './setting/email-info'
+import EtcInfoForm from './setting/etc-info'
 
 export default {
   name: 'SystemSetting',
@@ -30,7 +34,8 @@ export default {
     SystemInfoForm,
     DatabaseInfoForm,
     AsbambooInfoForm,
-    EmailInfoForm
+    EmailInfoForm,
+    EtcInfoForm
   },
   data() {
     return {

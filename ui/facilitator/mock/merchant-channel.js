@@ -31,7 +31,38 @@ export default [
       let message = '成功'
       return {
         status: 'success',
-        message: message
+        message: message,
+        data: {
+          is_ok: false,
+          is_apply: true,
+          history: [
+            {
+              'seq': '@increment',
+              'status': '商户申请开通。',
+              'time': '2019-01-01 00:00:00'
+            },
+            {
+              'seq': '@increment',
+              'status': '资料已提交到支付宝、等待审核。',
+              'time': '2019-01-02 00:00:00'
+            },
+            {
+              'seq': '@increment',
+              'status': '审核未通过，需要商户补充或修改资料。',
+              'time': '2019-01-02 00:00:00'
+            },
+            {
+              'seq': '@increment',
+              'status': '资料重新提交到支付宝、等待审核。',
+              'time': '2019-01-02 00:00:00'
+            },
+            {
+              'seq': '@increment',
+              'status': '审核通过，等待商户支付宝账号授权。',
+              'time': '2019-01-03 00:00:00'
+            }
+          ]
+        }
       }
     }
   },
@@ -65,7 +96,33 @@ export default [
       let message = '成功'
       return {
         status: 'success',
-        message: message
+        message: message,
+        data: {
+          is_ok: false,
+          is_apply: true,
+          history: [
+            {
+              'seq': '@increment',
+              'status': '商户申请开通。',
+              'time': '2019-01-01 00:00:00'
+            },
+            {
+              'seq': '@increment',
+              'status': '资料已提交到微信、等待审核。',
+              'time': '2019-01-02 00:00:00'
+            },
+            {
+              'seq': '@increment',
+              'status': '审核未通过，需要商户补充或修改资料。',
+              'time': '2019-01-02 00:00:00'
+            },
+            {
+              'seq': '@increment',
+              'status': '资料重新提交到微信、等待审核。',
+              'time': '2019-01-02 00:00:00'
+            }
+          ]
+        }
       }
     }
   }

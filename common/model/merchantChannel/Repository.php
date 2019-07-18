@@ -48,6 +48,28 @@ class Repository
     /**
      *
      * @param int $merchant_seq
+     * @param int $type
+     * @return Entity|NULL
+     */
+    public function findOneByTypeAndMerchantSeq(int $merchant_seq, int $type) : ?Entity
+    {
+        return $this->Repository->findOneBy(['merchant_seq' => $merchant_seq, 'type' => $type]);
+    }
+
+    /**
+     *
+     * @param string $user_id
+     * @param int $type
+     * @return Entity|NULL
+     */
+    public function findOneByTypeAndUserId(string $user_id, int $type) : ?Entity
+    {
+        return $this->Repository->findOneBy(['user_id' => $user_id, 'type' => $type]);
+    }
+
+    /**
+     *
+     * @param int $merchant_seq
      * @return array|NULL
      */
     public function findAllByMerchantSeq(int $merchant_seq) : ?array
@@ -64,7 +86,6 @@ class Repository
     {
         return $this->Repository->findBy(['user_id' => $user_id]);
     }
-
     /**
      * 判断value是否已经存在
      *

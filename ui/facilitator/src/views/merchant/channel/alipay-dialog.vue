@@ -54,7 +54,7 @@ import {
 } from '@/api/merchant-channel'
 
 const default_post_form = {
-  status: null,
+  status: undefined,
   seller_id: undefined,
   desc: undefined,
   notifys: ['email']
@@ -96,12 +96,20 @@ export default {
         return
       }
       this.ajax = true
-      createAlipayHistory(this.post_form).then(response => {
+      let post_data = this.post_form
+      post_data.seq = this.$route.params.seq
+      createAlipayHistory(post_data).then(response => {
         this.open_dialog = false
         this.$message({
           message: response.message,
           showClose: true
         })
+
+        this.$parent.$parent.$parent.alipay_timelines = response.data.history
+        let is_ok = response.data.is_ok
+        let is_apply = response.data.is_apply
+        this.$parent.$parent.$parent.show_alipay_dialog  = !is_ok && is_apply
+
         this.ajax = false
       }).catch(err => {
         console.log(err)

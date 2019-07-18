@@ -21,6 +21,7 @@ return [
     ['id' => 'merchant_detail', 'path' => '/merchant/detail' , 'callback' => 'asbamboo\\qirifu\\hosts\\admin\\controller\\Merchant:detail'],
     ['id' => 'merchant_channel', 'path' => '/merchant/channel' , 'callback' => 'asbamboo\\qirifu\\hosts\\admin\\controller\\Merchant:channel'],
     ['id' => 'merchant_channel_available_status', 'path' => '/merchant/{type}/channel-available-status' , 'callback' => 'asbamboo\\qirifu\\hosts\\admin\\controller\\Merchant:channelAvailableStatus'],
+    ['id' => 'merchant_channel_create_history', 'path' => '/merchant/{type}/channel-create-history' , 'callback' => 'asbamboo\\qirifu\\hosts\\admin\\controller\\Merchant:channelCreateHistory'],
     /******************************************************************************************************************************************/
 
     /*******************************************************************************************************************************************

@@ -9,6 +9,9 @@ use asbamboo\qirifu\common\model\merchantDetail\Repository AS MerchantDetailRepo
 use asbamboo\qirifu\common\model\merchantChannel\Repository AS MerchantChannelRepository;
 use asbamboo\qirifu\common\model\merchantChannel\Code AS MerchantChannelCode;
 use asbamboo\qirifu\common\model\merchantChannelLog\Repository AS MerchantChannelLogRepository;
+use asbamboo\qirifu\common\model\merchantChannel\Manager AS MerchantChannelManager;
+use asbamboo\qirifu\common\model\merchantChannelLog\Manager AS MerchantChannelLogManager;
+use asbamboo\database\FactoryInterface AS DbFactoryInterface;
 use asbamboo\framework\kernel\KernelInterface;
 use asbamboo\router\RouterInterface;
 
@@ -202,6 +205,75 @@ class Merchant extends ControllerAbstract
                     ];
                 }
             }
+            return $this->successJson("处理成功", $result);
+        }catch(MessageException $e){
+            return $this->failedJson($e->getMessage());
+        }catch(\Exception $e){
+            if($this->Container->get(KernelInterface::class)->getIsDebug()){
+                return $this->failedJson((string) $e);
+            }
+            return $this->failedJson();
+        }
+    }
+
+    public function channelCreateHistory(ServerRequestInterface $Request, string $type)
+    {
+        try{
+            if(!in_array($type, MerchantChannelCode::TYPE_NAMES)){
+                throw new MessageException('非法请求。[channel]');
+            }
+
+            $result                         = ['is_ok' => false, 'is_apply' => true, 'history' => []];
+            $merchant_seq                   = $Request->getPostParam('seq');
+            $merchant_channel_status_name   = $Request->getPostParam('status', null);
+            $merchant_channel_log_desc      = trim($Request->getPostParam('desc', ''));
+            $merchant_channel_type          = array_search($type, MerchantChannelCode::TYPE_NAMES);
+            $merchant_channel_status        = array_search($merchant_channel_status_name, MerchantChannelCode::STATUS_NAMES);
+
+            if($merchant_channel_status_name === null || $merchant_channel_status_name  === ''){
+                throw new MessageException('请选择本次记录状态。');
+            }
+            if(!in_array($merchant_channel_status_name, MerchantChannelCode::STATUS_NAMES)){
+                throw new MessageException('非法请求。[status]');
+            }
+
+            /**
+             *
+             * @var MerchantChannelRepository $MerchantChannelRepository
+             * @var MerchantChannelManager $MerchantChannelManager
+             * @var MerchantChannelLogManager $MerchantChannelLogManager
+             * @var DbFactoryInterface $Db
+             */
+            $MerchantChannelRepository      = $this->Container->get(MerchantChannelRepository::class);
+            $MerchantChannelManager         = $this->Container->get(MerchantChannelManager::class);
+            $MerchantChannelLogManager      = $this->Container->get(MerchantChannelLogManager::class);
+            $Db                             = $this->Container->get(DbFactoryInterface::class);
+            $MerchantChannelEntity          = $MerchantChannelRepository->findOneByTypeAndMerchantSeq($merchant_seq, $merchant_channel_type);
+            if(empty($MerchantChannelEntity)){
+                throw new MessageException('非法操作[merchant-channel]');
+            }
+            $MerchantChannelManager->load($MerchantChannelEntity);
+            $MerchantChannelManager->updateStatus($merchant_channel_status);
+            $MerchantChannelLogManager->load();
+            $MerchantChannelLogManager->create($MerchantChannelEntity, $merchant_channel_log_desc);
+            $Db->getManager()->flush();
+
+            /**
+             *
+             * @var MerchantChannelLogRepository $MerchantChannelLogRepository
+             */
+            $MerchantChannelLogRepository   = $this->Container->get(MerchantChannelLogRepository::class);
+            $MerchantChannelLogEntitys      = $MerchantChannelLogRepository->findAllByMerchantChannelSeqs([$MerchantChannelEntity->getSeq()]);
+            $result['is_apply']             = $MerchantChannelEntity->getStatus() != MerchantChannelCode::STATUS_NO_APPLY;
+            $result['is_ok']                = $MerchantChannelEntity->getStatus() == MerchantChannelCode::STATUS_OK;
+            foreach($MerchantChannelLogEntitys As $MerchantChannelLogEntity){
+                $result['history'][]        = [
+                    'seq'                   => $MerchantChannelLogEntity->getSeq(),
+                    'status'                => $MerchantChannelLogEntity->getMerchantStatusLabel(),
+                    'time'                  => date('Y-m-d H:i:s', $MerchantChannelLogEntity->getCreateTime()),
+                ];
+            }
+
             return $this->successJson("处理成功", $result);
         }catch(MessageException $e){
             return $this->failedJson($e->getMessage());

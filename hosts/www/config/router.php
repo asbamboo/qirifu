@@ -37,6 +37,7 @@ return [
      *******************************************************************************************************************************************/
     ['id' => 'channel_info', 'path' => '/channel/get-info' , 'callback' => 'asbamboo\\qirifu\\hosts\\www\\controller\\Channel:getInfo'],
     ['id' => 'channel_new', 'path' => '/channel/new' , 'callback' => 'asbamboo\\qirifu\\hosts\\www\\controller\\Channel:new'],
+    ['id' => 'channel_update', 'path' => '/channel/update' , 'callback' => 'asbamboo\\qirifu\\hosts\\www\\controller\\Channel:update'],
     /******************************************************************************************************************************************/
 
     /*******************************************************************************************************************************************

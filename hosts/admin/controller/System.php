@@ -22,6 +22,8 @@ class System extends ControllerAbstract
                     return $this->emailInfo($Request);
                 case 'asbamboo-info':
                     return $this->asbambooInfo($Request);
+                case 'etc-info':
+                    return $this->etcInfo($Request);
             }
         }catch(MessageException $e){
             return $this->failedJson($e->getMessage());
@@ -203,6 +205,36 @@ class System extends ControllerAbstract
             }
 
             return $this->successJson('处理成功', $email_info);
+        }catch(MessageException $e){
+            return $this->failedJson($e->getMessage());
+        }catch(\Exception $e){
+            if($this->Container->get(KernelInterface::class)->getIsDebug()){
+                return $this->failedJson((string) $e);
+            }
+            return $this->failedJson();
+        }
+    }
+
+    public function etcInfo(ServerRequestInterface $Request)
+    {
+        try
+        {
+            $asbamboo_info          = [
+                'alipay_appid'      => \Parameter::instance()->get('ALIPAY_APPID') ?? '',
+                'alipay_sandbox'    => \Parameter::instance()->get('ALIPAY_SANDBOX') ?? false
+            ];
+
+            if($Request->getMethod() == HttpConstant::METHOD_POST){
+                $alipay_appid       = trim($Request->getPostParam('alipay_appid'));
+                $alipay_sandbox     = $Request->getPostParam('alipay_sandbox') == "true" ? true : false;
+                if(empty($alipay_appid)){
+                    throw new MessageException('请输入支付宝appid');
+                }
+                \Parameter::instance()->set('ALIPAY_APPID', $alipay_appid);
+                \Parameter::instance()->set('ALIPAY_SANDBOX', $alipay_sandbox);
+            }
+
+            return $this->successJson('处理成功', $asbamboo_info);
         }catch(MessageException $e){
             return $this->failedJson($e->getMessage());
         }catch(\Exception $e){

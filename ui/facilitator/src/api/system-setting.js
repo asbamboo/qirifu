@@ -1,4 +1,5 @@
 import request from '@/utils/request'
+import qs from 'qs'
 
 export function fetchSystemInfo() {
   return request({
@@ -8,7 +9,6 @@ export function fetchSystemInfo() {
 }
 
 export function settingSystemInfo(data) {
-  let qs = require('qs');
   return request({
     url: '/system/setting/system-info',
     method: 'post',
@@ -24,7 +24,6 @@ export function fetchDatabaseInfo() {
 }
 
 export function settingDatabaseInfo(data) {
-  let qs = require('qs');
   return request({
     url: '/system/setting/database-info',
     method: 'post',
@@ -40,7 +39,6 @@ export function fetchEmailInfo() {
 }
 
 export function settingEmailInfo(data) {
-  let qs = require('qs');
   return request({
     url: '/system/setting/email-info',
     method: 'post',
@@ -56,9 +54,23 @@ export function fetchAsbambooInfo() {
 }
 
 export function settingAsbambooInfo(data) {
-  let qs = require('qs');
   return request({
     url: '/system/setting/asbamboo-info',
+    method: 'post',
+    data: qs.stringify(data)
+  })
+}
+
+export function fetchEtcInfo() {
+  return request({
+    url: '/system/setting/etc-info',
+    method: 'get'
+  })
+}
+
+export function settingEtcInfo(data) {
+  return request({
+    url: '/system/setting/etc-info',
     method: 'post',
     data: qs.stringify(data)
   })

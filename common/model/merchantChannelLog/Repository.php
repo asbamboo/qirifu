@@ -52,6 +52,6 @@ class Repository
      */
     public function findAllByMerchantChannelSeqs(array $merchant_channel_seqs) : ?array
     {
-        return $this->Repository->findBy(['merchant_channel_seq' => $merchant_channel_seqs]);
+        return $this->Repository->findBy(['merchant_channel_seq' => $merchant_channel_seqs], ['seq' => 'DESC']);
     }
 }

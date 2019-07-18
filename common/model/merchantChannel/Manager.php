@@ -18,6 +18,8 @@ use Doctrine\DBAL\LockMode;
  */
 class Manager
 {
+    use Validator;
+
     /**
      *
      * @var FactoryInterface
@@ -99,14 +101,15 @@ class Manager
         $this->Entity->setMerchantSeq($MerchantEntity->getSeq());
         $this->Entity->setUserId($MerchantEntity->getUserId());
         $this->Entity->setType($type);
+
+        $this->validateCreate();
+
         $this->Entity->setStatus(Code::STATUS_APPLY);
         $this->Entity->setKeyInfo([]);
         $this->Entity->setCreateTime(time());
         $this->Entity->setCreateUser($user_id);
         $this->Entity->setUpdateTime(time());
         $this->Entity->setUpdateUser($user_id);
-
-        $this->validateCreate();
 
         $this->Db->getManager()->persist($this->Entity);
 
@@ -128,10 +131,31 @@ class Manager
         $user_id    = $LoginUser instanceof AnonymousUser ? '' : $LoginUser->getUserId();
 
         $this->Entity->setStatus($status);
+
+        $this->validateUpdateStatus();
+
         $this->Entity->setUpdateTime(time());
         $this->Entity->setUpdateUser($user_id);
 
-        $this->validateUpdate();
+        $this->Db->getManager()->lock($this->Entity, LockMode::OPTIMISTIC);
+
+        return $this;
+    }
+
+    public function updateStatusToReapply() : manager
+    {
+        /**
+         *
+         * @var \asbamboo\tuitui\common\login\User $LoginUser
+         */
+        $LoginUser  = $this->UserToken->getUser();
+        $user_id    = $LoginUser instanceof AnonymousUser ? '' : $LoginUser->getUserId();
+
+        $this->validateUpdateStatusToReapply();
+
+        $this->Entity->setStatus(Code::STATUS_REAPPLY);
+        $this->Entity->setUpdateTime(time());
+        $this->Entity->setUpdateUser($user_id);
 
         $this->Db->getManager()->lock($this->Entity, LockMode::OPTIMISTIC);
 
@@ -153,6 +177,13 @@ class Manager
 
     public function validateUpdateStatus()
     {
+        $this->validateStatus($this->Entity->getStatus());
+    }
 
+    public function validateUpdateStatusToReapply()
+    {
+        if(!in_array($this->Entity->getStatus(), [Code::STATUS_REFUSE, Code::STATUS_RESEND_THIRD])){
+            throw new MessageException("不允许重复多次重新提申请。");
+        }
     }
 }

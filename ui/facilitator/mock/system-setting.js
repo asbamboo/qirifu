@@ -171,5 +171,33 @@ export default [
         message: message
       }
     }
+  },
+
+  {
+    url: '/system/setting/etc-info',
+    type: 'get',
+    response: config => {
+      return {
+        status: 'success',
+        data: {
+          alipay_appid: '@string(abcdefghijklmnopqrstuvwxyz01234567890, 13)',
+          alipay_sandbox: '@boolean'
+        }
+      }
+    }
+  },
+
+  {
+    url: '/system/setting/etc-info',
+    type: 'post',
+    response: config => {
+      let status = 'success'
+      let message = '成功'
+      let asbamboo_info = config.body
+      return {
+        status: status,
+        message: message
+      }
+    }
   }
 ]

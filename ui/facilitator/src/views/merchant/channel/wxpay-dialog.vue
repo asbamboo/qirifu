@@ -96,12 +96,21 @@ export default {
         return
       }
       this.ajax = true
-      createWxpayHistory(this.post_form).then(response => {
+      let post_data = this.post_form
+      post_data.seq = this.$route.params.seq
+      createWxpayHistory(post_data).then(response => {
         this.open_dialog = false
         this.$message({
           message: response.message,
           showClose: true
         })
+
+        let $MerchantChannel  = this.$parent.$parent.$parent
+        let is_ok = response.data.is_ok
+        let is_apply = response.data.is_apply
+        $MerchantChannel.wxpay_timelines = response.data.history
+        $MerchantChannel.show_wxpay_dialog  = !is_ok && is_apply
+
         this.ajax = false
       }).catch(err => {
         console.log(err)

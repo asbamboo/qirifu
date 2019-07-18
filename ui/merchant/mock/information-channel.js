@@ -86,7 +86,43 @@ export default [
     response: () => {
       return {
         status: 'success',
-        message: '操作成功'
+        message: '操作成功',
+        data:{
+          is_apply: false,
+          status: 'refuse',
+          history: [
+            {
+              'seq': '@increment',
+              'status': '商户申请开通。',
+              'time': '2019-01-01 00:00:00'
+            },
+            {
+              'seq': '@increment',
+              'status': '资料已提交到支付宝、等待审核。',
+              'time': '2019-01-02 00:00:00'
+            },
+            {
+              'seq': '@increment',
+              'status': '审核未通过，需要商户补充或修改资料。',
+              'time': '2019-01-02 00:00:00'
+            },
+            {
+              'seq': '@increment',
+              'status': '资料重新提交到支付宝、等待审核。',
+              'time': '2019-01-02 00:00:00'
+            },
+            {
+              'seq': '@increment',
+              'status': '审核通过，等待商户支付宝账号授权。',
+              'time': '2019-01-03 00:00:00'
+            },
+            {
+              'seq': '@increment',
+              'status': '正式开通。商户号(seller_id):2088102146225135',
+              'time': '2019-01-04 00:00:00'
+            }
+          ]
+        }
       }
     }
   },
@@ -96,7 +132,43 @@ export default [
     response: () => {
       return {
         status: 'success',
-        message: '操作成功'
+        message: '操作成功',
+        data: {
+          is_apply: false,
+          status: 'refuse',
+          history: [
+            {
+              'seq': '@increment',
+              'status': '商户申请开通。',
+              'time': '2019-01-01 00:00:00'
+            },
+            {
+              'seq': '@increment',
+              'status': '资料已提交到支付宝、等待审核。',
+              'time': '2019-01-02 00:00:00'
+            },
+            {
+              'seq': '@increment',
+              'status': '审核未通过，需要商户补充或修改资料。',
+              'time': '2019-01-02 00:00:00'
+            },
+            {
+              'seq': '@increment',
+              'status': '资料重新提交到支付宝、等待审核。',
+              'time': '2019-01-02 00:00:00'
+            },
+            {
+              'seq': '@increment',
+              'status': '审核通过，等待商户支付宝账号授权。',
+              'time': '2019-01-03 00:00:00'
+            },
+            {
+              'seq': '@increment',
+              'status': '正式开通。商户号(seller_id):2088102146225135',
+              'time': '2019-01-04 00:00:00'
+            }
+          ]
+        }
       }
     }
   }

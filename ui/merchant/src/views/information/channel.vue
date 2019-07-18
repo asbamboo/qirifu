@@ -102,32 +102,37 @@ export default {
     this.fetchData(this.$route.params.seq)
   },
   methods: {
+    changeAlipayTimeline(data) {
+      this.alipay_timelines = data.history
+      let alipay_is_apply = data.is_apply
+      let alipay_status = data.status
+      this.show_alipay_apply_button = !alipay_is_apply
+      if(alipay_status == 'third-refuse'){
+        this.show_alipay_reapply_button  = true
+      }else if(alipay_status == 'refuse'){
+        this.show_alipay_reapply_button  = true
+      }else{
+        this.show_alipay_reapply_button  = false
+      }
+    },
+    changeWxpayTimeline(data) {
+      this.wxpay_timelines = data.history
+      let wxpay_is_apply = data.is_apply
+      let wxpay_status = data.status
+      this.show_wxpay_apply_button = !wxpay_is_apply
+      if(wxpay_status == 'third-refuse'){
+        this.show_wxpay_reapply_button  = true
+      }else if(wxpay_status == 'refuse'){
+        this.show_wxpay_reapply_button  = true
+      }else{
+        this.show_wxpay_reapply_button  = false
+      }
+    },
     fetchData() {
       getChannelInfo().then(response => {
+        this.changeAlipayTimeline(response.data.channel.alipay)
 
-        this.alipay_timelines = response.data.channel.alipay.history
-        let alipay_is_apply = response.data.channel.alipay.is_apply
-        let alipay_status = response.data.channel.alipay.status
-        this.show_alipay_apply_button = !alipay_is_apply
-        if(alipay_status == 'third-refuse'){
-          this.show_alipay_reapply_button  = true
-        }else if(alipay_status == 'refuse'){
-          this.show_alipay_reapply_button  = true
-        }else{
-          this.show_alipay_reapply_button  = false
-        }
-
-        this.wxpay_timelines = response.data.channel.wxpay.history
-        let wxpay_is_apply = response.data.channel.wxpay.is_apply
-        let wxpay_status = response.data.channel.wxpay.status
-        this.show_wxpay_apply_button = !wxpay_is_apply
-        if(wxpay_status == 'third-refuse'){
-          this.show_wxpay_reapply_button  = true
-        }else if(wxpay_status == 'refuse'){
-          this.show_wxpay_reapply_button  = true
-        }else{
-          this.show_wxpay_reapply_button  = false
-        }
+        this.changeWxpayTimeline(response.data.channel.wxpay)
       }).catch(err => {
         console.log(err)
       })
@@ -148,6 +153,9 @@ export default {
             message: response.message,
             showClose: true
           })
+
+          this.changeAlipayTimeline(response.data)
+
           this.ajax = false
         }).catch(err => {
           this.ajax = false
@@ -172,6 +180,7 @@ export default {
             message: response.message,
             showClose: true
           })
+          this.changeAlipayTimeline(response.data)
           this.ajax = false
         }).catch(err => {
           this.ajax = false
@@ -196,6 +205,7 @@ export default {
             message: response.message,
             showClose: true
           })
+          this.changeWxpayTimeline(response.data)
           this.ajax = false
         }).catch(err => {
           this.ajax = false
@@ -218,6 +228,7 @@ export default {
             message: response.message,
             showClose: true
           })
+          this.changeWxpayTimeline(response.data)
           this.ajax = false
         }).catch(err => {
           this.ajax = false
