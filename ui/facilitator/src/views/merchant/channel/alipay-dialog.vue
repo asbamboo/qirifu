@@ -18,12 +18,6 @@
             ></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="支付宝卖家ID" v-if="post_form.status=='ok'">
-          <el-input
-            v-model="post_form.seller_id"
-            autocomplete="off"
-          ></el-input>
-        </el-form-item>
         <el-form-item label="说明">
           <el-input type="textarea"
             v-model="post_form.desc"

@@ -5,6 +5,8 @@ use asbamboo\security\user\login\Login;
 use asbamboo\framework\config\EventListenerConfig;
 use asbamboo\session\Session;
 use asbamboo\session\handler\PdoHandler;
+use asbamboo\template\TemplateInterface;
+use asbamboo\framework\template\Template;
 
 /*************************************************************************************************************
  * 环境常量
@@ -13,6 +15,18 @@ $common_config  = include dirname(dirname(dirname(__DIR__))) . DIRECTORY_SEPARAT
 /************************************************************************************************************/
 
 $config = array_merge_recursive($common_config,[
+    /*************************************************************************************************************
+     * html页面模板配置
+     *************************************************************************************************************/
+    TemplateInterface::class    =>
+    [
+        'class'             => Template::class,
+        'init_params'       => [
+            'template_dir'  => [dirname(__DIR__) . DIRECTORY_SEPARATOR . 'view'],
+        ],
+    ],
+    /************************************************************************************************************/
+
     /*************************************************************************************************************
      * url 规则配置
      *************************************************************************************************************/

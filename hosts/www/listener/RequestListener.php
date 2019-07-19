@@ -6,6 +6,7 @@ use asbamboo\http\ServerRequestInterface;
 use asbamboo\security\user\token\UserTokenInterface;
 use asbamboo\qirifu\common\Constant;
 use asbamboo\http\JsonResponse;
+use asbamboo\http\RedirectResponse;
 
 /**
  * 监听kernel request 事件
@@ -55,6 +56,7 @@ class RequestListener
         $cur_url            = $this->Request->getUri()->getPath();
         $cur_roles          = $this->UserToken->getUser()->getRoles();
         $none_login_urls    = [
+            $this->Router->generateUrl('home'),
             $this->Router->generateUrl('register_send_captcha'),
             $this->Router->generateUrl('register_action'),
             $this->Router->generateUrl('user_login'),

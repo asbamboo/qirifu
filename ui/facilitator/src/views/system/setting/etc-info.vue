@@ -13,6 +13,9 @@
               <span>支付宝相关配置</span>
 
             </div>
+            <el-form-item label="支付宝沙箱环境:">
+              <el-switch v-model="etc_info.alipay_sandbox"></el-switch>
+            </el-form-item>
             <el-form-item label="支付宝APPID:">
               <el-input
                 v-model="etc_info.alipay_appid"
@@ -21,8 +24,23 @@
                 placeholder="请输入支付宝APPID"
               />
             </el-form-item>
-            <el-form-item label="支付宝沙箱环境:">
-              <el-switch v-model="etc_info.alipay_sandbox"></el-switch>
+            <el-form-item label="支付宝RSR2私钥:">
+              <el-input
+                v-model="etc_info.alipay_rsa_private_key"
+                type="textarea"
+                autosize
+                name="alipay_rsa_private_key"
+                placeholder="请输入支付宝RSR2私钥"
+              />
+            </el-form-item>
+            <el-form-item label="支付宝公钥:">
+              <el-input
+                v-model="etc_info.alipay_rsa_alipay_key"
+                type="textarea"
+                autosize
+                name="alipay_rsa_alipay_key"
+                placeholder="请输入支付宝公钥"
+              />
             </el-form-item>
             <el-form-item>
               <el-button type="primary" plain @click="submitForm">
@@ -41,7 +59,9 @@ import { fetchEtcInfo, settingEtcInfo } from '@/api/system-setting'
 
 const etc_info = {
   alipay_appid: '',
-  alipay_sandbox: false
+  alipay_sandbox: false,
+  alipay_rsa_private_key: '',
+  alipay_rsa_alipay_key: ''
 };
 
 export default {

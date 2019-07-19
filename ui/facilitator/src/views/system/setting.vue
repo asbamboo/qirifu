@@ -39,7 +39,7 @@ export default {
   },
   data() {
     return {
-      active_tab: 'email_info'
+      active_tab: 'system_info'
     }
   }
 }

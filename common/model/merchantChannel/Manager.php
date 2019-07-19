@@ -119,9 +119,10 @@ class Manager
     /**
      *
      * @param int $status
+     * @param array $key_info
      * @return Manager
      */
-    public function updateStatus(int $status) : Manager
+    public function updateStatus(int $status, array $key_info = []) : Manager
     {
         /**
          *
@@ -131,6 +132,7 @@ class Manager
         $user_id    = $LoginUser instanceof AnonymousUser ? '' : $LoginUser->getUserId();
 
         $this->Entity->setStatus($status);
+        $this->Entity->setKeyInfo($key_info);
 
         $this->validateUpdateStatus();
 

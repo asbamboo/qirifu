@@ -180,6 +180,8 @@ class Merchant extends ControllerAbstract
                         continue;
                     }else if(MerchantChannelCode::STATUS_REAPPLY == $merchant_channel_status){
                         continue;
+                    }else if(MerchantChannelCode::STATUS_OK == $merchant_channel_status){
+                        continue;
                     }
                     $result['items'][]  = [
                         'key'           => $merchant_channel_status,

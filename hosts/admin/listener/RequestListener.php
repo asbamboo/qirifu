@@ -55,6 +55,7 @@ class RequestListener
         $cur_url            = $this->Request->getUri()->getPath();
         $cur_roles          = $this->UserToken->getUser()->getRoles();
         $none_login_urls    = [
+            $this->Router->generateUrl('home'),
             $this->Router->generateUrl('user_login'),
         ];
         if(!in_array($cur_url, $none_login_urls) && !in_array(Constant::USER_ROLE_ADMIN, $cur_roles)){

@@ -25,6 +25,10 @@
           >已补充或修改资料，再次申请</el-button>
           <el-divider></el-divider>
         </template>
+        <template v-if="show_alipay_auth_button">
+          <el-link type="info" :href="alipay_auth_link">已审核通过，请点此授权。</el-link>
+          <el-divider></el-divider>
+        </template>
         <el-timeline>
           <el-timeline-item
             v-for="(item, index) in alipay_timelines"
@@ -90,8 +94,10 @@ export default {
     return {
       alipay_timelines: Object.assign({}, alipay_timelines),
       wxpay_timelines: Object.assign({}, wxpay_timelines),
+      alipay_auth_link: '',
       show_alipay_apply_button: false,
       show_alipay_reapply_button: false,
+      show_alipay_auth_button: false,
       show_wxpay_apply_button: false,
       show_wxpay_reapply_button: false,
       ajax: false,
@@ -114,6 +120,11 @@ export default {
       }else{
         this.show_alipay_reapply_button  = false
       }
+      if(alipay_status == 'wait-authorization'){
+        this.show_alipay_auth_button  = true
+      }else{
+        this.show_alipay_auth_button  = false
+      }
     },
     changeWxpayTimeline(data) {
       this.wxpay_timelines = data.history
@@ -130,6 +141,8 @@ export default {
     },
     fetchData() {
       getChannelInfo().then(response => {
+        this.alipay_auth_link = response.data.alipay_auth_link
+
         this.changeAlipayTimeline(response.data.channel.alipay)
 
         this.changeWxpayTimeline(response.data.channel.wxpay)

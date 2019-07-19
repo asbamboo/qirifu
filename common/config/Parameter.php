@@ -55,7 +55,7 @@ class Parameter
 
     public function get(string $key) /*: mixed*/
     {
-        return $this->parameters[$key];
+        return $this->parameters[$key] ?? null;
     }
 
     public function set(string $key, /*mixed*/ $value) : bool

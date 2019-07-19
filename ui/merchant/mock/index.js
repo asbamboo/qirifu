@@ -8,6 +8,7 @@ import informationLogin from './information-login'
 import informationMerchant from './information-merchant'
 import informationQrcode from './information-qrcode'
 import informationChannel from './information-channel'
+import alipayAuth from './alipay-auth'
 import trade from './trade'
 import messageInbox from './message-inbox'
 
@@ -19,6 +20,7 @@ const mocks = [
   ...informationMerchant,
   ...informationQrcode,
   ...informationChannel,
+  ...alipayAuth,
   ...trade,
   ...messageInbox
 ]

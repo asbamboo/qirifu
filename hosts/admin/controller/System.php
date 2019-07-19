@@ -219,19 +219,31 @@ class System extends ControllerAbstract
     {
         try
         {
-            $asbamboo_info          = [
-                'alipay_appid'      => \Parameter::instance()->get('ALIPAY_APPID') ?? '',
-                'alipay_sandbox'    => \Parameter::instance()->get('ALIPAY_SANDBOX') ?? false
+            $asbamboo_info                  = [
+                'alipay_appid'              => \Parameter::instance()->get('ALIPAY_APPID') ?? '',
+                'alipay_sandbox'            => \Parameter::instance()->get('ALIPAY_SANDBOX') ?? false,
+                'alipay_rsa_private_key'    => \Parameter::instance()->get('ALIPAY_RSA_PRIVATE_KEY') ?? '',
+                'alipay_rsa_alipay_key'     => \Parameter::instance()->get('ALIPAY_RSA_ALIPAY_KEY') ?? '',
             ];
 
             if($Request->getMethod() == HttpConstant::METHOD_POST){
-                $alipay_appid       = trim($Request->getPostParam('alipay_appid'));
-                $alipay_sandbox     = $Request->getPostParam('alipay_sandbox') == "true" ? true : false;
+                $alipay_appid               = trim($Request->getPostParam('alipay_appid'));
+                $alipay_sandbox             = $Request->getPostParam('alipay_sandbox') == "true" ? true : false;
+                $alipay_rsa_private_key     = trim($Request->getPostParam('alipay_rsa_private_key'));
+                $alipay_rsa_alipay_key      = trim($Request->getPostParam('alipay_rsa_alipay_key'));
                 if(empty($alipay_appid)){
                     throw new MessageException('请输入支付宝appid');
                 }
+                if(empty($alipay_rsa_private_key)){
+                    throw new MessageException('请输入支付宝RSA私银');
+                }
+                if(empty($alipay_rsa_alipay_key)){
+                    throw new MessageException('请输入支付宝公钥');
+                }
                 \Parameter::instance()->set('ALIPAY_APPID', $alipay_appid);
                 \Parameter::instance()->set('ALIPAY_SANDBOX', $alipay_sandbox);
+                \Parameter::instance()->set('ALIPAY_RSA_PRIVATE_KEY', $alipay_rsa_private_key);
+                \Parameter::instance()->set('ALIPAY_RSA_ALIPAY_KEY', $alipay_rsa_alipay_key);
             }
 
             return $this->successJson('处理成功', $asbamboo_info);

@@ -8,11 +8,13 @@ use asbamboo\qirifu\common\model\merchantChannel\Repository AS MerchantChannelRe
 use asbamboo\qirifu\common\model\merchantChannelLog\Repository AS MerchantChannelLogRepository;
 use asbamboo\qirifu\common\model\merchantChannel\Manager AS MerchantChannelManager;
 use asbamboo\qirifu\common\model\merchantChannelLog\Manager AS MerchantChannelLogManager;
+use asbamboo\qirifu\common\alipay\Auth AS AlipayAuth;
 use asbamboo\database\FactoryInterface AS DbFactoryInterface;
 use asbamboo\qirifu\common\exception\MessageException;
 use asbamboo\framework\kernel\KernelInterface;
 use asbamboo\security\user\token\UserTokenInterface;
 use asbamboo\http\ServerRequestInterface;
+use asbamboo\router\RouterInterface;
 
 /**
  *
@@ -24,12 +26,22 @@ class Channel extends ControllerAbstract
     public function getInfo()
     {
         try{
-            $result             = [
-                'channel'       =>[
-                    'alipay'    => ['is_apply' => false, 'status' => MerchantChannelCode::STATUS_NAMES[MerchantChannelCode::STATUS_NO_APPLY], 'history' => []],
-                    'wxpay'     => ['is_apply' => false, 'status' => MerchantChannelCode::STATUS_NAMES[MerchantChannelCode::STATUS_NO_APPLY], 'history' => []],
+            $result                 = [
+                'alipay_auth_link'   => '',
+                'channel'           =>[
+                    'alipay'        => ['is_apply' => false, 'status' => MerchantChannelCode::STATUS_NAMES[MerchantChannelCode::STATUS_NO_APPLY], 'history' => []],
+                    'wxpay'         => ['is_apply' => false, 'status' => MerchantChannelCode::STATUS_NAMES[MerchantChannelCode::STATUS_NO_APPLY], 'history' => []],
                 ],
             ];
+
+            /**
+             *
+             * @var AlipayAuth $AlipayAuth
+             * @var RouterInterface $Router
+             */
+            $AlipayAuth                     = $this->Container->get(AlipayAuth::class);
+            $Router                         = $this->Container->get(RouterInterface::class);
+            $result['alipay_auth_link']     = $AlipayAuth->getAuthUrl(\Parameter::instance()->get('ALIPAY_APPID'), $Router->generateAbsoluteUrl('home') . '#/alipay/auth');
 
             /**
              * @var \asbamboo\qirifu\user\login\User $User
