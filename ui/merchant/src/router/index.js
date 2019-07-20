@@ -69,11 +69,19 @@ export const constantRoutes = [
     component: () => import('@/views/error-page/401'),
     hidden: true
   },
+  
   {
     path: '/window-print',
     component: () => import('@/views/print/qrcode'),
     hidden: true
   },
+
+  {
+    path: '/trade/:user_id/order',
+    component: () => import('@/views/trade/order'),
+    hidden: true
+  },
+
   {
     path: '/',
     component: Layout,

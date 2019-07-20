@@ -56,7 +56,7 @@ export default [
       // mock error
       if (!info) {
         return {
-          code: failed,
+          code: 'failed',
           message: 'Login failed, unable to get user details.'
         }
       }

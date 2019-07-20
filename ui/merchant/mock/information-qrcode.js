@@ -2,7 +2,7 @@ import Mock from 'mockjs'
 
 export default [
   {
-    url: '/information/qrcode/get-data',
+    url: '/qrcode/get-data',
     type: 'get',
     response: () => {
       const data = Mock.mock({

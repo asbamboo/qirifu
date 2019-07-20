@@ -7,7 +7,7 @@ $autoload   = require_once dirname(dirname(dirname(__DIR__))) . '/vendor/autoloa
 
 if($_SERVER['SERVER_NAME'] == $_SERVER['REMOTE_ADDR']){
     $is_debug   = true;
-}else if( $_SERVER['SERVER_ADDR'] == $_SERVER['REMOTE_ADDR'] ){
+}else if( isset($_SERVER['SERVER_ADDR']) && $_SERVER['SERVER_ADDR'] == $_SERVER['REMOTE_ADDR'] ){
     $is_debug   = true;
 }else{
     $is_debug   = substr($_SERVER['SERVER_NAME'], '-8') == '.develop';

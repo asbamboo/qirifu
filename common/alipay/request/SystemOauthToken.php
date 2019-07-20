@@ -5,8 +5,7 @@ use asbamboo\qirifu\common\alipay\gateway\GatewayUriTrait;
 use asbamboo\qirifu\common\alipay\request\tool\BodyTrait;
 use asbamboo\qirifu\common\alipay\request\tool\UriTrait;
 use asbamboo\qirifu\common\alipay\request\tool\CreateRequestTrait;
-use asbamboo\qirifu\common\alipay\requestParams\bizContent\OpenAuthTokenAppParams;
-use asbamboo\qirifu\common\alipay\requestParams\CommonParams;
+use asbamboo\qirifu\common\alipay\requestParams\bizContent\SystemOauthTokenParams;
 
 /**
  * alipay.open.auth.token.app
@@ -15,7 +14,7 @@ use asbamboo\qirifu\common\alipay\requestParams\CommonParams;
  * @author 李春寅 <licy2013@aliyun.com>
  * @since 2018年11月3日
  */
-class OpenAuthTokenApp implements RequestInterface
+class SystemOauthToken implements RequestInterface
 {
     use GatewayUriTrait;
     use BodyTrait;
@@ -27,7 +26,7 @@ class OpenAuthTokenApp implements RequestInterface
      *
      * @var string
      */
-    const METHOD    = 'alipay.open.auth.token.app';
+    const METHOD    = 'alipay.system.oauth.token';
 
     /**
      * 指派参数的数据集合
@@ -43,16 +42,12 @@ class OpenAuthTokenApp implements RequestInterface
      */
     public function assignData(array $assign_data): RequestInterface
     {
-        $BizContent     = new OpenAuthTokenAppParams();
-        $CommonParams   = new CommonParams();
+        $SystemOauthTokenParams = new SystemOauthTokenParams();
+        $SystemOauthTokenParams->mappingData($assign_data);
 
-        $BizContent->mappingData($assign_data);
-        $CommonParams->mappingData($assign_data);
-        $CommonParams->setBizContent($BizContent);
-
-        $CommonParams->method   = self::METHOD;
-        $CommonParams->sign     = $CommonParams->makeSign();
-        $this->assign_data      = get_object_vars($CommonParams);
+        $SystemOauthTokenParams->method   = self::METHOD;
+        $SystemOauthTokenParams->sign     = $SystemOauthTokenParams->makeSign();
+        $this->assign_data                = get_object_vars($SystemOauthTokenParams);
 
         return $this;
     }
