@@ -63,6 +63,7 @@ return [
      *******************************************************************************************************************************************/
     ['id' => 'trade_auth_url', 'path' => '/trade/auth-url' , 'callback' => 'asbamboo\\qirifu\\hosts\\www\\controller\\Trade:authUrl'],
     ['id' => 'trade_auth_info', 'path' => '/trade/auth-info' , 'callback' => 'asbamboo\\qirifu\\hosts\\www\\controller\\Trade:authInfo'],
+    ['id' => 'trade_order', 'path' => '/trade/order' , 'callback' => 'asbamboo\\qirifu\\hosts\\www\\controller\\Trade:order'],
     /******************************************************************************************************************************************/
 
 

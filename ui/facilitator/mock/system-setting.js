@@ -144,8 +144,15 @@ export default [
       return {
         status: 'success',
         data: {
-          app_key: '@string(abcdefghijklmnopqrstuvwxyz01234567890, 13)',
-          secret: '@string(abcdefghijklmnopqrstuvwxyz01234567890, 32)'
+          info: {
+            app_key: '@string(abcdefghijklmnopqrstuvwxyz01234567890, 13)',
+            secret: '@string(abcdefghijklmnopqrstuvwxyz01234567890, 32)',
+            mode: 'PRD'
+          },
+          modes:[
+            {label: '正式环境', value: 'PRD'},
+            {label: '开发环境', value: 'DEV'}
+          ]
         }
       }
     }

@@ -94,7 +94,7 @@ export default [
       return {
         status: 'success',
         data: {
-          auth_url: 'https://openauth.alipaydev.com/oauth2/publicAppAuthorize.htm?app_id=2016090900468991&scope=auth_base&redirect_uri=http%3A%2F%2F192.168.0.106%3A9528%2Fhosts%2Fwww%2Fpublic%2F%23%2Ftrade%2F5d2c0a2d48de1%2Forder'
+          auth_url: 'https://openauth.alipaydev.com/oauth2/publicAppAuthorize.htm?app_id=2016090900468991&scope=auth_base&redirect_uri=http%3A%2F%2F192.168.0.104%3A9528%2Fhosts%2Fwww%2Fpublic%2F%23%2Ftrade%2F5d2c0a2d48de1%2Forder'
         }
       }
     }
@@ -108,6 +108,19 @@ export default [
         status: 'success',
         data: {
           user_id: 123456789
+        }
+      }
+    }
+  },
+
+  {
+    url: '/trade/order',
+    type: 'post',
+    response: config => {
+      return {
+        status: 'success',
+        data: {
+          onecd_pay_json: {trade_no: 4546546}
         }
       }
     }

@@ -6,6 +6,20 @@
       class="form-container"
     >
       <el-row>
+        <el-col :md="12">
+          <el-form-item label-width="75px" label="环境:">
+            <el-select v-model="asbamboo_info.mode" placeholder="请选择">
+              <el-option
+                v-for="item in asbamboo_modes"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value">
+              </el-option>
+            </el-select>
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <el-row>
         <el-col :md="8">
           <el-form-item label-width="75px" label="APP Key:">
             <el-input
@@ -45,14 +59,19 @@ import { fetchAsbambooInfo, settingAsbambooInfo } from '@/api/system-setting'
 
 const asbamboo_info = {
   app_key: '',
-  secret: ''
+  secret: '',
+  mode: 'PRD'
 };
-
+const asbamboo_modes =[
+  {label: '正式环境', value: 'PRD'},
+  {label: '开发环境', value: 'DEV'}
+]
 export default {
   name: 'AsbambooInfoForm',
   data() {
     return {
       asbamboo_info: Object.assign({}, asbamboo_info),
+      asbamboo_modes: Object.assign({}, asbamboo_modes),
       ajax: false
     }
   },
@@ -66,7 +85,8 @@ export default {
       }
       this.ajax = true
       fetchAsbambooInfo().then(response => {
-        this.asbamboo_info = response.data
+        this.asbamboo_info = response.data.info
+        this.asbamboo_modes = response.data.modes
         this.ajax = false
       }).catch(err => {
         console.log(err)

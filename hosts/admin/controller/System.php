@@ -6,6 +6,7 @@ use asbamboo\http\ServerRequestInterface;
 use asbamboo\qirifu\common\exception\MessageException;
 use asbamboo\framework\kernel\KernelInterface;
 use asbamboo\http\Constant AS HttpConstant;
+use asbamboo\qirifu\common\asbamboo\ApiClient;
 
 class System extends ControllerAbstract
 {
@@ -137,23 +138,32 @@ class System extends ControllerAbstract
         {
             $asbamboo_info      = [
                 'app_key'       => \Parameter::instance()->get('ASBAMBOO_APPKEY'),
-                'secret'        => \Parameter::instance()->get('ASBAMBOO_APPSERECT')
+                'secret'        => \Parameter::instance()->get('ASBAMBOO_APPSERECT'),
+                'mode'          => \Parameter::instance()->get('ASBAMBOO_MODE'),
             ];
 
             if($Request->getMethod() == HttpConstant::METHOD_POST){
                 $asbamboo_appkey    = trim($Request->getPostParam('app_key'));
                 $asbamboo_appserect = trim($Request->getPostParam('secret'));
+                $asbamboo_mode      = trim($Request->getPostParam('mode'));
                 if(empty($asbamboo_appkey)){
                     throw new MessageException('请输入app key');
                 }
                 if(empty($asbamboo_appserect)){
                     throw new MessageException('请输入app secret');
                 }
+                if(empty($asbamboo_mode)){
+                    throw new MessageException('请输入环境模式t');
+                }
                 \Parameter::instance()->set('ASBAMBOO_APPKEY', $asbamboo_appkey);
                 \Parameter::instance()->set('ASBAMBOO_APPSERECT', $asbamboo_appserect);
+                \Parameter::instance()->set('ASBAMBOO_MODE', $asbamboo_mode);
             }
 
-            return $this->successJson('处理成功', $asbamboo_info);
+            return $this->successJson('处理成功', [
+                'modes'      => ApiClient::MODES,
+                'info'      => $asbamboo_info,
+            ]);
         }catch(MessageException $e){
             return $this->failedJson($e->getMessage());
         }catch(\Exception $e){

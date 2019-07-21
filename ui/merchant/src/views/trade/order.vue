@@ -32,6 +32,7 @@ import { order, getAuthUrl, getAuthInfo } from '@/api/trade'
 const from = {
   trade_price: '',
   pay_type: undefined,
+  user_id: undefined,
   auth_info: undefined
 }
 
@@ -47,6 +48,9 @@ export default {
       from.pay_type = 'alipay'
       is_supported = true
     }
+
+    from.user_id  = this.$route.params.user_id
+
     return {
       form: Object.assign({}, from),
       is_supported: is_supported
@@ -56,6 +60,22 @@ export default {
     if(this.is_supported) {
       this.doAuth()
     }
+  },
+  mounted() {
+    // const s = document.createElement('script')
+    // s.type = 'text/javascript'
+    // s.src = 'https://a.alipayobjects.com/g/h5-lib/alipayjsapi/3.0.6/alipayjsapi.min.js'
+    // document.body.appendChild(s)
+    //
+    // const c = document.createElement('script')
+    // c.type = 'text/javascript'
+    // c.src = 'https://static.alipay.com/aliBridge/1.0.0/aliBridge.min.js'
+    // document.body.appendChild(c)
+    //
+    // const d = document.createElement('script')
+    // d.type = 'text/javascript'
+    // d.src = 'https://as.alipayobjects.com/g/component/antbridge/1.1.1/antbridge.min.js'
+    // document.body.appendChild(d)
   },
   methods: {
     doAuth() {
@@ -76,25 +96,28 @@ export default {
     },
     doRequestAlipay(trade_no) {
       AlipayJSBridge.call("tradePay", {
-           tradeNO: response.data.trade_no
+           tradeNO: trade_no
       }, function (data) {
-          log(JSON.stringify(data));
+          console.log(data)
           if ("9000" == data.resultCode) {
-              log("支付成功");
+              this.$message({
+                message: 支付成功,
+                showClose: true
+              })
           }
       });
     },
     doPay() {
       order(this.form).then(response => {
-        if(this.form.pay_type == 'alipay'){
+        // if(this.form.pay_type == 'alipay'){
           if (window.AlipayJSBridge) {
-            this.doRequestAlipay(response.data.trade_no)
+            this.doRequestAlipay(response.data.onecd_pay_json.trade_no)
           } else {
             document.addEventListener('AlipayJSBridgeReady', function(){
-              this.doRequestAlipay(response.data.trade_no)
+              this.doRequestAlipay(response.data.onecd_pay_json.trade_no)
             }, false);
           }
-        }
+        // }
       }).catch(err => {
         console.log(err)
       })

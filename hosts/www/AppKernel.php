@@ -2,6 +2,7 @@
 namespace asbamboo\qirifu\hosts\www;
 
 use asbamboo\qirifu\common\AppKernel AS CommonAppKernel;
+use asbamboo\framework\kernel\KernelAbstract;
 
 /**
  * 前台Kernel
@@ -11,6 +12,12 @@ use asbamboo\qirifu\common\AppKernel AS CommonAppKernel;
  */
 class AppKernel extends CommonAppKernel
 {
+    public function __construct($is_debug)
+    {
+        parent::__construct($is_debug);
+        date_default_timezone_set('Asia/Shanghai');
+    }
+
     /**
      *
      * {@inheritDoc}

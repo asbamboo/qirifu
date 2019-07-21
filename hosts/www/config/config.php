@@ -40,7 +40,7 @@ $config = array_merge_recursive($common_config,[
     Session::class              => [
         'init_params'           => [
             'sessionHandler'    => new PdoHandler(new PDO(
-                    'mysql:host=' . Parameter::instance()->get('DB_HOST'). ';dbname=' . Parameter::instance()->get('DB_NAME'),
+                    'mysql:host=' . Parameter::instance()->get('DB_HOST'). ';port='.Parameter::instance()->get('DB_PORT').';dbname=' . Parameter::instance()->get('DB_NAME'),
                     Parameter::instance()->get('DB_USER'),
                     Parameter::instance()->get('DB_PASSWORD')
                 )),
