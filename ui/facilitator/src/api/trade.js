@@ -8,9 +8,9 @@ export function fetchList(query) {
   })
 }
 
-export function fetchChannels() {
+export function getSearchOptions() {
   return request({
-    url: '/trade/channels',
+    url: '/trade/search-options',
     method: 'get'
   })
 }

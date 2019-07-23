@@ -4,12 +4,14 @@ const List = []
 const count = 100
 
 const channels = [{key: 1, label:'支付宝'}, {key: 2, label:'微信'}]
+const statuss = [{key: 1, label:'未支付'}, {key: 2, label:'已支付'}]
 
 for (let i = 0; i < count; i++) {
   List.push(Mock.mock({
     seq: '@increment',
     merchant_name: '@ctitle(2, 4)', //商户简称
     'channel|1': channels, // 支付通道
+    'status|1': statuss, // 支付状态
     amount: '@float(0, 9999, 0, 2)', // 金额
     in_trade_no: '@string(ABCDEFGHIJKLMNOPQRSTUVWXYZ01234567890, 13)', // 交易编号（本系统）
     out_trade_no: '@string(ABCDEFGHIJKLMNOPQRSTUVWXYZ01234567890, 13)', // 交易编号（支付通道）
@@ -80,13 +82,14 @@ export default [
   },
 
   {
-    url: '/trade/channels',
+    url: '/trade/search-options',
     type: 'get',
     response: config => {
       return {
         status: 'success',
         data: {
-          channels: channels
+          channels: channels,
+          statuss: statuss
         }
       }
     }

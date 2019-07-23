@@ -9,9 +9,23 @@
         @keyup.enter.native="handleFilter"
       />
       <el-select
+        v-model="list_query.status"
+        placeholder="支付状态"
+        class="filter-item"
+        clearable
+      >
+        <el-option
+          v-for="item in statuss"
+          :key="item.key"
+          :label="item.label"
+          :value="item.key">
+        </el-option>
+      </el-select>
+      <el-select
         v-model="list_query.channel"
         placeholder="支付通道"
         class="filter-item"
+        clearable
       >
         <el-option
           v-for="item in channels"
@@ -36,6 +50,7 @@
       />
       <el-date-picker
         v-model="list_query.create_ymdhis"
+        value-format="yyyy-MM-dd"
         type="daterange"
         align="right"
         unlink-panels
@@ -60,25 +75,31 @@
         </template>
       </el-table-column>
 
-      <el-table-column align="center" label="支付通道">
+      <el-table-column align="center" label="支付通道" width="160">
         <template slot-scope="scope">
           <span>{{ scope.row.channel.label }}</span>
         </template>
       </el-table-column>
 
-      <el-table-column align="center" label="金额">
+      <el-table-column align="center" label="金额" width="120">
         <template slot-scope="scope">
           <span>{{ scope.row.amount }}</span>
         </template>
       </el-table-column>
 
-      <el-table-column align="center" label="交易编号（本系统）" width="200">
+      <el-table-column align="center" label="支付状态" width="160">
+        <template slot-scope="scope">
+          <span>{{ scope.row.status.label }}</span>
+        </template>
+      </el-table-column>
+
+      <el-table-column align="center" label="交易编号（本系统）">
         <template slot-scope="scope">
           <span>{{ scope.row.in_trade_no }}</span>
         </template>
       </el-table-column>
 
-      <el-table-column align="center" label="交易编号（支付通道）" width="200">
+      <el-table-column align="center" label="交易编号（支付通道）">
         <template slot-scope="scope">
           <span>{{ scope.row.out_trade_no }}</span>
         </template>
@@ -104,7 +125,7 @@
 </template>
 
 <script>
-import { fetchList, fetchChannels } from '@/api/trade'
+import { fetchList, getSearchOptions } from '@/api/trade'
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
 
 export default {
@@ -112,6 +133,7 @@ export default {
   components: { Pagination },
   data() {
     return {
+      statuss: undefined,
       channels: undefined,
       list: null,
       total: 0,
@@ -121,21 +143,23 @@ export default {
         in_trade_no: '',
         out_trade_no: '',
         create_ymdhis: '',
+        status: '',
+        channel: '',
         page: 1,
         limit: 10
       }
     }
   },
   created() {
-    this.getChannels()
+    this.setSearchData()
     this.getList()
   },
   methods: {
-    getChannels() {
-      fetchChannels().then(response => {
+    setSearchData() {
+      getSearchOptions().then(response => {
         this.channels = response.data.channels
+        this.statuss = response.data.statuss
       })
-
     },
     getList() {
       this.list_loding = true

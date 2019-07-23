@@ -61,13 +61,13 @@
         </template>
       </el-table-column>
 
-      <el-table-column align="center" label="交易编号（本系统）" width="200">
+      <el-table-column align="center" label="交易编号（本系统）">
         <template slot-scope="scope">
           <span>{{ scope.row.in_trade_no }}</span>
         </template>
       </el-table-column>
 
-      <el-table-column align="center" label="交易编号（支付通道）" width="200">
+      <el-table-column align="center" label="交易编号（支付通道）">
         <template slot-scope="scope">
           <span>{{ scope.row.out_trade_no }}</span>
         </template>

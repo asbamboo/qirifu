@@ -105,7 +105,7 @@ class Manager
         $this->validateCreate();
 
         $this->Entity->setQirifuTradeNo($this->genrateQirifuTradeNo());
-        $this->Entity->setStatus(Code::STATUS_CREATE);
+        $this->Entity->setStatus(Code::STATUS_NOPAY);
         $this->Entity->setChannelTradeNo('');
         $this->Entity->setCreateIp($this->ServerRequest->getClientIp());
         $this->Entity->setCreateTime(time());
@@ -227,35 +227,35 @@ class Manager
 
     public function validateUpdateCancel()
     {
-        if(!in_array($this->Entity->getStatus(), [Code::STATUS_CANCLE, Code::STATUS_CREATE, Code::STATUS_PAYING, Code::STATUS_PAYFAILED])){
+        if(!in_array($this->Entity->getStatus(), [Code::STATUS_CANCLE, Code::STATUS_NOPAY, Code::STATUS_PAYING, Code::STATUS_PAYFAILED])){
             throw new SystemException('只有未完成支付状态的订单可以取消');
         }
     }
 
     public function validateUpdatePayfailed()
     {
-        if(!in_array($this->Entity->getStatus(), [Code::STATUS_CREATE, Code::STATUS_PAYING, Code::STATUS_PAYFAILED])){
+        if(!in_array($this->Entity->getStatus(), [Code::STATUS_NOPAY, Code::STATUS_PAYING, Code::STATUS_PAYFAILED])){
             throw new SystemException('只有未完成支付状态的订单会产生支付失败状态');
         }
     }
 
     public function validateUpdatePaying()
     {
-        if(!in_array($this->Entity->getStatus(), [Code::STATUS_CREATE, Code::STATUS_PAYING, Code::STATUS_PAYFAILED])){
+        if(!in_array($this->Entity->getStatus(), [Code::STATUS_NOPAY, Code::STATUS_PAYING, Code::STATUS_PAYFAILED])){
             throw new SystemException('只有未完成支付状态的订单可以发起支付');
         }
     }
 
     public function validateUpdatePayok()
     {
-        if(!in_array($this->Entity->getStatus(), [Code::STATUS_CREATE, Code::STATUS_PAYING, Code::STATUS_PAYFAILED, Code::STATUS_PAYOK])){
+        if(!in_array($this->Entity->getStatus(), [Code::STATUS_NOPAY, Code::STATUS_PAYING, Code::STATUS_PAYFAILED, Code::STATUS_PAYOK])){
             throw new SystemException('只有未完成支付的订单状态可以修改为支付成功');
         }
     }
 
     public function validateUpdatePayed()
     {
-        if(!in_array($this->Entity->getStatus(), [Code::STATUS_CREATE, Code::STATUS_PAYING, Code::STATUS_PAYFAILED, Code::STATUS_PAYOK])){
+        if(!in_array($this->Entity->getStatus(), [Code::STATUS_NOPAY, Code::STATUS_PAYING, Code::STATUS_PAYFAILED, Code::STATUS_PAYOK])){
             throw new SystemException('只有未完成支付的订单状态可以修改为支付成功并不可退款');
         }
     }

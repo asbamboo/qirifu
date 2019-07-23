@@ -58,6 +58,87 @@ class Repository
     }
 
     /**
+     *
+     * @param array $user_ids
+     * @return Entity|NULL
+     */
+    public function findAllByUserIds(array $user_ids) : ?Entity
+    {
+        return $this->Repository->findBy(['user_id' => $user_ids]);
+    }
+
+    /**
+     *
+     * @param array $user_ids
+     * @return array
+     */
+    public function findNamesByUserIds(array $user_ids) : array
+    {
+        $queryBuilder   = $this->Repository->createQueryBuilder('t');
+
+        $andx           = $queryBuilder->expr()->andX();
+        $andx->add($queryBuilder->expr()->in('t.user_id', ':user_ids'));
+
+        $queryBuilder->setParameter('user_ids', array_values($user_ids));
+        $queryBuilder->where($andx);
+
+        $queryBuilder->select('t.user_id, t.name');
+
+        $query_result   = $queryBuilder->getQuery()->getArrayResult();
+
+        $result         = [];
+        foreach($query_result AS $item){
+            $user_id            = $item['user_id'];
+            $result[$user_id]   = $item['name'];
+        }
+
+        return $result;
+    }
+
+    /**
+     *
+     * @param string $merchant_name
+     * @return array|string[]
+     */
+    public function getUserIdsLikeName(string $merchant_name) : array
+    {
+        $queryBuilder   = $this->Repository->createQueryBuilder('t');
+
+        $andx           = $queryBuilder->expr()->andX();
+        $andx->add($queryBuilder->expr()->like('t.name', ':merchant_name'));
+
+        $queryBuilder->setParameter('merchant_name', "{$merchant_name}%");
+        $queryBuilder->where($andx);
+
+        $queryBuilder->select('t.user_id');
+
+        $query_result   = $queryBuilder->getQuery()->getArrayResult();
+
+        $result         = [];
+        foreach($query_result AS $item){
+            $result[]   = $item['user_id'];
+        }
+
+        return $result;
+    }
+
+    public function mappingNames(array &$data) : void
+    {
+        $user_ids   = [];
+        foreach($data AS $item){
+            $user_id            = $item['user_id'];
+            $user_ids[$user_id] = $user_id;
+        }
+
+        $merchant_names  = $this->findNamesByUserIds($user_ids);
+
+        foreach($data AS $key => $item){
+            $user_id                        = $item['user_id'];
+            $data[$key]['merchant_name']    = $merchant_names[$user_id];
+        }
+    }
+
+    /**
      * 后台列表页面
      *
      * @param ServerRequestInterface $Request

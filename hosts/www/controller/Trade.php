@@ -51,7 +51,7 @@ class Trade extends ControllerAbstract
                 $data['items'][]    = [
                     'seq'           => $TradeEntity->getSeq(),
                     'channel'       => ['key' => $TradeEntity->getMerchantChannelType(), 'label' => MerchantChannelCode::TYPES[$TradeEntity->getMerchantChannelType()]],
-                    'amount'        => $TradeEntity->getPrice(),
+                    'amount'        => number_format($TradeEntity->getPrice(), 2),
                     'in_trade_no'   => $TradeEntity->getQirifuTradeNo(),
                     'out_trade_no'  => $TradeEntity->getChannelTradeNo(),
                     'create_ymdhis' => date('Y-m-d H:i:s', $TradeEntity->getCreateTime()),

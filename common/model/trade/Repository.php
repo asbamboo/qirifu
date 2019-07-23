@@ -5,6 +5,7 @@ use asbamboo\database\FactoryInterface;
 use asbamboo\database\EntityRepository;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use asbamboo\http\ServerRequestInterface;
+use asbamboo\qirifu\common\model\merchant\Repository AS MerchantRepository;
 
 /**
  * 查询管理
@@ -29,12 +30,19 @@ class Repository
 
     /**
      *
+     * @var MerchantRepository
+     */
+    private $MerchantRepository;
+
+    /**
+     *
      * @param FactoryInterface $Db
      */
-    public function __construct(FactoryInterface $Db)
+    public function __construct(FactoryInterface $Db, MerchantRepository $MerchantRepository)
     {
-        $this->Db           = $Db;
-        $this->Repository   = $this->Db->getManager()->getRepository(Entity::class);
+        $this->Db                   = $Db;
+        $this->Repository           = $this->Db->getManager()->getRepository(Entity::class);
+        $this->MerchantRepository   = $MerchantRepository;
     }
 
     /**
@@ -135,6 +143,9 @@ class Repository
          */
         $page_no                = $Request->getQueryParam('page', 1);
         $list_size              = $Request->getQueryParam('limit', 20);
+        $merchant_name          = trim($Request->getRequestParam('merchant_name', ''));
+        $status                 = $Request->getRequestParam('status');
+        $channel                = $Request->getRequestParam('channel');
         $qirifu_trade_no        = trim($Request->getRequestParam('in_trade_no', ''));
         $channel_trade_no       = trim($Request->getRequestParam('out_trade_no', ''));
         $create_ymdhis          = $Request->getRequestParam('create_ymdhis');
@@ -155,6 +166,28 @@ class Repository
          */
         $andx       = $queryBuilder->expr()->andX();
         $has_where  = false;
+
+        if($merchant_name !== ''){
+            $user_ids   = $this->MerchantRepository->getUserIdsLikeName($merchant_name);
+            $andx->add($queryBuilder->expr()->in('t.user_id', ':user_id'));
+            $queryBuilder->setParameter('user_id', $user_ids);
+            $has_where = true;
+        }
+        if(!empty($status) && $status != Code::STATUS_PAYED){
+            $andx->add($queryBuilder->expr()->eq('t.status', ':status'));
+            $queryBuilder->setParameter('status', $status);
+            $has_where  = true;
+        }
+        if(!empty($status) && $status == Code::STATUS_PAYED){
+            $andx->add($queryBuilder->expr()->in('t.status', ':status'));
+            $queryBuilder->setParameter('status', [Code::STATUS_PAYOK, Code::STATUS_PAYED]);
+            $has_where  = true;
+        }
+        if(!empty($channel)){
+            $andx->add($queryBuilder->expr()->eq('t.merchant_channel_type', ':merchant_channel_type'));
+            $queryBuilder->setParameter('merchant_channel_type', $channel);
+            $has_where  = true;
+        }
         if($qirifu_trade_no !== ''){
             $andx->add($queryBuilder->expr()->like('t.qirifu_trade_no', ':qirifu_trade_no'));
             $queryBuilder->setParameter('qirifu_trade_no', "{$qirifu_trade_no}%");
@@ -168,8 +201,8 @@ class Repository
         if(!empty($create_ymdhis)){
             $andx->add($queryBuilder->expr()->gte('t.create_time', ':create_symdhis'));
             $andx->add($queryBuilder->expr()->lte('t.create_time', ':create_eymdhis'));
-            $queryBuilder->setParameter('create_symdhis', strtotime($create_ymdhis[0]));
-            $queryBuilder->setParameter('create_symdhis', strtotime($create_ymdhis[1]));
+            $queryBuilder->setParameter('create_symdhis', strtotime($create_ymdhis[0] . " 00:00:00"));
+            $queryBuilder->setParameter('create_eymdhis', strtotime($create_ymdhis[1] . " 23:59:60"));
             $has_where  = true;
         }
         if($has_where){
