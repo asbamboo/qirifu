@@ -1,0 +1,115 @@
+asbamboo\qirifu\common\model\trade\Entity:
+  type: entity
+  table: t_trade
+  id:
+    seq:
+      type: integer
+      options:
+        unsigned: true
+        comment: '序号'
+      generator:
+        strategy: AUTO
+  fields:
+    qirifu_trade_no:
+      unique: true
+      type: string
+      length: 32
+      nullable: false
+      options:
+        default: ''
+        comment: '交易编号(本系统)'
+    channel_trade_no:
+      type: string
+      length: 32
+      nullable: false
+      options:
+        default: ''
+        comment: '交易编号(支付通道)'
+    user_id:
+      type: string
+      length: 13
+      nullable: false
+      options:
+        fixed: true
+        default: ''
+        comment: '用户id'
+    merchant_channel_type:
+      type: smallint
+      nullable: false
+      options:
+        default: '0'
+        unsigned: true
+        comment: '例如1:alipay 2:wxpay,from t_merchant_channel'
+    price:
+      type: decimal
+      precision: 16
+      scale: 4
+      nullable: false      
+      options: 
+        default: '0.0000'
+        unsigned: true
+        comment: '金额(用户提交的金额)'
+    status:
+      type: smallint
+      nullable: false
+      options:
+        default: '0'
+        unsigned: true
+        comment: '支付状态'
+    payok_time:
+      type: integer
+      nullable: false
+      options:
+        default: '0'
+        unsigned: true
+        comment: '支付成功(可以退款)时间'
+    payed_time:
+      type: integer
+      nullable: false
+      options:
+        default: '0'
+        unsigned: true
+        comment: '支付成功(不再退款)时间'
+    cancel_time:
+      type: integer
+      nullable: false
+      options:
+        default: '0'
+        unsigned: true
+        comment: '订单取消时间'
+    create_time:
+      type: integer
+      nullable: false
+      options:
+        default: '0'
+        unsigned: true
+        comment: '添加时间'
+    create_ip:
+      type: string
+      length: 45
+      nullable: false
+      options:
+        fixed: true
+        default: ''
+        comment: '添加人ip'
+    update_time:
+      type: integer
+      nullable: false
+      options:
+        default: '0'
+        unsigned: true
+        comment: '修改时间'
+    update_ip:
+      type: string
+      length: 45
+      nullable: false
+      options:
+        fixed: true
+        default: ''
+        comment: '修改人ip'
+    version:
+      type: smallint
+      version: true
+      options:
+        unsigned: true      
+        default: '0'

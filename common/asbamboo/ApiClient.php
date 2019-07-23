@@ -5,6 +5,8 @@ use asbamboo\qirifu\common\exception\SystemException;
 
 class ApiClient
 {
+    use SignTrait;
+
     const MODES = [
 //         ['label' => '官方开发', 'value' => 'ROOTDEV'],
         ['label' => '开发环境', 'value' => 'DEV'],
@@ -38,7 +40,7 @@ class ApiClient
 
         $status				= 'failed';
         $decode_response	= json_decode( $curl['response'], TRUE );
-        if(!$this->checkSign($decode_response)){
+        if(!$this->checkSign($decode_response, $this->app_serect)){
             throw new SystemException("Asbamboo 接口请求异常:响应值的签名无效");
         }
         if( isset($decode_response['code']) && $decode_response['code'] == 'SUCCESS' ){
@@ -58,9 +60,9 @@ class ApiClient
      */
     public function getUrl() : string
     {
-        $url    = 'https://api.asbamboo.com';
+        $url    = 'http://api.asbamboo.com';
         if($this->run_mode == 'DEV'){
-            $url    = 'https://developer.asbamboo.com/api';
+            $url    = 'http://developer.asbamboo.com/api';
         }else if($this->run_mode == 'ROOTDEV'){
             $url    = 'http://api.asbamboo.de';
         }
@@ -79,56 +81,8 @@ class ApiClient
         $assign_data['app_key']     = $this->app_key;
         $assign_data['timestamp']   = date('Y-m-d H:i:s');
         $assign_data['version']     = 'v1.0';
-        $assign_data['sign']        = $this->makeSign($assign_data);
+        $assign_data['sign']        = $this->makeSign($assign_data, $this->app_serect);
         return $assign_data;
-    }
-
-    /**
-     * 生成签名
-     *
-     * @param array $assign_data
-     * @return string
-     */
-    public function makeSign(array $assign_data) : string
-    {
-        ksort($assign_data);
-        $sign_data  = [];
-        foreach($assign_data AS $key => $value){
-            $sign_data[]    = $key . $value;
-        }
-        $sign_data[]    = $this->app_serect;
-        $sign_data  = implode('', $sign_data);
-        return strtoupper(md5($sign_data));
-    }
-
-    /**
-     *
-     * @param array $decoded_response
-     * @return bool
-     */
-    public function checkSign(array $decoded_response) : bool
-    {
-        $sign   = $decoded_response['sign'];
-        unset($decoded_response['sign']);
-        ksort($decoded_response);
-        $sign_data  = [];
-        foreach($decoded_response AS $key => $value){
-            if($key == 'data'){
-                ksort($value);
-                $inner_sign_data    = [];
-                foreach($value AS $k => $v){
-                    $inner_sign_data[]  = $k . $v;
-                }
-                $inner_sign_data    = implode('', $inner_sign_data);
-                $sign_data[]        = $key.$inner_sign_data;
-            }else{
-                $sign_data[]    = $key.$value;
-            }
-        }
-        $sign_data[]    = $this->app_serect;
-        $sign_data      = implode('', $sign_data);
-        $check_sign     = md5($sign_data);
-        return strtolower($check_sign) == strtolower($sign);
     }
 
     /**

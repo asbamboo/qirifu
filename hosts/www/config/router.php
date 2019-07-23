@@ -61,9 +61,12 @@ return [
     /*******************************************************************************************************************************************
      * 交易
      *******************************************************************************************************************************************/
+    ['id' => 'trade_channels', 'path' => '/trade/channels' , 'callback' => 'asbamboo\\qirifu\\hosts\\www\\controller\\Trade:channels'],
+    ['id' => 'trade_lists', 'path' => '/trade/lists' , 'callback' => 'asbamboo\\qirifu\\hosts\\www\\controller\\Trade:lists'],
     ['id' => 'trade_auth_url', 'path' => '/trade/auth-url' , 'callback' => 'asbamboo\\qirifu\\hosts\\www\\controller\\Trade:authUrl'],
     ['id' => 'trade_auth_info', 'path' => '/trade/auth-info' , 'callback' => 'asbamboo\\qirifu\\hosts\\www\\controller\\Trade:authInfo'],
     ['id' => 'trade_order', 'path' => '/trade/order' , 'callback' => 'asbamboo\\qirifu\\hosts\\www\\controller\\Trade:order'],
+    ['id' => 'trade_notify', 'path' => '/trade/notify' , 'callback' => 'asbamboo\\qirifu\\hosts\\www\\controller\\Trade:notify'],
     /******************************************************************************************************************************************/
 
 

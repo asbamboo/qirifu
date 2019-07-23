@@ -80,4 +80,33 @@ class Entity
     {
         return $this->data;
     }
+    /**
+     * @var string
+     */
+    private $user_id = '';
+
+
+    /**
+     * Set userId.
+     *
+     * @param string $userId
+     *
+     * @return Entity
+     */
+    public function setUserId($userId)
+    {
+        $this->user_id = $userId;
+
+        return $this;
+    }
+
+    /**
+     * Get userId.
+     *
+     * @return string
+     */
+    public function getUserId()
+    {
+        return $this->user_id;
+    }
 }

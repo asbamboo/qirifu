@@ -63,6 +63,7 @@ class RequestListener
             $this->Router->generateUrl('trade_auth_url'),
             $this->Router->generateUrl('trade_auth_info'),
             $this->Router->generateUrl('trade_order'),
+            $this->Router->generateUrl('trade_notify'),
         ];
         if(!in_array($cur_url, $none_login_urls) && !in_array(Constant::USER_ROLE_LOGINED, $cur_roles)){
             return exit((new JsonResponse(['status' => 'no-login', 'message'=>'请登录']))->send());

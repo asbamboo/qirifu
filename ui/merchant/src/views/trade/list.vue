@@ -5,6 +5,7 @@
         v-model="list_query.channel"
         placeholder="支付通道"
         class="filter-item"
+        clearable
       >
         <el-option
           v-for="item in channels"
@@ -33,6 +34,7 @@
         align="right"
         unlink-panels
         range-separator="至"
+        value-format="yyyy-MM-dd"
         start-placeholder="交易开始日期"
         end-placeholder="交易结束日期"
         class="filter-item"
