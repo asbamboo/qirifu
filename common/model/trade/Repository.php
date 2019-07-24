@@ -56,6 +56,44 @@ class Repository
     }
 
     /**
+     *
+     * @param int $limit_size
+     * @param int $limit_start_seql
+     * @return array
+     */
+    public function noPayQirifuTradeNos(int $max_create_time, int $limit_size = 10, int $limit_start_seq = 0) : array
+    {
+        $queryBuilder   = $this->Repository->createQueryBuilder('t');
+
+        $queryBuilder->select(['t.seq', 't.qirifu_trade_no']);
+        $queryBuilder->orderBy('t.seq', 'ASC');
+        $queryBuilder->setMaxResults($limit_size);
+
+        $andx           = $queryBuilder->expr()->andX();
+
+        $andx->add($queryBuilder->expr()->lt('t.create_time', ':create_time'));
+        $queryBuilder->setParameter('create_time', $max_create_time);
+
+        $andx->add($queryBuilder->expr()->in('t.status', ':status'));
+        $queryBuilder->setParameter('status', [Code::STATUS_NOPAY, Code::STATUS_PAYING, Code::STATUS_PAYFAILED]);
+
+        $andx->add($queryBuilder->expr()->gt('t.seq', ':limit_start_seq'));
+        $queryBuilder->setParameter('limit_start_seq', $limit_start_seq);
+
+        $queryBuilder->where($andx);
+
+        $query_result   = $queryBuilder->getQuery()->getArrayResult();
+
+        $result         = [];
+        foreach($query_result AS $item){
+            $trade_seq          = $item['seq'];
+            $result[$trade_seq] = $item['qirifu_trade_no'];
+        }
+
+        return $result;
+    }
+
+    /**
      * 后台列表页面
      *
      * @param ServerRequestInterface $Request
