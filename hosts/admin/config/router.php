@@ -34,6 +34,8 @@ return [
      * 图片读取
      *******************************************************************************************************************************************/
     ['id' => 'trade_lists', 'path' => '/trade/lists' , 'callback' => 'asbamboo\\qirifu\\hosts\\admin\\controller\\Trade:lists'],
+    ['id' => 'trade_nopay_lists', 'path' => '/trade/nopay-lists' , 'callback' => 'asbamboo\\qirifu\\hosts\\admin\\controller\\Trade:nopayLists'],
+    ['id' => 'trade_sync', 'path' => '/trade/sync' , 'callback' => 'asbamboo\\qirifu\\hosts\\admin\\controller\\Trade:sync'],
     ['id' => 'trade_search_options', 'path' => '/trade/search-options' , 'callback' => 'asbamboo\\qirifu\\hosts\\admin\\controller\\Trade:searchOptions'],
     /******************************************************************************************************************************************/
 

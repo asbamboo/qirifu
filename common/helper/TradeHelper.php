@@ -11,6 +11,7 @@ use asbamboo\qirifu\common\model\trade\Repository AS TradeRepository;
 use asbamboo\qirifu\common\Constant AS CommonConstant;
 use asbamboo\database\FactoryInterface AS DbFactoryInterface;
 use asbamboo\qirifu\common\exception\SystemException;
+use asbamboo\qirifu\common\model\trade\Code AS TradeCode;
 
 class TradeHelper
 {
@@ -36,17 +37,17 @@ class TradeHelper
         $TradeQueryRequest->out_trade_no    = $TradeEntity->getQirifuTradeNo();
         $TradeQueryResponse                 = $TradeQueryRequest->exec();
 
-        if($TradeQueryResponse->trade_status == 'CANCEL'){
+        if($TradeQueryResponse->trade_status == 'CANCEL' && $TradeEntity->getStatus() != TradeCode::STATUS_CANCLE){
             // 取消 ===> 请求订单取消
             $this->cancelTrade($TradeEntity);
 
         }else if($TradeQueryResponse->trade_status == 'NOPAY' || $TradeQueryResponse->trade_status == 'PAYFAILED' || $TradeQueryResponse->trade_status == 'PAYING'){
             // 状态为未支付 ===> 如果操过指定可支付时间， 那么请求订单取消
-            if($TradeEntity->getCreateTime() < time() - CommonConstant::TRADE_TIMEOUT){
+            if($TradeEntity->getCreateTime() < time() - CommonConstant::TRADE_TIMEOUT && $TradeEntity->getStatus() != TradeCode::STATUS_CANCLE){
                 $this->cancelTrade($TradeEntity);
             }
 
-        }else if($TradeQueryResponse->trade_status == 'PAYOK'){
+        }else if($TradeQueryResponse->trade_status == 'PAYOK' && $TradeEntity->getStatus() != TradeCode::STATUS_PAYOK){
             // 已支付，已取消等状态变化 ===> 状态对应修改
             if($TradeQueryResponse->total_fee < bcmul($TradeEntity->getPrice(), 100)){
                 throw new SystemException('ERROR:非法操作,实际支付金额小于交易应该支付金额1');
@@ -61,7 +62,7 @@ class TradeHelper
             $TradeManager->load($TradeEntity);
             $TradeManager->updatePayok();
             $Db->getManager()->flush();
-        }else if($TradeQueryResponse->trade_status == 'PAYED'){
+        }else if($TradeQueryResponse->trade_status == 'PAYED' && $TradeEntity->getStatus() != TradeCode::STATUS_PAYED){
             // 已支付，已取消等状态变化 ===> 状态对应修改
             if($TradeQueryResponse->total_fee < bcmul($TradeEntity->getPrice(), 100)){
                 throw new SystemException('ERROR:非法操作,实际支付金额小于交易应该支付金额2');

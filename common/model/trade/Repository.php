@@ -94,6 +94,35 @@ class Repository
     }
 
     /**
+     *
+     * @param int $limit_size
+     * @param int $limit_start_seq
+     * @return array|Entity[]
+     */
+    public function getNoPayListsByAdmin(ServerRequestInterface $Request) : ?array
+    {
+        $limit_size             = $Request->getQueryParam('limit', 100);
+        $limit_start_seq        = $Request->getRequestParam('start_seq');
+
+        $queryBuilder   = $this->Repository->createQueryBuilder('t');
+
+        $queryBuilder->orderBy('t.seq', 'ASC');
+        $queryBuilder->setMaxResults($limit_size);
+
+        $andx           = $queryBuilder->expr()->andX();
+
+        $andx->add($queryBuilder->expr()->in('t.status', ':status'));
+        $queryBuilder->setParameter('status', [Code::STATUS_NOPAY, Code::STATUS_PAYING, Code::STATUS_PAYFAILED]);
+
+        $andx->add($queryBuilder->expr()->gt('t.seq', ':limit_start_seq'));
+        $queryBuilder->setParameter('limit_start_seq', $limit_start_seq);
+
+        $queryBuilder->where($andx);
+
+        return $queryBuilder->getQuery()->getResult();
+    }
+
+    /**
      * 后台列表页面
      *
      * @param ServerRequestInterface $Request

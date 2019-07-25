@@ -63,13 +63,13 @@
         </template>
       </el-table-column>
 
-      <el-table-column align="center" label="金额" width="120">
+      <el-table-column align="center" label="金额">
         <template slot-scope="scope">
           <span>{{ scope.row.amount }}</span>
         </template>
       </el-table-column>
 
-      <el-table-column align="center" label="支付通道" width="160">
+      <el-table-column align="center" label="支付通道">
         <template slot-scope="scope">
           <span>{{ scope.row.channel.label }}</span>
         </template>
@@ -81,7 +81,7 @@
         </template>
       </el-table-column>
 
-      <el-table-column align="center" label="状态同步信息" width="160">
+      <el-table-column align="center" label="状态同步信息" width="350">
         <template slot-scope="scope">
           <span>{{ scope.row.sync_info }}</span>
         </template>
@@ -187,8 +187,33 @@ export default {
           }
         }
       }).catch(err => {
+
         this.list[sync_index].syncerr = true
         this.sync_failed++
+        this.list[sync_index].sync_info = '同步失败，稍后您可以重试。'
+
+        sync_index++
+        if(this.list[sync_index]){
+          this.startSyncTrade(sync_index)
+        }else{
+          if(this.has_more){
+            this.list_loding = true
+            fetchNopayList(this.list_query).then(response => {
+              this.list_loding = false
+              this.pushListData(response.data)
+              if(this.has_more){
+                this.startSyncTrade(sync_index)
+              }else{
+                this.sync_status = "complated"
+              }
+            }).catch(err => {
+              console.log(err)
+              this.list_loding = false
+            })
+          }else{
+            this.sync_status = "complated"
+          }
+        }
 
         console.log(err)
       })

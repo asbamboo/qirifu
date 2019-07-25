@@ -40,6 +40,9 @@ class ApiClient
 
         $status				= 'failed';
         $decode_response	= json_decode( $curl['response'], TRUE );
+        if($decode_response == null){
+            throw new SystemException("Asbamboo 接口请求异常:响应值异常".$curl['response']);
+        }
         if(!$this->checkSign($decode_response, $this->app_serect)){
             throw new SystemException("Asbamboo 接口请求异常:响应值的签名无效");
         }
