@@ -4,7 +4,11 @@ const List = []
 const count = 100
 
 const channels = [{key: 1, label:'支付宝'}, {key: 2, label:'微信'}]
-const statuss = [{key: 1, label:'未支付'}, {key: 2, label:'已支付'}]
+const statuss = [
+  {key: 1, label:'未支付'},
+  {key: 2, label:'已支付'},
+  {key: 3, label:'取消'}
+]
 
 for (let i = 0; i < count; i++) {
   List.push(Mock.mock({
@@ -28,6 +32,7 @@ export default [
       const {
         merchant_name,
         channel,
+        status,
         in_trade_no,
         out_trade_no,
         create_ymdhis,
@@ -52,6 +57,12 @@ export default [
         if (
               out_trade_no
           &&  item.out_trade_no.toString().indexOf(out_trade_no) < 0
+        ){
+          return false
+        }
+        if (
+              status
+          &&  item.status.key != status
         ){
           return false
         }
@@ -82,6 +93,71 @@ export default [
   },
 
   {
+    url: '/trade/nopay-lists',
+    type: 'get',
+    response: config => {
+      const {
+        start_seq,
+        page = 1,
+        limit = 10
+      } = config.query
+
+      let mockList = List.filter(item => {
+        if (item.status.key != 1){
+          return false
+        }
+        if(start_seq && item.seq < start_seq){
+          return false
+        }
+        return true
+      })
+
+      const pageList = mockList.filter(
+        (item, index) => index < limit * page && index >= limit * (page - 1)
+      )
+
+      return {
+        status: 'success',
+        data: {
+          total: mockList.length,
+          items: pageList
+        }
+      }
+    }
+  },
+
+  {
+    url: '/trade/sync',
+    type: 'post',
+    response: config => {
+      let status = 'success'
+      let message = '成功'
+      let post = config.body
+      if( post.trade_no == ''){
+        status = 'failed'
+        message = '请输入交易编号。'
+      }
+
+      for (const item of List) {
+        if (item.in_trade_no === post.in_trade_no) {
+          let rand = 1
+          if(rand == 1){
+            item.status = {key: 1, label:'未支付', name: 'nopay'}
+          }else if(rand == 2){
+            item.status = {key: 2, label:'已支付', name: 'payok'}
+          }else{
+            item.status = {key: 3, label:'取消', name: 'cancel'}
+          }
+          return {
+            status: 'success',
+            data: item
+          }
+        }
+      }
+    }
+  },
+
+  {
     url: '/trade/search-options',
     type: 'get',
     response: config => {
@@ -93,4 +169,6 @@ export default [
         }
       }
     }
-  },]
+  }
+
+]

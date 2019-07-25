@@ -161,6 +161,12 @@ export const asyncRoutes = [
         component: () => import('@/views/trade/list'),
         name: 'tradeList',
         meta: { title: '交易列表', icon: 'edit' }
+      },
+      {
+        path: 'sync',
+        component: () => import('@/views/trade/sync'),
+        name: 'tradeSync',
+        meta: { title: '交易同步', icon: 'edit' }
       }
     ]
   },
