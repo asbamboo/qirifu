@@ -9,7 +9,7 @@
     <el-dialog title="提交新的操作记录" :visible.sync="open_dialog">
       <el-form :model="post_form">
         <el-form-item label="状态">
-          <el-select v-model="post_form.status">
+          <el-select v-model="post_form.status" @change="doChangeStatus">
             <el-option
               v-for="item in available_status"
               v-if="item.status != 'no-apply' && item.status != 'apply-ing'"
@@ -19,10 +19,7 @@
           </el-select>
         </el-form-item>
         <el-form-item label="说明">
-          <el-input type="textarea"
-            v-model="post_form.desc"
-            autocomplete="off"
-          ></el-input>
+          <Tinymce ref="editor" v-model="post_form.desc" :height="150" />
         </el-form-item>
         <el-form-item label="是否通知商户联系人">
           <el-checkbox-group v-model="post_form.notifys">
@@ -47,6 +44,8 @@ import {
   createAlipayHistory
 } from '@/api/merchant-channel'
 
+import Tinymce from '@/components/Tinymce'
+
 const default_post_form = {
   status: undefined,
   seller_id: undefined,
@@ -64,6 +63,7 @@ export default {
       available_status: []
     }
   },
+  components: { Tinymce },
   created() {
     this.getAvailableStatus()
   },
@@ -84,6 +84,14 @@ export default {
     openDialog() {
       this.post_form = Object.assign({}, default_post_form)
       this.open_dialog = true
+    },
+    doChangeStatus(selected) {
+      for( let i in this.available_status ){
+        if(this.available_status[i].status == selected) {
+          this.post_form.desc = this.available_status[i].desc
+          this.$refs.editor.setContent(this.post_form.desc)
+        }
+      }
     },
     doSubmit() {
       if(this.ajax == true) {
