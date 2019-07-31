@@ -52,10 +52,10 @@ class ChannelStatusListener
                         . $MerchantChannelLogEntity->getDesc();
 
         if($this->isNeedModifyMerchantData($MerchantChannelEntity)){
-            $content .= '</br>请您修改或添加相关<a href="#/information/merchant">商户资料后</a>，重新提交申请。';
+            $content .= '</br>请您修改或添加相关<a href="#/information/merchant"><i>商户资料后</i></a>，重新提交申请。';
         }
         if($this->isNeedAuthorization($MerchantChannelEntity)){
-            $content .= '</br>请前往<a href="#/information/channel">支付通道页面</a>授权。';
+            $content .= '</br>请前往<a href="#/information/channel"><i>支付通道页面</i></a>授权。';
         }
 
         /**
