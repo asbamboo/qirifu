@@ -1,0 +1,24 @@
+asbamboo\qirifu\common\model\messageDetail\Entity:
+  type: entity
+  table: t_message_detail
+  id:
+    seq:
+      type: integer
+      options:
+        unsigned: true
+        comment: '序号'
+      generator:
+        strategy: AUTO
+  fields:
+    message_seq:
+      unique: true
+      type: integer
+      nullable: false
+      options:
+        default: '0'
+        comment: ''       
+    content:
+      type: text
+      nullable: false
+      options:
+        comment: '消息内容'

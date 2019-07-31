@@ -341,4 +341,91 @@ class Entity
     {
         return $this->version;
     }
+    /**
+     * @var int
+     */
+    private $payok_time = '0';
+
+    /**
+     * @var int
+     */
+    private $payed_time = '0';
+
+    /**
+     * @var int
+     */
+    private $cancel_time = '0';
+
+
+    /**
+     * Set payokTime.
+     *
+     * @param int $payokTime
+     *
+     * @return Entity
+     */
+    public function setPayokTime($payokTime)
+    {
+        $this->payok_time = $payokTime;
+
+        return $this;
+    }
+
+    /**
+     * Get payokTime.
+     *
+     * @return int
+     */
+    public function getPayokTime()
+    {
+        return $this->payok_time;
+    }
+
+    /**
+     * Set payedTime.
+     *
+     * @param int $payedTime
+     *
+     * @return Entity
+     */
+    public function setPayedTime($payedTime)
+    {
+        $this->payed_time = $payedTime;
+
+        return $this;
+    }
+
+    /**
+     * Get payedTime.
+     *
+     * @return int
+     */
+    public function getPayedTime()
+    {
+        return $this->payed_time;
+    }
+
+    /**
+     * Set cancelTime.
+     *
+     * @param int $cancelTime
+     *
+     * @return Entity
+     */
+    public function setCancelTime($cancelTime)
+    {
+        $this->cancel_time = $cancelTime;
+
+        return $this;
+    }
+
+    /**
+     * Get cancelTime.
+     *
+     * @return int
+     */
+    public function getCancelTime()
+    {
+        return $this->cancel_time;
+    }
 }

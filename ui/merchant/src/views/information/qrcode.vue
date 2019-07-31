@@ -13,7 +13,7 @@
         <canvas id="qrcode_canvas" v-bind:data="qrcode"></canvas>
       </div>
       <div class="faciltator-desc">
-        <p>感谢上海一竹网络科技有限公司提供技术支持</p>
+        <p>感谢{{ faciltator }}提供技术支持</p>
       </div>
     </div>
     <el-divider></el-divider>
@@ -40,6 +40,7 @@ export default{
         background: 'url(' + BgJpg + ')'
       },
       qrcode: '',
+      faciltator: 'www.asbamboo.com',
       ajax: false
     }
   },
@@ -56,6 +57,9 @@ export default{
       this.ajax = true
       getQrcodeData().then(response => {
         this.qrcode = response.data.qrcode
+        if(response.data.faciltator){
+          this.faciltator = response.data.faciltator
+        }
         this.ajax = false
       }).catch(err => {
         console.log(err)

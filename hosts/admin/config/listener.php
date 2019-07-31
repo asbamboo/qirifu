@@ -4,6 +4,9 @@ use asbamboo\http\ServerRequestInterface;
 use asbamboo\security\user\token\UserTokenInterface;
 use asbamboo\qirifu\hosts\admin\listener\RequestListener;
 use asbamboo\framework\Event AS FrameworkEvent;
+use asbamboo\qirifu\hosts\admin\Event AS AdminEvent;
+use asbamboo\qirifu\hosts\admin\listener\ChannelStatusListener;
+use asbamboo\di\ContainerInterface;
 
 /**
  * 事件监听器
@@ -14,6 +17,12 @@ return [
         'name' => FrameworkEvent::KERNEL_HTTP_REQUEST,
         'class' => RequestListener::class,
         'method' => 'checkIsLogin',
-        'construct_params' => ['@'.RouterInterface::class, '@'.ServerRequestInterface::class, '@'.UserTokenInterface::class]
+        'construct_params' => ['@'.RouterInterface::class, '@'.ServerRequestInterface::class, '@'.UserTokenInterface::class],
+    ],
+    [   // 监听管理员变更支付通道事件，发送站内信
+        'name' => AdminEvent::CHANGE_CHANNEL_APPLY_STATUS,
+        'class' => ChannelStatusListener::class,
+        'method' => 'onChangeCreateMessage',
+        'construct_params' => ['@'.ContainerInterface::class],
     ],
 ];

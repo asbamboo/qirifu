@@ -1,0 +1,78 @@
+asbamboo\qirifu\common\model\message\Entity:
+  type: entity
+  table: t_message
+  id:
+    seq:
+      type: integer
+      options:
+        unsigned: true
+        comment: '序号'
+      generator:
+        strategy: AUTO
+  fields:
+    from_user_id:
+      type: string
+      length: 13
+      nullable: false
+      options:
+        fixed: true
+        default: ''
+        comment: '用户id'
+    to_user_id:
+      type: string
+      length: 13
+      nullable: false
+      options:
+        fixed: true
+        default: ''
+        comment: '用户id'
+    title:
+      type: string
+      length: 45
+      nullable: false
+      options: 
+        default: ''
+        comment: '消息标题'
+    is_read:
+      type: boolean
+      nullable: false
+      options:
+        default: '0'
+        unsigned: true
+        comment: '是否已读'
+    create_time:
+      type: integer
+      nullable: false
+      options:
+        default: '0'
+        unsigned: true
+        comment: '添加时间'
+    create_user:
+      type: string
+      length: 13
+      nullable: false
+      options:
+        fixed: true
+        default: ''
+        comment: '添加人id'
+    update_time:
+      type: integer
+      nullable: false
+      options:
+        default: '0'
+        unsigned: true
+        comment: '修改时间'    
+    update_user:
+      type: string
+      length: 13
+      nullable: false
+      options:
+        fixed: true
+        default: ''
+        comment: '修改人id'
+    version:
+      type: smallint
+      version: true
+      options:
+        unsigned: true      
+        default: '0'

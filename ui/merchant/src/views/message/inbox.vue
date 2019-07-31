@@ -32,7 +32,7 @@
     >
       <el-table-column align="left" type="expand">
         <template slot-scope="scope">
-          <span>{{ scope.row.content }}</span>
+          <span v-html="scope.row.content"></span>
         </template>
       </el-table-column>
 

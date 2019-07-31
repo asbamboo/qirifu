@@ -14,6 +14,8 @@ use asbamboo\qirifu\common\model\merchantChannelLog\Manager AS MerchantChannelLo
 use asbamboo\database\FactoryInterface AS DbFactoryInterface;
 use asbamboo\framework\kernel\KernelInterface;
 use asbamboo\router\RouterInterface;
+use asbamboo\event\EventScheduler;
+use asbamboo\qirifu\hosts\admin\Event;
 
 class Merchant extends ControllerAbstract
 {
@@ -256,8 +258,11 @@ class Merchant extends ControllerAbstract
             }
             $MerchantChannelManager->load($MerchantChannelEntity);
             $MerchantChannelManager->updateStatus($merchant_channel_status);
-            $MerchantChannelLogManager->load();
+            $MerchantChannelLogEntity   = $MerchantChannelLogManager->load();
             $MerchantChannelLogManager->create($MerchantChannelEntity, $merchant_channel_log_desc);
+
+            EventScheduler::instance()->trigger(Event::CHANGE_CHANNEL_APPLY_STATUS, [$Request, $MerchantChannelEntity, $MerchantChannelLogEntity]);
+
             $Db->getManager()->flush();
 
             /**

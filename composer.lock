@@ -225,12 +225,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/asbamboo/framework.git",
-                "reference": "d428536c081df6122311e01c11f32d7e21a6230f"
+                "reference": "e1768d8b0b1c19ef69a94457ab16388518c2de08"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/asbamboo/framework/zipball/d428536c081df6122311e01c11f32d7e21a6230f",
-                "reference": "d428536c081df6122311e01c11f32d7e21a6230f",
+                "url": "https://api.github.com/repos/asbamboo/framework/zipball/e1768d8b0b1c19ef69a94457ab16388518c2de08",
+                "reference": "e1768d8b0b1c19ef69a94457ab16388518c2de08",
                 "shasum": ""
             },
             "require": {
@@ -264,7 +264,7 @@
                 "source": "https://github.com/asbamboo/framework/tree/1.1.0",
                 "issues": "https://github.com/asbamboo/framework/issues"
             },
-            "time": "2019-04-04T05:47:37+00:00"
+            "time": "2019-07-31T08:08:46+00:00"
         },
         {
             "name": "asbamboo/helper",

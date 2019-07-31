@@ -20,6 +20,24 @@
       </el-row>
       <el-row>
         <el-col :md="8">
+          <el-tooltip
+            content="服务商名称会显示在商户二维码的底部"
+            placement="top"
+            effect="light"
+          >
+            <el-form-item label-width="100px" label="服务商名称:">
+              <el-input
+                v-model="system_info.faciltator"
+                type="text"
+                name="system_faciltator"
+                placeholder="请输入服务商名称"
+              />
+            </el-form-item>
+          </el-tooltip>
+        </el-col>
+      </el-row>
+      <el-row>
+        <el-col :md="8">
           <el-form-item label-width="100px" label="管理员账号:">
             <el-input
               v-model="system_info.user"
@@ -58,6 +76,7 @@ import { fetchSystemInfo, settingSystemInfo } from '@/api/system-setting'
 
 const system_info = {
   name: '',
+  faciltator: '',
   user: '',
   password: ''
 }

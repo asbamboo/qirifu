@@ -9,6 +9,7 @@ export default [
         status: 'success',
         data: {
           name: '七日付',
+          faciltator: '七日付',
           user: 'admin',
           password: 'password'
         }

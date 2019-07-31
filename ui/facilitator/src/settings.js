@@ -1,5 +1,7 @@
+const qirifuJson = require('/www/asbamboo/qirifu/qirifu.json')
+
 module.exports = {
-  title: '七日付',
+  title: qirifuJson.SYSTEM_NAME || '七日付',
 
   /**
    * @type {boolean} true | false
