@@ -83,6 +83,7 @@ class Channel extends ControllerAbstract
                     $result['channel'][$type]['history'][]     = [
                         'seq'                       => $MerchantChannelLogEntity->getSeq(),
                         'status'                    => $MerchantChannelLogEntity->getMerchantStatusLabel(),
+                        'desc'                      => $MerchantChannelLogEntity->getDesc(),
                         'time'                      => date('Y-m-d H:i:s', $MerchantChannelLogEntity->getCreateTime()),
                     ];
                 }
@@ -156,6 +157,7 @@ class Channel extends ControllerAbstract
                 $result['history'][]        = [
                     'seq'                   => $MerchantChannelLogEntity->getSeq(),
                     'status'                => $MerchantChannelLogEntity->getMerchantStatusLabel(),
+                    'desc'                  => $MerchantChannelLogEntity->getDesc(),
                     'time'                  => date('Y-m-d H:i:s', $MerchantChannelLogEntity->getCreateTime()),
                 ];
             }
@@ -222,6 +224,7 @@ class Channel extends ControllerAbstract
                 $result['history'][]        = [
                     'seq'                   => $MerchantChannelLogEntity->getSeq(),
                     'status'                => $MerchantChannelLogEntity->getMerchantStatusLabel(),
+                    'desc'                  => $MerchantChannelLogEntity->getDesc(),
                     'time'                  => date('Y-m-d H:i:s', $MerchantChannelLogEntity->getCreateTime()),
                 ];
             }

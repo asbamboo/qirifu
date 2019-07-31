@@ -35,7 +35,10 @@
             :key="index"
             :timestamp="item.time"
             type="primary"
-          >{{item.status}}</el-timeline-item>
+          >
+            <h4>{{item.status}}</h4>
+            <p>{{item.desc}}</p>
+          </el-timeline-item>
         </el-timeline>
       </el-collapse-item>
 
@@ -67,7 +70,10 @@
             :key="index"
             :timestamp="item.time"
             type="primary"
-          >{{item.status}}</el-timeline-item>
+          >
+            <h4>{{item.status}}</h4>
+            <p>{{item.desc}}</p>
+          </el-timeline-item>
         </el-timeline>
       </el-collapse-item>
     </el-collapse>

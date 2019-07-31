@@ -19,8 +19,12 @@
             v-for="(item, index) in alipay_timelines"
             :key="index"
             :timestamp="item.time"
+            placement="top"
             type="primary"
-          >{{item.status}}</el-timeline-item>
+          >
+            <h4>{{item.status}}</h4>
+            <p>{{item.desc}}</p>
+          </el-timeline-item>
         </el-timeline>
       </el-collapse-item>
 
@@ -37,8 +41,12 @@
             v-for="(item, index) in wxpay_timelines"
             :key="index"
             :timestamp="item.time"
+            placement="top"
             type="primary"
-          >{{item.status}}</el-timeline-item>
+          >
+            <h4>{{item.status}}</h4>
+            <p>{{item.desc}}</p>
+          </el-timeline-item>
         </el-timeline>
       </el-collapse-item>
     </el-collapse>
