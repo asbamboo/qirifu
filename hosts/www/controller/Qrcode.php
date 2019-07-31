@@ -18,6 +18,9 @@ class Qrcode extends ControllerAbstract
         $UserToken      = $this->Container->get(UserTokenInterface::class);
         $User           = $UserToken->getUser();
 
-        return $this->successJson('success', ['qrcode' => $Router->generateAbsoluteUrl('home') . "#/trade/{$User->getUserId()}/order"]);
+        return $this->successJson('success', [
+            'qrcode'        => $Router->generateAbsoluteUrl('home') . "#/trade/{$User->getUserId()}/order",
+            'faciltator'    => \Parameter::instance()->get('SYSTEM_FACILTATOR'),
+        ]);
     }
 }

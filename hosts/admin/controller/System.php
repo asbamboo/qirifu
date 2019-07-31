@@ -42,16 +42,21 @@ class System extends ControllerAbstract
         {
             $system_info    = [
                 'name'      => \Parameter::instance()->get('SYSTEM_NAME'),
+                'faciltator'=> \Parameter::instance()->get('SYSTEM_FACILTATOR'),
                 'user'      => \Parameter::instance()->get('SYSTEM_ADMIN'),
                 'password'  => \Parameter::instance()->get('SYSTEM_PASSWORD'),
             ];
 
             if($Request->getMethod() == HttpConstant::METHOD_POST){
                 $system_name        = trim($Request->getPostParam('name'));
+                $system_faciltator  = $Request->getPostParam('faciltator');
                 $system_admin       = trim($Request->getPostParam('user'));
                 $system_password    = $Request->getPostParam('password');
                 if(empty($system_name)){
                     throw new MessageException('请输入系统名称');
+                }
+                if(empty($system_faciltator)){
+                    throw new MessageException('请输入系统服务商名称');
                 }
                 if(empty($system_admin)){
                     throw new MessageException('请输入系统管理员账号');
@@ -61,6 +66,7 @@ class System extends ControllerAbstract
                 }
                 \Parameter::instance()->set('SYSTEM_NAME', $system_name);
                 \Parameter::instance()->set('SYSTEM_ADMIN', $system_admin);
+                \Parameter::instance()->set('SYSTEM_FACILTATOR', $system_faciltator);
                 \Parameter::instance()->set('SYSTEM_PASSWORD', $system_password);
             }
 

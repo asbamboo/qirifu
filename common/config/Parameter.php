@@ -60,7 +60,7 @@ class Parameter
 
     public function set(string $key, /*mixed*/ $value) : bool
     {
-        if($this->parameters[$key] != $value){
+        if($this->get($key) != $value){
             $this->parameters[$key] = $value;
             $this->is_reset   = true;
         }
