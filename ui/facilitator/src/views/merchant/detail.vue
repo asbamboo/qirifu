@@ -1,5 +1,13 @@
 <template>
   <div class="app-container">
+    <router-link :to="'/merchant/channel/'+merchant.seq">
+      <el-button type="primary" size="small" icon="el-icon-edit">
+        支付通道管理
+      </el-button>
+    </router-link>
+
+    <el-divider></el-divider>
+
     <el-collapse v-model="active_collapse">
       <el-collapse-item name="collapse-item-com">
         <template slot="title">
@@ -73,6 +81,7 @@
 import { fetchDetail } from '@/api/merchant'
 
 const merchant = {
+  seq: '',
   link_man: '',
   link_phone: '',
   link_email: '',

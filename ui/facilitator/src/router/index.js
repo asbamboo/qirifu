@@ -133,6 +133,12 @@ export const asyncRoutes = [
         meta: { title: '商户列表', icon: 'edit' }
       },
       {
+        path: 'channel-lists',
+        component: () => import('@/views/merchant/channel-lists'),
+        name: 'merchantChannelApply',
+        meta: { title: '通道申请', icon: 'edit' }
+      },
+      {
         path: 'detail/:seq',
         component: () => import('@/views/merchant/detail'),
         name: 'merchantDetail',

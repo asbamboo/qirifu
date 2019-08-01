@@ -2,6 +2,20 @@ import Mock from 'mockjs'
 
 const List = []
 const count = 100
+const channel_lists = []
+
+const channel_types = [{key: 1, label:'支付宝'}, {key: 2, label:'微信'}]
+const channel_statuss = [
+  { key : 0, status: 'no-apply', label: '未申请'},
+  { key : 1, status: 'apply-ing', label: '商户申请开通'},
+  { key : 2, status: 're-apply', label: '补充或修改资料后，再次申请开通'},
+  { key : 3, status: 'refuse', label: '审核未通过，需要商户补充或修改资料'},
+  { key : 4, status: 'send-thrid', label: '资料已提交到支付宝、等待审核'},
+  { key : 5, status: 'thrid-refuse', label: '支付宝审核未通过，需要商户补充或修改资料'},
+  { key : 6, status: 'resend-thrid', label: '补充或修改资料后，重新提交到支付宝，等待审核'},
+  { key : 7, status: 'wait-authorization', label: '审核通过，等待商户通过支付宝账号授权'},
+  { key : 9, status: 'ok', label: '正式开通'}
+]
 
 for (let i = 0; i < count; i++) {
   List.push(Mock.mock({
@@ -30,6 +44,15 @@ for (let i = 0; i < count; i++) {
   }))
 }
 
+for (let i = 0; i < count; i++) {
+  channel_lists.push(Mock.mock({
+    merchant: List[i],
+    'type|1': channel_types,
+    'status|1': channel_statuss,
+    create_ymdhis: '@datetime', //创建时间
+    update_ymdhis: '@datetime', //最后修改时间
+  }));
+}
 
 export default [
   {
@@ -68,6 +91,45 @@ export default [
             status: 'success',
             data: item
           }
+        }
+      }
+    }
+  },
+
+  {
+    url: '/merchant/channel-search-options',
+    type: 'get',
+    response: config => {
+      return {
+        status: 'success',
+        data: {
+          channel_types: channel_types,
+          channel_statuss: channel_statuss
+        }
+      }
+    }
+  },
+
+  {
+    url: '/merchant/channel-lists',
+    type: 'get',
+    response: config => {
+      const { merchant_name, channel_type, channel_status, page = 1, limit = 10 } = config.query
+
+      let mockList = channel_lists.filter(item => {
+        if (merchant_name && item.merchant.name.indexOf(merchant_name) < 0) return false
+        if (channel_type && item.type.key != channel_type) return false
+        if (channel_status && item.status.key != channel_status) return false
+        return true
+      })
+
+      const pageList = mockList.filter((item, index) => index < limit * page && index >= limit * (page - 1))
+
+      return {
+        status: 'success',
+        data: {
+          total: mockList.length,
+          items: pageList
         }
       }
     }

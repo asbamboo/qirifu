@@ -73,6 +73,7 @@ class Merchant extends ControllerAbstract
             /**
              *@var RouterInterface $Router
              */
+            $detail['seq']          = $merchant_seq;
             if(!empty($detail['files'])){
                 $Router = $this->Container->get(RouterInterface::class);
                 foreach($detail['files'] AS $key => $file){
@@ -113,6 +114,7 @@ class Merchant extends ControllerAbstract
             $MerchantRepository             = $this->Container->get(MerchantRepository::class);
             $MerchantEntity                 = $MerchantRepository->findOneBySeq($merchant_seq);
             $result['merchant']['name']     = $MerchantEntity->getName();
+            $result['merchant']['seq']      = $MerchantEntity->getSeq();
 
             /**
              *
@@ -283,6 +285,70 @@ class Merchant extends ControllerAbstract
             }
 
             return $this->successJson("处理成功", $result);
+        }catch(MessageException $e){
+            return $this->failedJson($e->getMessage());
+        }catch(\Exception $e){
+            if($this->Container->get(KernelInterface::class)->getIsDebug()){
+                return $this->failedJson((string) $e);
+            }
+            return $this->failedJson();
+        }
+    }
+
+    public function channelSearchOptions(ServerRequestInterface $Request)
+    {
+        try{
+            $channel_types  = [];
+            foreach(MerchantChannelCode::TYPES AS $key => $label){
+                $channel_types[]    = ['key' => $key, 'label' => $label];
+            }
+
+            $channel_statuss  = [];
+            foreach(MerchantChannelCode::STATUSS AS $key => $label){
+                $channel_statuss[]    = ['key' => $key, 'label' => $label];
+            }
+            return $this->successJson("处理成功", [
+                'channel_types'     => $channel_types,
+                'channel_statuss'   => $channel_statuss,
+            ]);
+        }catch(MessageException $e){
+            return $this->failedJson($e->getMessage());
+        }catch(\Exception $e){
+            if($this->Container->get(KernelInterface::class)->getIsDebug()){
+                return $this->failedJson((string) $e);
+            }
+            return $this->failedJson();
+        }
+    }
+
+    public function channelLists(ServerRequestInterface $Request)
+    {
+        try
+        {
+            $data           = ['total' => 0, 'items'=>[]];
+
+            /**
+             *
+             * @var MerchantRepository $MerchantRepository
+             * @var \asbamboo\qirifu\common\model\merchantChannel\Entity $MerchantChannelEntity
+             */
+            $MerchantRepository         = $this->Container->get(MerchantRepository::class);
+            $MerchantChannelRepository  = $this->Container->get(MerchantChannelRepository::class);
+            $Pagintor                   = $MerchantChannelRepository->getPaginatorByAdmin($Request);
+            $data['total']              = $Pagintor->count();
+            foreach($Pagintor->getIterator() AS $MerchantChannelEntity){
+                $data['items'][]    = [
+                    'seq'           => $MerchantChannelEntity->getSeq(),
+                    'user_id'       => $MerchantChannelEntity->getUserId(),
+                    'type'          => ['key' => $MerchantChannelEntity->getType(), 'label' => MerchantChannelCode::TYPES[$MerchantChannelEntity->getType()]],
+                    'status'        => ['key' => $MerchantChannelEntity->getStatus(), 'label' => MerchantChannelCode::STATUSS[$MerchantChannelEntity->getStatus()]],
+                    'create_ymdhis' => date('Y-m-d H:i:s', $MerchantChannelEntity->getCreateTime()),
+                    'update_ymdhis' => date('Y-m-d H:i:s', $MerchantChannelEntity->getUpdateTime()),
+                ];
+            }
+            $MerchantRepository->mappingMerchantInfos($data['items']);
+
+            return $this->successJson("处理成功", $data);
         }catch(MessageException $e){
             return $this->failedJson($e->getMessage());
         }catch(\Exception $e){

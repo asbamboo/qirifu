@@ -138,6 +138,55 @@ class Repository
         }
     }
 
+
+    /**
+     *
+     * @param array $user_ids
+     * @return array
+     */
+    public function findArrByUserIds(array $user_ids) : array
+    {
+        $queryBuilder   = $this->Repository->createQueryBuilder('t');
+
+        $andx           = $queryBuilder->expr()->andX();
+        $andx->add($queryBuilder->expr()->in('t.user_id', ':user_ids'));
+
+        $queryBuilder->setParameter('user_ids', array_values($user_ids));
+        $queryBuilder->where($andx);
+
+        $queryBuilder->select('t.seq, t.user_id, t.name');
+
+        $query_result   = $queryBuilder->getQuery()->getArrayResult();
+
+        $result         = [];
+        foreach($query_result AS $item){
+            $user_id            = $item['user_id'];
+            $result[$user_id]   = $item;
+        }
+
+        return $result;
+    }
+
+    /**
+     *
+     * @param array $data
+     */
+    public function mappingMerchantInfos(array &$data) : void
+    {
+        $user_ids   = [];
+        foreach($data AS $item){
+            $user_id            = $item['user_id'];
+            $user_ids[$user_id] = $user_id;
+        }
+
+        $merchants  = $this->findArrByUserIds($user_ids);
+
+        foreach($data AS $key => $item){
+            $user_id                = $item['user_id'];
+            $data[$key]['merchant'] = $merchants[$user_id];
+        }
+    }
+
     /**
      * 后台列表页面
      *

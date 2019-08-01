@@ -1,8 +1,10 @@
 <template>
   <div class="app-container">
-    <el-alert type="success" :closable="false">
-      商户简称: {{ merchant.name }}
-    </el-alert>
+    <router-link :to="'/merchant/detail/'+merchant.seq">
+      <el-alert type="success" :closable="false">
+        <h4>商户简称: {{ merchant.name }}</h4>
+      </el-alert>
+    </router-link>
     <el-collapse v-model="active_collapse">
       <el-collapse-item name="collapse-item-alipay">
         <template slot="title">

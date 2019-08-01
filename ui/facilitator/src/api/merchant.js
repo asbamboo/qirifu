@@ -23,3 +23,18 @@ export function fetchChannelInfo(seq){
     params: { seq }
   })
 }
+
+export function getChannelSearchOptions(){
+  return request({
+    url: '/merchant/channel-search-options',
+    method: 'get'
+  })
+}
+
+export function fetchChannelList(query){
+  return request({
+    url: '/merchant/channel-lists',
+    method: 'get',
+    params: query
+  })
+}
