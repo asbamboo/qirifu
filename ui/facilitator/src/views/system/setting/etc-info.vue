@@ -7,7 +7,7 @@
       label-width="135px"
     >
       <el-row>
-        <el-col :md="8">
+        <el-col :md="12">
           <el-card class="box-card">
             <div slot="header" class="clearfix">
               <span>支付宝相关配置</span>
@@ -28,7 +28,7 @@
               <el-input
                 v-model="etc_info.alipay_rsa_private_key"
                 type="textarea"
-                autosize
+                rows="5"
                 name="alipay_rsa_private_key"
                 placeholder="请输入支付宝RSR2私钥"
               />
@@ -37,7 +37,7 @@
               <el-input
                 v-model="etc_info.alipay_rsa_alipay_key"
                 type="textarea"
-                autosize
+                rows="5"
                 name="alipay_rsa_alipay_key"
                 placeholder="请输入支付宝公钥"
               />

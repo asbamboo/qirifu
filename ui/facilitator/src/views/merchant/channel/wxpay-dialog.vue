@@ -33,7 +33,9 @@
         <el-form-item label="是否通知商户联系人">
           <el-checkbox-group v-model="post_form.notifys">
             <el-checkbox label="email">邮件</el-checkbox>
-            <el-checkbox label="sms">短信</el-checkbox>
+            <el-tooltip effect="dark" content="短信功能暂未开放" placement="top">
+              <el-checkbox label="sms" disabled>短信</el-checkbox>
+            </el-tooltip>
           </el-checkbox-group>
         </el-form-item>
       </el-form>

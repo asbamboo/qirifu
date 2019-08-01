@@ -2,98 +2,95 @@
   <div class="app-container">
     <el-row>
       <el-col :md="8">
-        <el-form
-          class="form-container"
-          label-width="100px"
-          label-position="right"
-        >
-          <el-form-item label="账号">
-            <el-input
-              v-model="account"
-              type="text"
-              placeholder="请输入账号"
-            />
-            <el-button
-              v-if="!account_isset"
-              :disabled="ajax"
-              @click="doSetAccount"
-              type="primary"
-              class="form-item-button"
+        <el-card class="box-card">
+          <div slot="header" class="clearfix">
+            <span>用于登录的账号、email等信息</span>
+          </div>
+          <div>
+            <el-form
+              class="form-container"
+              label-width="100px"
+              label-position="right"
             >
-              设置账号
-            </el-button>
-          </el-form-item>
-        </el-form>
-      </el-col>
-    </el-row>
+              <el-form-item label="账号">
+                <el-input
+                  v-model="account"
+                  type="text"
+                  placeholder="请输入账号"
+                />
+                <el-button
+                  v-if="!account_isset"
+                  :disabled="ajax"
+                  @click="doSetAccount"
+                  type="primary"
+                  class="form-item-button"
+                >
+                  设置账号
+                </el-button>
+              </el-form-item>
+            </el-form>
 
-    <el-row>
-      <el-col :md="8">
-        <el-form
-          class="form-container"
-          label-width="100px"
-          label-position="right"
-        >
-          <el-form-item label="Email">
-            <el-input
-              v-model="email"
-              type="text"
-              placeholder="请输入email"
-            />
-            <el-button
-              v-if="!email_isset"
-              :disabled="ajax"
-              @click="doSettingEmail"
-              type="primary"
-              class="form-item-button"
+            <el-form
+              class="form-container"
+              label-width="100px"
+              label-position="right"
             >
-              立即绑定
-            </el-button>
-          </el-form-item>
-        </el-form>
-      </el-col>
-    </el-row>
+              <el-form-item label="Email">
+                <el-input
+                  v-model="email"
+                  type="text"
+                  placeholder="请输入email"
+                />
+                <el-button
+                  v-if="!email_isset"
+                  :disabled="ajax"
+                  @click="doSettingEmail"
+                  type="primary"
+                  class="form-item-button"
+                >
+                  立即绑定
+                </el-button>
+              </el-form-item>
+            </el-form>
 
-    <el-row>
-      <el-col :md="8">
-        <el-form
-          class="form-container"
-          label-width="100px"
-          label-position="right"
-        >
-          <el-form-item label="手机号码">
-            <el-input
-              v-model="phone"
-              type="text"
-              placeholder="请输入手机号码"
-            />
-            <el-button
-              v-if="!phone_isset"
-              :disabled="ajax"
-              @click="doSettingPhone"
-              type="primary"
-              class="form-item-button"
+            <el-form
+              v-if="phone_used"
+              class="form-container"
+              label-width="100px"
+              label-position="right"
             >
-              立即绑定
-            </el-button>
-          </el-form-item>
-        </el-form>
-      </el-col>
-    </el-row>
+              <el-form-item label="手机号码">
+                <el-input
+                  v-model="phone"
+                  type="text"
+                  placeholder="请输入手机号码"
+                />
+                <el-button
+                  v-if="!phone_isset"
+                  :disabled="ajax"
+                  @click="doSettingPhone"
+                  type="primary"
+                  class="form-item-button"
+                >
+                  立即绑定
+                </el-button>
+              </el-form-item>
+            </el-form>
+          </div>
+        </el-card>
 
-    <el-card class="box-card">
-      <div slot="header" class="clearfix">
-        <span>重置密码</span>
+        <el-divider></el-divider>
 
-      </div>
-      <div>
-        <el-form
-            class="form-container"
-            label-width="100px"
-            label-position="right"
-          >
-          <el-row>
-            <el-col :md="8">
+        <el-card class="box-card">
+          <div slot="header" class="clearfix">
+            <span>重置密码</span>
+          </div>
+          <div>
+            <el-form
+                class="form-container"
+                label-width="100px"
+                label-position="right"
+              >
               <el-form-item label="原密码">
                 <el-input
                   v-model="org_password"
@@ -115,20 +112,20 @@
                   placeholder="请再次输入新密码"
                 />
               </el-form-item>
-            </el-col>
-          </el-row>
-          <el-row>
-            <el-col :md="2" :offset="4">
-              <el-button
-                :disabled="ajax"
-                @click="doResetPassword"
-                type="primary"
-              >提交</el-button>
-            </el-col>
-          </el-row>
-        </el-form>
-      </div>
-    </el-card>
+              <el-row>
+                <el-col :offset="8">
+                  <el-button
+                    :disabled="ajax"
+                    @click="doResetPassword"
+                    type="primary"
+                  >提交</el-button>
+                </el-col>
+              </el-row>
+            </el-form>
+          </div>
+        </el-card>
+      </el-col>
+    </el-row>
   </div>
 </template>
 
@@ -143,10 +140,14 @@ import {
 } from '@/api/information-login'
 import { validEmail } from '@/utils/validate'
 
+// 是否允许绑定手机号码登录
+const phone_used = false
+
 export default {
   name: 'InformationLogin',
   data() {
     return {
+      phone_used: phone_used,
       account: '',
       account_isset: false,
       email: '',

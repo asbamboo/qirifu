@@ -23,7 +23,7 @@
           <el-tooltip
             content="服务商名称会显示在商户二维码的底部"
             placement="top"
-            effect="light"
+            effect="dark"
           >
             <el-form-item label-width="100px" label="服务商名称:">
               <el-input
@@ -32,6 +32,19 @@
                 name="system_faciltator"
                 placeholder="请输入服务商名称"
               />
+            </el-form-item>
+          </el-tooltip>
+        </el-col>
+      </el-row>
+      <el-row>
+        <el-col :md="8">
+          <el-tooltip
+            content="绑定手机号需要发送短信验证码，可能会产生费用。（该功能暂时不开放）"
+            placement="top-start"
+            effect="dark"
+          >
+            <el-form-item label="允许手机登录">
+              <el-switch disabled></el-switch>
             </el-form-item>
           </el-tooltip>
         </el-col>
