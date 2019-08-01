@@ -91,8 +91,16 @@ class Manager
      * @param string $media_type
      * @return Manager
      */
-    public function create(string $user_id, string $merchant_name, string $merchant_link_man, string $merchant_link_phone) : Manager
+    public function create(string $user_id, string $merchant_name, string $merchant_link_man, string $merchant_link_phone, string $merchant_link_email) : Manager
     {
+
+        $this->Entity->setUserId($user_id);
+        $this->Entity->setName($merchant_name);
+        $this->Entity->setLinkMan($merchant_link_man);
+        $this->Entity->setLinkPhone($merchant_link_phone);
+        $this->Entity->setLinkEmail($merchant_link_email);
+        $this->validateCreate();
+
         /**
          *
          * @var \asbamboo\tuitui\common\login\User $LoginUser
@@ -100,16 +108,11 @@ class Manager
         $LoginUser  = $this->UserToken->getUser();
         $user_id    = $LoginUser instanceof AnonymousUser ? '' : $LoginUser->getUserId();
 
-        $this->Entity->setUserId($user_id);
-        $this->Entity->setName($merchant_name);
-        $this->Entity->setLinkMan($merchant_link_man);
-        $this->Entity->setLinkPhone($merchant_link_phone);
         $this->Entity->setCreateTime(time());
         $this->Entity->setCreateUser($user_id);
         $this->Entity->setUpdateTime(time());
         $this->Entity->setUpdateUser($user_id);
 
-        $this->validateCreate();
 
         $this->Db->getManager()->persist($this->Entity);
 
@@ -123,8 +126,14 @@ class Manager
      * @param string $merchant_link_phone
      * @return Manager
      */
-    public function update(string $merchant_name, string $merchant_link_man, string $merchant_link_phone) : Manager
+    public function update(string $merchant_name, string $merchant_link_man, string $merchant_link_phone, string $merchant_link_email) : Manager
     {
+        $this->Entity->setName($merchant_name);
+        $this->Entity->setLinkMan($merchant_link_man);
+        $this->Entity->setLinkPhone($merchant_link_phone);
+        $this->Entity->setLinkEmail($merchant_link_email);
+        $this->validateUpdate();
+
         /**
          *
          * @var \asbamboo\tuitui\common\login\User $LoginUser
@@ -132,13 +141,9 @@ class Manager
         $LoginUser  = $this->UserToken->getUser();
         $user_id    = $LoginUser instanceof AnonymousUser ? '' : $LoginUser->getUserId();
 
-        $this->Entity->setName($merchant_name);
-        $this->Entity->setLinkMan($merchant_link_man);
-        $this->Entity->setLinkPhone($merchant_link_phone);
         $this->Entity->setUpdateTime(time());
         $this->Entity->setUpdateUser($user_id);
 
-        $this->validateUpdate();
 
         $this->Db->getManager()->lock($this->Entity, LockMode::OPTIMISTIC);
 
@@ -155,11 +160,13 @@ class Manager
         $this->validateName($this->Entity->getName());
         $this->validateLinkMan($this->Entity->getLinkMan());
         $this->validateLinkPhone($this->Entity->getLinkPhone());
+        $this->validateLinkEmail($this->Entity->getLinkEmail());
     }
     public function validateUpdate()
     {
         $this->validateName($this->Entity->getName());
         $this->validateLinkMan($this->Entity->getLinkMan());
         $this->validateLinkPhone($this->Entity->getLinkPhone());
+        $this->validateLinkEmail($this->Entity->getLinkEmail());
     }
 }

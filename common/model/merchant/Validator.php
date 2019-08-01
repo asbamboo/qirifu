@@ -57,4 +57,19 @@ trait Validator
             throw new MessageException('联系人电话过长，超过有效范围[255]。');
         }
     }
+
+    /**
+     *
+     * @param string $merchant_link_email
+     * @throws MessageException
+     */
+    public function validateLinkEmail(string $merchant_link_email)
+    {
+        if(empty($merchant_link_email)){
+            throw new MessageException('请填写联系人Email。');
+        }
+        if(mb_strlen($merchant_link_email) > 255){
+            throw new MessageException('联系人Email过长，超过有效范围[255]。');
+        }
+    }
 }

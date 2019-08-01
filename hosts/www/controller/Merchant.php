@@ -72,6 +72,7 @@ class Merchant extends ControllerAbstract
             $merchant_name          = trim($Request->getPostParam('name', ''));
             $merchant_link_man      = trim($Request->getPostParam('link_man', ''));
             $merchant_link_phone    = trim($Request->getPostParam('link_phone', ''));
+            $merchant_link_email    = trim($Request->getPostParam('link_email', ''));
             $merchant_detail_data   = (array) $Request->getPostParams() ?? [];
 
             /**
@@ -93,9 +94,9 @@ class Merchant extends ControllerAbstract
             $MerchantDetailRepository   = $this->Container->get(MerchantDetailRepository::class);
             $MerchantEntity             = $MerchantRepository->findOneByUserId($User->getUserId());
             if(empty($MerchantEntity)){
-                $Db->getManager()->transactional(function()use($User, $Db, $MerchantManager, $MerchantDetailManager, $merchant_name, $merchant_link_man, $merchant_link_phone, $merchant_detail_data){
+                $Db->getManager()->transactional(function()use($User, $Db, $MerchantManager, $MerchantDetailManager, $merchant_name, $merchant_link_man, $merchant_link_phone, $merchant_link_email, $merchant_detail_data){
                     $MerchantEntity = $MerchantManager->load();
-                    $MerchantManager->create($User->getUserId(), $merchant_name, $merchant_link_man, $merchant_link_phone);
+                    $MerchantManager->create($User->getUserId(), $merchant_name, $merchant_link_man, $merchant_link_phone, $merchant_link_email);
                     $Db->getManager()->flush();
 
                     $MerchantDetailManager->load();
@@ -103,7 +104,7 @@ class Merchant extends ControllerAbstract
                 });
             }else{
                 $MerchantManager->load($MerchantEntity);
-                $MerchantManager->update($merchant_name, $merchant_link_man, $merchant_link_phone);
+                $MerchantManager->update($merchant_name, $merchant_link_man, $merchant_link_phone, $merchant_link_email);
 
                 $MerchantDetailEntity   = $MerchantDetailRepository->findOneByMerchantSeq($MerchantEntity->getSeq());
                 $MerchantDetailManager->load($MerchantDetailEntity);

@@ -10,6 +10,7 @@ export default [
         data: {
           name: '七日付',
           faciltator: '七日付',
+          www_base_url: location.origin + location.pathname.replace('/admin/', '/www/'),
           user: 'admin',
           password: 'password'
         }

@@ -28,7 +28,7 @@ asbamboo\qirifu\common\model\message\Entity:
         comment: '用户id'
     title:
       type: string
-      length: 45
+      length: 100
       nullable: false
       options: 
         default: ''

@@ -25,4 +25,10 @@ return [
         'method' => 'onChangeCreateMessage',
         'construct_params' => ['@'.ContainerInterface::class],
     ],
+    [   // 监听管理员变更支付通道事件，发送email
+        'name' => AdminEvent::CHANGE_CHANNEL_APPLY_STATUS,
+        'class' => ChannelStatusListener::class,
+        'method' => 'onChangeSendEmail',
+        'construct_params' => ['@'.ContainerInterface::class],
+    ],
 ];

@@ -1,6 +1,6 @@
 <?php
 
-namespace asbamboo\qirifu\common\model\merchant;
+namespace asbamboo\qirifu\common\model\message;
 
 /**
  * Entity
@@ -15,22 +15,22 @@ class Entity
     /**
      * @var string
      */
-    private $user_id = '';
+    private $from_user_id = '';
 
     /**
      * @var string
      */
-    private $name = '';
+    private $to_user_id = '';
 
     /**
      * @var string
      */
-    private $link_man = '';
+    private $title = '';
 
     /**
-     * @var string
+     * @var bool
      */
-    private $link_phone = '';
+    private $is_read = '0';
 
     /**
      * @var int
@@ -69,99 +69,99 @@ class Entity
     }
 
     /**
-     * Set userId.
+     * Set fromUserId.
      *
-     * @param string $userId
+     * @param string $fromUserId
      *
      * @return Entity
      */
-    public function setUserId($userId)
+    public function setFromUserId($fromUserId)
     {
-        $this->user_id = $userId;
+        $this->from_user_id = $fromUserId;
 
         return $this;
     }
 
     /**
-     * Get userId.
+     * Get fromUserId.
      *
      * @return string
      */
-    public function getUserId()
+    public function getFromUserId()
     {
-        return $this->user_id;
+        return $this->from_user_id;
     }
 
     /**
-     * Set name.
+     * Set toUserId.
      *
-     * @param string $name
+     * @param string $toUserId
      *
      * @return Entity
      */
-    public function setName($name)
+    public function setToUserId($toUserId)
     {
-        $this->name = $name;
+        $this->to_user_id = $toUserId;
 
         return $this;
     }
 
     /**
-     * Get name.
+     * Get toUserId.
      *
      * @return string
      */
-    public function getName()
+    public function getToUserId()
     {
-        return $this->name;
+        return $this->to_user_id;
     }
 
     /**
-     * Set linkMan.
+     * Set title.
      *
-     * @param string $linkMan
+     * @param string $title
      *
      * @return Entity
      */
-    public function setLinkMan($linkMan)
+    public function setTitle($title)
     {
-        $this->link_man = $linkMan;
+        $this->title = $title;
 
         return $this;
     }
 
     /**
-     * Get linkMan.
+     * Get title.
      *
      * @return string
      */
-    public function getLinkMan()
+    public function getTitle()
     {
-        return $this->link_man;
+        return $this->title;
     }
 
     /**
-     * Set linkPhone.
+     * Set isRead.
      *
-     * @param string $linkPhone
+     * @param bool $isRead
      *
      * @return Entity
      */
-    public function setLinkPhone($linkPhone)
+    public function setIsRead($isRead)
     {
-        $this->link_phone = $linkPhone;
+        $this->is_read = $isRead;
 
         return $this;
     }
 
     /**
-     * Get linkPhone.
+     * Get isRead.
      *
-     * @return string
+     * @return bool
      */
-    public function getLinkPhone()
+    public function getIsRead()
     {
-        return $this->link_phone;
+        return $this->is_read;
     }
 
     /**
@@ -282,34 +282,5 @@ class Entity
     public function getVersion()
     {
         return $this->version;
-    }
-    /**
-     * @var string
-     */
-    private $link_email = '';
-
-
-    /**
-     * Set linkEmail.
-     *
-     * @param string $linkEmail
-     *
-     * @return Entity
-     */
-    public function setLinkEmail($linkEmail)
-    {
-        $this->link_email = $linkEmail;
-
-        return $this;
-    }
-
-    /**
-     * Get linkEmail.
-     *
-     * @return string
-     */
-    public function getLinkEmail()
-    {
-        return $this->link_email;
     }
 }

@@ -22,8 +22,8 @@ trait Validator
         if(empty($message_title)){
             throw new MessageException('请输入消息标题');
         }
-        if(mb_strlen($message_title) > 45){
-            throw new MessageException('消息标题过长[45]');
+        if(mb_strlen($message_title) > 100){
+            throw new MessageException('消息标题过长[100]');
         }
     }
 }

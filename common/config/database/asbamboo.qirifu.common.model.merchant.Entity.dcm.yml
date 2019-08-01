@@ -40,6 +40,13 @@ asbamboo\qirifu\common\model\merchant\Entity:
       options:
         default: ''
         comment: '联系电话'
+    link_email:
+      type: string
+      length: 255
+      nullable: false
+      options:
+        default: ''
+        comment: '联系Email'
     create_time:
       type: integer
       nullable: false

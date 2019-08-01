@@ -4,11 +4,12 @@
   <div class="app-container">
     <el-form ref="system-info-form"
       :model="system_info"
+      label-width="150px"
       class="form-container"
     >
       <el-row>
-        <el-col :md="8">
-          <el-form-item label-width="100px" label="系统名称:">
+        <el-col :md="12">
+          <el-form-item label="系统名称:">
             <el-input
               v-model="system_info.name"
               type="text"
@@ -19,13 +20,13 @@
         </el-col>
       </el-row>
       <el-row>
-        <el-col :md="8">
+        <el-col :md="12">
           <el-tooltip
             content="服务商名称会显示在商户二维码的底部"
             placement="top"
             effect="dark"
           >
-            <el-form-item label-width="100px" label="服务商名称:">
+            <el-form-item label="服务商名称:">
               <el-input
                 v-model="system_info.faciltator"
                 type="text"
@@ -37,21 +38,39 @@
         </el-col>
       </el-row>
       <el-row>
-        <el-col :md="8">
+        <el-col :md="12">
+          <el-tooltip
+            content="商户端BaseUrl:即向商户展示的入口页面的url,该url影响给商户发送通知时生成的url"
+            placement="top"
+            effect="dark"
+          >
+            <el-form-item label="商户端Base Url:">
+              <el-input
+                v-model="system_info.www_base_url"
+                type="text"
+                name="system_www_base_url"
+                placeholder="请输入服务商名称"
+              />
+            </el-form-item>
+          </el-tooltip>
+        </el-col>
+      </el-row>
+      <el-row>
+        <el-col :md="4">
           <el-tooltip
             content="绑定手机号需要发送短信验证码，可能会产生费用。（该功能暂时不开放）"
             placement="top-start"
             effect="dark"
           >
-            <el-form-item label="允许手机登录">
+            <el-form-item label="商户手机绑定">
               <el-switch disabled></el-switch>
             </el-form-item>
           </el-tooltip>
         </el-col>
       </el-row>
       <el-row>
-        <el-col :md="8">
-          <el-form-item label-width="100px" label="管理员账号:">
+        <el-col :md="12">
+          <el-form-item label="管理员账号:">
             <el-input
               v-model="system_info.user"
               type="text"
@@ -62,8 +81,8 @@
         </el-col>
       </el-row>
       <el-row>
-        <el-col :md="8">
-          <el-form-item label-width="100px" label="管理员密码:">
+        <el-col :md="12">
+          <el-form-item label="管理员密码:">
             <el-input
               v-model="system_info.password"
               type="password"
@@ -90,6 +109,7 @@ import { fetchSystemInfo, settingSystemInfo } from '@/api/system-setting'
 const system_info = {
   name: '',
   faciltator: '',
+  www_base_url: location.origin + location.pathname.replace('/admin/', '/www/'),
   user: '',
   password: ''
 }

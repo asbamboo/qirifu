@@ -40,16 +40,18 @@ class System extends ControllerAbstract
     {
         try
         {
-            $system_info    = [
-                'name'      => \Parameter::instance()->get('SYSTEM_NAME'),
-                'faciltator'=> \Parameter::instance()->get('SYSTEM_FACILTATOR'),
-                'user'      => \Parameter::instance()->get('SYSTEM_ADMIN'),
-                'password'  => \Parameter::instance()->get('SYSTEM_PASSWORD'),
+            $system_info                = [
+                'name'                  => \Parameter::instance()->get('SYSTEM_NAME'),
+                'faciltator'            => \Parameter::instance()->get('SYSTEM_FACILTATOR'),
+                'www_base_url'           => \Parameter::instance()->get('SYSTEM_WWW_BASE_URL'),
+                'user'                  => \Parameter::instance()->get('SYSTEM_ADMIN'),
+                'password'              => \Parameter::instance()->get('SYSTEM_PASSWORD'),
             ];
 
             if($Request->getMethod() == HttpConstant::METHOD_POST){
                 $system_name        = trim($Request->getPostParam('name'));
                 $system_faciltator  = $Request->getPostParam('faciltator');
+                $www_base_url       = $Request->getPostParam('www_base_url');
                 $system_admin       = trim($Request->getPostParam('user'));
                 $system_password    = $Request->getPostParam('password');
                 if(empty($system_name)){
@@ -58,6 +60,9 @@ class System extends ControllerAbstract
                 if(empty($system_faciltator)){
                     throw new MessageException('请输入系统服务商名称');
                 }
+                if(empty($www_base_url)){
+                    throw new MessageException('请输入系统商户端Base Url');
+                }
                 if(empty($system_admin)){
                     throw new MessageException('请输入系统管理员账号');
                 }
@@ -65,8 +70,9 @@ class System extends ControllerAbstract
                     throw new MessageException('请输入系统管理员密码');
                 }
                 \Parameter::instance()->set('SYSTEM_NAME', $system_name);
-                \Parameter::instance()->set('SYSTEM_ADMIN', $system_admin);
                 \Parameter::instance()->set('SYSTEM_FACILTATOR', $system_faciltator);
+                \Parameter::instance()->set('SYSTEM_WWW_BASE_URL', $www_base_url);
+                \Parameter::instance()->set('SYSTEM_ADMIN', $system_admin);
                 \Parameter::instance()->set('SYSTEM_PASSWORD', $system_password);
             }
 
