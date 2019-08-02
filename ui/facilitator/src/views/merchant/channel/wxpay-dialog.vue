@@ -87,7 +87,7 @@ export default {
       window.open('https://pay.weixin.qq.com', '_blank')
       this.open_dialog = true
       this.post_form = Object.assign({}, default_post_form)
-      this.post_form.status = 'send-wxpay'
+      this.post_form.status = 'send-third'
     },
     openDialog() {
       this.post_form = Object.assign({}, default_post_form)
