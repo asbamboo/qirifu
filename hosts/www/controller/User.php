@@ -10,6 +10,7 @@ use asbamboo\security\exception\NotEqualPasswordException;
 use asbamboo\qirifu\common\exception\MessageException;
 use asbamboo\framework\kernel\KernelInterface;
 use asbamboo\security\user\token\UserTokenInterface;
+use asbamboo\qirifu\common\model\message\Repository AS MessageRepository;
 
 /**
  * 登录
@@ -50,14 +51,18 @@ class User extends ControllerAbstract
         /**
          *
          * @var UserTokenInterface $UserToken
+         * @var MessageRepository $MessageRepository
          */
-        $UserToken  = $this->Container->get(UserTokenInterface::class);
-        $User       = $UserToken->getUser();
+        $UserToken          = $this->Container->get(UserTokenInterface::class);
+        $MessageRepository  = $this->Container->get(MessageRepository::class);
+        $User               = $UserToken->getUser();
+
 
         return $this->successJson('用户信息', [
-            'roles'     => $User->getRoles(),
-            'name'      => '商户',
-            'avatar'    => 'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif',
+            'roles'                 => $User->getRoles(),
+            'name'                  => '商户',
+            'unread_message_cnt'    => $MessageRepository->getUnreadCountByToUserId($User->getUserId()),
+            'avatar'                => 'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif',
         ]);
     }
 

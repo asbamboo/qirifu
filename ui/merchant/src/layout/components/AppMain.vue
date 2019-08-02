@@ -9,14 +9,41 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+
 export default {
   name: 'AppMain',
+  mounted(){
+    this.notifyListener()
+  },
   computed: {
     cachedViews() {
       return this.$store.state.tagsView.cachedViews
     },
     key() {
       return this.$route.path
+    },
+    ...mapGetters([
+      'unread_message_cnt'
+    ])
+  },
+  methods: {
+    notifyListener() {
+      // 进入页面时如果有唯独消息那么弹出提示未读消息
+      if(this.unread_message_cnt > 0){
+        let message =
+          '<a href="#/message/inbox">' +
+            '您有<i>' + this.unread_message_cnt + '<i>条消息未读取，请及时查收。' +
+          '</a>'
+
+        this.$notify({
+          type: 'info',
+          title: '消息提醒',
+          message: message,
+          dangerouslyUseHTMLString: true,
+          duration: false
+        })
+      }
     }
   }
 }

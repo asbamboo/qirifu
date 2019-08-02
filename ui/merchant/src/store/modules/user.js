@@ -6,6 +6,7 @@ const state = {
   token: getToken(),
   name: '',
   avatar: '',
+  unread_message_cnt: 0,
   roles: []
 }
 
@@ -15,6 +16,9 @@ const mutations = {
   },
   SET_NAME: (state, name) => {
     state.name = name
+  },
+  SET_UNREAD_MESSAGE_CNT: (state, count) => {
+    state.unread_message_cnt = count
   },
   SET_AVATAR: (state, avatar) => {
     state.avatar = avatar
@@ -53,16 +57,17 @@ const actions = {
           reject('Verification failed, please Login again.')
         }
 
-        const { roles, name, avatar } = data
+        const { roles, name, avatar, unread_message_cnt } = data
 
         // roles must be a non-empty array
         if (!roles || roles.length <= 0) {
           reject('getInfo: roles must be a non-null array!')
         }
-
+        
         commit('SET_ROLES', roles)
         commit('SET_NAME', name)
         commit('SET_AVATAR', avatar)
+        commit('SET_UNREAD_MESSAGE_CNT', unread_message_cnt)
         resolve(data)
       }).catch(error => {
         reject(error)

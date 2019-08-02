@@ -12,12 +12,14 @@ const users = {
   'admin-token': {
     roles: ['admin'],
     avatar: 'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif',
-    name: 'Super d Admin'
+    name: 'Super d Admin',
+    unread_message_cnt: 0
   },
   'editor-token': {
     roles: ['editor'],
     avatar: 'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif',
-    name: 'Normal Editor'
+    name: 'Normal Editor',
+    unread_message_cnt: 0
   }
 }
 

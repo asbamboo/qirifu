@@ -48,6 +48,32 @@ class Repository
     }
 
     /**
+     *
+     * @param string $to_user_id
+     * @return int
+     */
+    public function getUnreadCountByToUserId(string $to_user_id) : int
+    {
+        $queryBuilder   = $this->Repository->createQueryBuilder('t');
+
+        $andx           = $queryBuilder->expr()->andX();
+
+        $andx->add($queryBuilder->expr()->eq('t.to_user_id', ':to_user_id'));
+        $andx->add($queryBuilder->expr()->eq('t.is_read', ':is_read'));
+
+        $queryBuilder->setParameter('to_user_id', $to_user_id);
+        $queryBuilder->setParameter('is_read', false);
+
+        $queryBuilder->where($andx);
+
+        $queryBuilder->select('count(1) AS cnt');
+
+        $query_result   = $queryBuilder->getQuery()->getArrayResult();
+
+        return current(current($query_result));
+    }
+
+    /**
      * 后台列表页面
      *
      * @param ServerRequestInterface $Request
