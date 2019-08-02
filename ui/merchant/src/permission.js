@@ -7,7 +7,7 @@ import { getToken } from '@/utils/auth' // get token from cookie
 
 NProgress.configure({ showSpinner: false }) // NProgress Configuration
 
-const whiteList = /(^\/login|^\/auth-redirect|^\/register|^\/trade\/[^\/]+\/order)/ // no redirect whitelist
+const whiteList = /(^\/login|^\/auth-redirect|^\/register|^\/system\/info$|^\/trade\/[^\/]+\/order|^\/$)/ // no redirect whitelist
 
 router.beforeEach(async(to, from, next) => {
   // start progress bar
@@ -19,7 +19,7 @@ router.beforeEach(async(to, from, next) => {
   if (hasToken) {
     if (to.path === '/login') {
       // if is logged in, redirect to the home page
-      next({ path: '/' })
+      next({ path: '/dashboard' })
       NProgress.done()
     } else {
       // determine whether the user has obtained his permission roles through getInfo
@@ -57,7 +57,11 @@ router.beforeEach(async(to, from, next) => {
       next()
     } else {
       // other pages that do not have permission to access are redirected to the login page.
-      next(`/login?redirect=${to.fullPath}`)
+      if(to.fullPath == '/'){
+        next(`/login?redirect=/dashboard`)
+      }else{
+        next(`/login?redirect=${to.fullPath}`)
+      }
       NProgress.done()
     }
   }

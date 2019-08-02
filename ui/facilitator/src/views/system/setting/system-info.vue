@@ -44,12 +44,30 @@
             placement="top"
             effect="dark"
           >
-            <el-form-item label="商户端Base Url:">
+            <el-form-item label="商户端入口Url:">
               <el-input
                 v-model="system_info.www_base_url"
                 type="text"
                 name="system_www_base_url"
-                placeholder="请输入服务商名称"
+                placeholder="请输入商户端入口Url"
+              />
+            </el-form-item>
+          </el-tooltip>
+        </el-col>
+      </el-row>
+      <el-row>
+        <el-col :md="12">
+          <el-tooltip
+            content="服务商端BaseUrl:服务商入口页面的url"
+            placement="top"
+            effect="dark"
+          >
+            <el-form-item label="服务商端入口Url:">
+              <el-input
+                v-model="system_info.admin_base_url"
+                type="text"
+                name="system_admin_base_url"
+                placeholder="请输入服务商端入口Url"
               />
             </el-form-item>
           </el-tooltip>
@@ -110,6 +128,7 @@ const system_info = {
   name: '',
   faciltator: '',
   www_base_url: location.origin + location.pathname.replace('/admin/', '/www/'),
+  admin_base_url: location.origin + location.pathname,
   user: '',
   password: ''
 }

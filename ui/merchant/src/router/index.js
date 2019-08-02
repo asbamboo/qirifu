@@ -34,6 +34,11 @@ import Layout from '@/layout'
  */
 export const constantRoutes = [
   {
+    path: '/',
+    component: () => import('@/views/home/index'),
+    hidden: true
+  },
+  {
     path: '/redirect',
     component: Layout,
     hidden: true,
@@ -69,7 +74,7 @@ export const constantRoutes = [
     component: () => import('@/views/error-page/401'),
     hidden: true
   },
-  
+
   {
     path: '/window-print',
     component: () => import('@/views/print/qrcode'),
@@ -83,12 +88,11 @@ export const constantRoutes = [
   },
 
   {
-    path: '/',
+    path: '/dashboard',
     component: Layout,
-    redirect: '/dashboard',
     children: [
       {
-        path: 'dashboard',
+        path: '',
         component: () => import('@/views/dashboard/index'),
         name: '控制台',
         meta: { title: '控制台', icon: 'dashboard', affix: true }

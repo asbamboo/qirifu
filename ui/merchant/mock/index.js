@@ -11,6 +11,7 @@ import informationChannel from './information-channel'
 import alipayAuth from './alipay-auth'
 import trade from './trade'
 import messageInbox from './message-inbox'
+import system from './system'
 
 const mocks = [
   ...user,
@@ -22,7 +23,8 @@ const mocks = [
   ...informationChannel,
   ...alipayAuth,
   ...trade,
-  ...messageInbox
+  ...messageInbox,
+  ...system
 ]
 
 // for front mock
