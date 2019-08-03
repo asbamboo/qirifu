@@ -10,11 +10,15 @@
 
 <script>
 import { mapGetters } from 'vuex'
+import Driver from 'driver.js' // import driver.js
+import 'driver.js/dist/driver.min.css' // import driver.js css
+import steps from './steps'
 
 export default {
   name: 'AppMain',
   mounted(){
     this.notifyListener()
+    this.driver()
   },
   computed: {
     cachedViews() {
@@ -24,7 +28,8 @@ export default {
       return this.$route.path
     },
     ...mapGetters([
-      'unread_message_cnt'
+      'unread_message_cnt',
+      'is_new_user'
     ])
   },
   methods: {
@@ -43,6 +48,19 @@ export default {
           dangerouslyUseHTMLString: true,
           duration: false
         })
+      }
+    },
+    driver() {
+      if(this.is_new_user){
+        const dv = new Driver({
+          opacity: 0.2,
+          closeBtnText: '关闭',
+          prevBtnText: '上一步',
+          nextBtnText: '下一步',
+          doneBtnText: '完成'
+        })
+        dv.defineSteps(steps)
+        dv.start()
       }
     }
   }
@@ -80,5 +98,11 @@ export default {
   .fixed-header {
     padding-right: 15px;
   }
+}
+div#driver-highlighted-element-stage {
+  background: none !important;
+  opacity: 0.3;
+  border: 1px solid #FFFFFF;
+  border-width: 10px;
 }
 </style>

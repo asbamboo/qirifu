@@ -11,6 +11,7 @@ use asbamboo\qirifu\common\exception\MessageException;
 use asbamboo\framework\kernel\KernelInterface;
 use asbamboo\security\user\token\UserTokenInterface;
 use asbamboo\qirifu\common\model\message\Repository AS MessageRepository;
+use asbamboo\qirifu\common\model\merchant\Repository AS MerchantRepository;
 
 /**
  * 登录
@@ -52,15 +53,21 @@ class User extends ControllerAbstract
          *
          * @var UserTokenInterface $UserToken
          * @var MessageRepository $MessageRepository
+         * @var MerchantRepository $MerchantRepository
          */
         $UserToken          = $this->Container->get(UserTokenInterface::class);
         $MessageRepository  = $this->Container->get(MessageRepository::class);
+        $MerchantRepository = $this->Container->get(MerchantRepository::class);
         $User               = $UserToken->getUser();
+        $merchant_names     = $MerchantRepository->findNamesByUserIds([$User->getUserId()]);
+        $is_new             = empty( $merchant_names ) ? true : false;
+        $merchant_name      = empty( $merchant_names ) ? '未填写资料' : $merchant_names[$User->getUserId()];
 
 
         return $this->successJson('用户信息', [
             'roles'                 => $User->getRoles(),
-            'name'                  => '商户',
+            'name'                  => $merchant_name,
+            'is_new'                => $is_new,
             'unread_message_cnt'    => $MessageRepository->getUnreadCountByToUserId($User->getUserId()),
             'avatar'                => 'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif',
         ]);

@@ -128,16 +128,16 @@ export const asyncRoutes = [
         meta: { title: '商户资料', icon: 'edit' }
       },
       {
-        path: 'qrcode',
-        component: () => import('@/views/information/qrcode'),
-        name: 'informationQrcode',
-        meta: { title: '二维码', icon: 'edit' }
-      },
-      {
         path: 'channel',
         component: () => import('@/views/information/channel'),
         name: 'informationChannel',
         meta: { title: '支付通道', icon: 'edit' }
+      },
+      {
+        path: 'qrcode',
+        component: () => import('@/views/information/qrcode'),
+        name: 'informationQrcode',
+        meta: { title: '二维码', icon: 'edit' }
       }
     ]
   },

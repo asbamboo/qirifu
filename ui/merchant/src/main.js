@@ -19,6 +19,11 @@ import './utils/error-log' // error log
 
 import * as filters from './filters' // global filters
 
+
+import VueTour from 'vue-tour'
+import 'vue-tour/dist/vue-tour.css'
+Vue.use(VueTour)
+
 Vue.use(Element, {
   size: Cookies.get('size') || 'medium' // set element-ui default size
 })

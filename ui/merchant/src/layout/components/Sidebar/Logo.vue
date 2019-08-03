@@ -14,6 +14,8 @@
 </template>
 
 <script>
+import logo20 from '@/assets/logo_images/logo20.png'
+
 export default {
   name: 'SidebarLogo',
   props: {
@@ -25,7 +27,7 @@ export default {
   data() {
     return {
       title: '商户控制台',
-      logo: 'https://wpimg.wallstcn.com/69a1c46c-eb1c-4b46-8bd4-e9e686ef5251.png'
+      logo: logo20
     }
   }
 }
