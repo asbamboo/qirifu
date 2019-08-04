@@ -10,6 +10,7 @@
           placeholder="请输入支付金额"
           v-model="form.trade_price"
           name="trade_price"
+          type="number"
         />
       </el-form-item>
       <el-form-item>
@@ -28,6 +29,7 @@
 
 <script>
 import { order, getAuthUrl, getAuthInfo } from '@/api/trade'
+import qs from 'qs'
 
 const from = {
   trade_price: '',
@@ -39,7 +41,7 @@ const from = {
 export default {
   name: 'TradeOrder',
   data() {
-    let is_supported = true
+    let is_supported = false
     let ua = window.navigator.userAgent.toLowerCase()
     if ( ua.match(/MicroMessenger/i) == 'micromessenger' ) {
       from.pay_type = 'wxpay'
@@ -61,33 +63,39 @@ export default {
       this.doAuth()
     }
   },
-  mounted() {
-    // const s = document.createElement('script')
-    // s.type = 'text/javascript'
-    // s.src = 'https://a.alipayobjects.com/g/h5-lib/alipayjsapi/3.0.6/alipayjsapi.min.js'
-    // document.body.appendChild(s)
-    //
-    // const c = document.createElement('script')
-    // c.type = 'text/javascript'
-    // c.src = 'https://static.alipay.com/aliBridge/1.0.0/aliBridge.min.js'
-    // document.body.appendChild(c)
-    //
-    // const d = document.createElement('script')
-    // d.type = 'text/javascript'
-    // d.src = 'https://as.alipayobjects.com/g/component/antbridge/1.1.1/antbridge.min.js'
-    // document.body.appendChild(d)
-  },
   methods: {
     doAuth() {
       console.log(this.$route.query)
-      if(!this.$route.query || !this.$route.query.auth_code){
-        getAuthUrl({redirect_url: location.href}).then(response => {
+
+      let has_auth_code = false
+
+      if(this.form.pay_type == 'alipay' && location.href.search('auth_code') > 0) {
+        has_auth_code = true
+      }
+
+      if(this.form.pay_type == 'wxpay' && location.href.search('code') > 0) {
+        has_auth_code = true
+      }
+
+      console.log(has_auth_code, this.form.pay_type, location.href.search('auth_code'))
+
+      if(!has_auth_code){
+        getAuthUrl({
+          pay_type: this.form.pay_type,
+          redirect_url: location.href
+        }).then(response => {
           location.href = response.data.auth_url
         }).catch(err => {
           console.log(err)
         })
       }else{
-        getAuthInfo(this.$route.query).then(response => {
+        let post_data = this.$route.query
+        if(this.form.pay_type == 'wxpay'){
+          post_data = qs.parse(location.search.slice(1))
+        }
+        post_data.type = this.form.pay_type
+        console.log(post_data)
+        getAuthInfo(post_data).then(response => {
           this.form.auth_info  =  Object.assign({}, response.data)
         }).catch(err => {
           console.log(err)

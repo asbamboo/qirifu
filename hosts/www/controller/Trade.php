@@ -18,6 +18,7 @@ use asbamboo\qirifu\common\exception\SystemException;
 use asbamboo\router\RouterInterface;
 use asbamboo\security\user\token\UserTokenInterface;
 use asbamboo\qirifu\common\model\merchantChannel\Code AS MerchantChannelCode;
+use asbamboo\qirifu\common\wxpay\WwwAuth AS WxpayWwwAuth;
 
 class Trade extends ControllerAbstract
 {
@@ -74,16 +75,29 @@ class Trade extends ControllerAbstract
     public function authUrl(ServerRequestInterface $Request)
     {
         try{
-            /**
-             *
-             * @var AlipayWwwAuth $AlipayWwwAuth
-             */
-            $AlipayWwwAuth  = $this->Container->get(AlipayWwwAuth::class);
-            $auth_url       = $AlipayWwwAuth->getAuthUrl(\Parameter::instance()->get('ALIPAY_APPID'), $Request->getRequestParam('redirect_url'));
+            if($Request->getRequestParam('pay_type') == 'alipay'){
+                /**
+                 *
+                 * @var AlipayWwwAuth $AlipayWwwAuth
+                 */
+                $AlipayWwwAuth  = $this->Container->get(AlipayWwwAuth::class);
+                $auth_url       = $AlipayWwwAuth->getAuthUrl(\Parameter::instance()->get('ALIPAY_APPID'), $Request->getRequestParam('redirect_url'));
 
-            return $this->successJson("success", [
-                'auth_url'  => $auth_url,
-            ]);
+                return $this->successJson("success", [
+                    'auth_url'  => $auth_url,
+                ]);
+            }else if($Request->getRequestParam('pay_type') == 'wxpay'){
+                /**
+                 *
+                 * @var WxpayWwwAuth $WxpayWwwAuth
+                 */
+                $WxpayWwwAuth   = $this->Container->get(WxpayWwwAuth::class);
+                $auth_url       = $WxpayWwwAuth->getAuthUrl(\Parameter::instance()->get('WXPAY_APPID'), $Request->getRequestParam('redirect_url'));
+
+                return $this->successJson("success", [
+                    'auth_url'  => $auth_url,
+                ]);
+            }
         }catch(MessageException $e){
             return $this->failedJson($e->getMessage());
         }catch(\Exception $e){
@@ -97,15 +111,31 @@ class Trade extends ControllerAbstract
     public function authInfo(ServerRequestInterface $Request)
     {
         try{
-            /**
-             *
-             * @var AlipayWwwAuth $AlipayWwwAuth
-             */
-            $AlipayWwwAuth  = $this->Container->get(AlipayWwwAuth::class);
-            $auth_code      = $AlipayWwwAuth->getAuthCode($Request);
-            $auth_info      = $AlipayWwwAuth->getAuthTokenInfo($auth_code);
+            if($Request->getRequestParam('type') == 'alipay'){
+                /**
+                 *
+                 * @var AlipayWwwAuth $AlipayWwwAuth
+                 */
+                $AlipayWwwAuth  = $this->Container->get(AlipayWwwAuth::class);
+                $auth_code      = $AlipayWwwAuth->getAuthCode($Request);
+                $auth_info      = $AlipayWwwAuth->getAuthTokenInfo($auth_code);
 
-            return $this->successJson("success", $auth_info);
+                return $this->successJson("success", $auth_info);
+
+            }else if($Request->getRequestParam('type') == 'wxpay'){
+                /**
+                 *
+                 * @var WxpayWwwAuth $WxpayWwwAuth
+                 */
+                $WxpayWwwAuth   = $this->Container->get(WxpayWwwAuth::class);
+                $auth_code      = $WxpayWwwAuth->getAuthCode($Request);
+                $auth_info      = $WxpayWwwAuth->getAuthTokenInfo(\Parameter::instance()->get('WXPAY_APPID'), \Parameter::instance()->get('WXPAY_APPSECRET'), $auth_code);
+
+                return $this->successJson("success", $auth_info);
+            }
+
+            throw new MessageException('暂时不支持你选择的支付方式。');
+
         }catch(MessageException $e){
             return $this->failedJson($e->getMessage());
         }catch(\Exception $e){
