@@ -1,17 +1,16 @@
 <template>
   <div class="app-container">
-    <el-form
-      ref="etcForm"
-      :model="etc_info"
-      class="form-container"
-      label-width="135px"
-    >
-      <el-row>
-        <el-col :md="12">
+    <el-row :gutter="20">
+      <el-col :md="12">
+        <el-form
+          ref="etcForm"
+          :model="etc_info"
+          class="form-container"
+          label-width="135px"
+        >
           <el-card class="box-card">
             <div slot="header" class="clearfix">
               <span>支付宝相关配置</span>
-
             </div>
             <el-form-item label="支付宝沙箱环境:">
               <el-switch v-model="etc_info.alipay_sandbox"></el-switch>
@@ -43,14 +42,50 @@
               />
             </el-form-item>
             <el-form-item>
-              <el-button type="primary" plain @click="submitForm">
+              <el-button type="primary" plain @click="submitForm('alipay')">
                 提交修改
               </el-button>
             </el-form-item>
           </el-card>
-        </el-col>
-      </el-row>
-    </el-form>
+        </el-form>
+      </el-col>
+
+      <el-col :md="12">
+        <el-form
+          ref="etcForm"
+          :model="etc_info"
+          class="form-container"
+          label-width="135px"
+        >
+          <el-card class="box-card">
+            <div slot="header" class="clearfix">
+              <span>微信相关配置</span>
+            </div>
+            <el-form-item label="微信APPID:">
+              <el-input
+                v-model="etc_info.wxpay_appid"
+                type="text"
+                name="wxpay_appid"
+                placeholder="请输入微信APPID"
+              />
+            </el-form-item>
+            <el-form-item label="微信APPID:">
+              <el-input
+                v-model="etc_info.wxpay_appsecret"
+                type="text"
+                name="wxpay_appsecret"
+                placeholder="请输入微信app secret"
+              />
+            </el-form-item>
+            <el-form-item>
+              <el-button type="primary" plain @click="submitForm('wxpay')">
+                提交修改
+              </el-button>
+            </el-form-item>
+          </el-card>
+        </el-form>
+      </el-col>
+    </el-row>
   </div>
 </template>
 
@@ -61,7 +96,9 @@ const etc_info = {
   alipay_appid: '',
   alipay_sandbox: false,
   alipay_rsa_private_key: '',
-  alipay_rsa_alipay_key: ''
+  alipay_rsa_alipay_key: '',
+  wxpay_appid: '',
+  wxpay_appsecret: ''
 };
 
 export default {
@@ -89,12 +126,14 @@ export default {
         this.ajax = false
       })
     },
-    submitForm() {
+    submitForm(type) {
       if(this.ajax == true){
         return
       }
       this.ajax = true
-      settingEtcInfo(this.etc_info).then(response => {
+      let post_data = this.etc_info
+      post_data.type = type
+      settingEtcInfo(post_data).then(response => {
         this.ajax = false
         this.$message({
           message: response.message
