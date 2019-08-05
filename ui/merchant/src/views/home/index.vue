@@ -119,6 +119,12 @@ export default {
 </script>
 
 <style lang="scss">
+.el-row--flex {
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+  flex-wrap: wrap;
+  flex-direction: row;
+}
 .index {
 
   width: 100%;
@@ -136,15 +142,12 @@ export default {
 
     .index-logo {
 
-      height: 50px;
-      margin-top: 16px;
-      margin-left: 10%;
       vertical-align: middle;
-      font-size: 50px;
+      font-size: 30px;
       font-weight: bolder;
 
       img {
-        height: 100%;
+        height: 30px;
       }
     }
 

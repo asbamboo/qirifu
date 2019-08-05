@@ -55,6 +55,12 @@ class RequestListener
     {
         $cur_url            = $this->Request->getUri()->getPath();
         $cur_roles          = $this->UserToken->getUser()->getRoles();
+
+//      $this->Router->generateUrl('qrcode_trade'), 特殊，使用正则匹配
+        if(preg_match('@/qrcode/[^/]+/trade@', $cur_url)){
+            return;
+        }
+
         $none_login_urls    = [
             $this->Router->generateUrl('home'),
             $this->Router->generateUrl('register_send_captcha'),

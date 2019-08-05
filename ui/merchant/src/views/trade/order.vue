@@ -7,10 +7,12 @@
 
       <el-form-item>
         <el-input
+          ref="inputTradePrice"
           placeholder="请输入支付金额"
           v-model="form.trade_price"
           name="trade_price"
           type="number"
+          pattern="\d*"
         />
       </el-form-item>
       <el-form-item>
@@ -62,6 +64,9 @@ export default {
     if(this.is_supported) {
       this.doAuth()
     }
+  },
+  mounted() {
+    this.$refs.inputTradePrice.focus()
   },
   methods: {
     doAuth() {

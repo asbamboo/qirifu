@@ -7,6 +7,8 @@ class Home extends ControllerAbstract
 {
     public function index()
     {
-        return $this->view();
+        return $this->view([
+            'system_name'   => \Parameter::instance()->get('SYSTEM_NAME'),
+        ]);
     }
 }
