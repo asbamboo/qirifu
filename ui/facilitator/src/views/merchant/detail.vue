@@ -16,12 +16,8 @@
           </div>
         </template>
         <div>简称：{{ merchant.name }}</div>
-        <div>全称：{{ merchant.fullname }}</div>
-        <div>行业：{{ merchant.profession }}</div>
-        <div>经营类目：{{ merchant.businecate }}</div>
-        <div>统一社会信用代码：{{ merchant.code }}</div>
-        <div>注册地址：{{ merchant.address_register }}</div>
-        <div>实际经营地址：{{ merchant.address_actual }}</div>
+        <div>经营类目：{{ merchant.wxpay_businecate }}</div>
+        <div>经营类目：{{ merchant.alipay_account }}</div>
         <div>添加日期：{{ merchant.create_ymdhis }}</div>
         <div>修改日期：{{ merchant.update_ymdhis }}</div>
       </el-collapse-item>
@@ -34,16 +30,7 @@
         <div>姓名：{{ merchant.link_man }}</div>
         <div>联系电话：{{ merchant.link_phone }}</div>
         <div>email：{{ merchant.link_email }}</div>
-      </el-collapse-item>
-      <el-collapse-item name="collapse-item-legalman">
-        <template slot="title">
-          <div>
-            <h4>法定代表人</h4>
-          </div>
-        </template>
-        <div>证件类型：{{ merchant.legal_id_type }}</div>
-        <div>证件号码：{{ merchant.legal_id_no }}</div>
-        <div>证件有效期：{{ merchant.legal_id_indate }}</div>
+        <div>实际经营地址：{{ merchant.address_actual }}</div>
       </el-collapse-item>
       <el-collapse-item name="collapse-item-bank">
         <template slot="title">
@@ -82,19 +69,13 @@ import { fetchDetail } from '@/api/merchant'
 
 const merchant = {
   seq: '',
+  name: '',
+  wxpay_businecate: '',
+  alipay_account: '',
   link_man: '',
   link_phone: '',
   link_email: '',
-  name: '',
-  fullname: '',
-  profession: '',
-  businecate: '',
-  code: '',
-  address_register: '',
   address_actual: '',
-  legal_id_type: '身份证',
-  legal_id_no: '',
-  legal_id_indate: '',
   bank_account_type: '',
   bank_name: '',
   bank_account_name: '',
