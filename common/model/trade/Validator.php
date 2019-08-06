@@ -52,8 +52,8 @@ trait Validator
             throw new MessageException('支付金额只能超出系统支持范围。');
         }
 
-        if(isset($explode_price[1]) && $explode_price[1] > 9999){
-            throw new MessageException('支付金额小数部分最多输入4位。');
+        if(isset($explode_price[1]) && $explode_price[1] > 99){
+            throw new MessageException('支付金额小数部分最多输入2位。');
         }
     }
 }

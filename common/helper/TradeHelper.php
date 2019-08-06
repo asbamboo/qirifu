@@ -12,6 +12,7 @@ use asbamboo\qirifu\common\Constant AS CommonConstant;
 use asbamboo\database\FactoryInterface AS DbFactoryInterface;
 use asbamboo\qirifu\common\exception\SystemException;
 use asbamboo\qirifu\common\model\trade\Code AS TradeCode;
+use asbamboo\qirifu\common\model\merchantChannel\Repository AS MerchantChannelRepository;
 
 class TradeHelper
 {
@@ -29,12 +30,25 @@ class TradeHelper
          * @var TradeRepository $TradeRepository
          * @var TradeManager $TradeManager
          * @var TradeQueryRequest $TradeQueryRequest
+         * @var MerchantChannelRepository $MerchantChannelRepository
          */
-        $TradeRepository    = $this->Container->get(TradeRepository::class);
-        $TradeQueryRequest  = $this->Container->get(TradeQueryRequest::class);
+        $TradeRepository            = $this->Container->get(TradeRepository::class);
+        $TradeQueryRequest          = $this->Container->get(TradeQueryRequest::class);
+        $MerchantChannelRepository  = $this->Container->get(MerchantChannelRepository::class);
 
         $TradeEntity                        = $TradeRepository->findOneByQirifuTradeNo($qirifu_trade_no);
+
+        $merchant_channel_type              = $TradeEntity->getMerchantChannelType();
+        $user_id                            = $TradeEntity->getUserId();
+        $MerchantChannelEntity              = $MerchantChannelRepository->findOneByTypeAndUserId($user_id, $merchant_channel_type);
+        $merchant_channel_key_info          = $MerchantChannelEntity->getKeyInfo();
+
         $TradeQueryRequest->out_trade_no    = $TradeEntity->getQirifuTradeNo();
+
+        if($merchant_channel_type == MerchantChannelCode::TYPE_ALIPAY){
+            $TradeQueryRequest->third_part      = json_encode(['app_auth_token' => $merchant_channel_key_info['app_auth_token']]);
+        }
+
         $TradeQueryResponse                 = $TradeQueryRequest->exec();
 
         if($TradeQueryResponse->trade_status == 'CANCEL' && $TradeEntity->getStatus() != TradeCode::STATUS_CANCLE){

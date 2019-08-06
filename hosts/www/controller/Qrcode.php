@@ -45,16 +45,19 @@ class Qrcode extends ControllerAbstract
 
     public function trade(string $user_id, ServerRequestInterface $Request)
     {
-        $http_user_agent    = $Request->getServerParams()['HTTP_USER_AGENT'] ?? '';
+        try{
+            $http_user_agent    = $Request->getServerParams()['HTTP_USER_AGENT'] ?? '';
 
-        if(preg_match('@MicroMessenger@i', $http_user_agent)){
-            return $this->wxpay($user_id, $Request);
-        }else if(preg_match('@AlipayClient@i', $http_user_agent)){
-            return $this->alipay($user_id, $Request);
+            if(preg_match('@MicroMessenger@i', $http_user_agent)){
+                return $this->wxpay($user_id, $Request);
+            }else if(preg_match('@AlipayClient@i', $http_user_agent)){
+                return $this->alipay($user_id, $Request);
+            }
+
+            throw new MessageException('系统暂不支持您选择的支付方式。');
+        }catch(MessageException $e){
+            return new TextResponse($e->getMessage());
         }
-
-        return $this->alipay($user_id, $Request);
-        return new TextResponse('系统暂不支持您选择的支付方式。');
     }
 
     private function wxpay(string $user_id, ServerRequestInterface $Request)
@@ -64,7 +67,7 @@ class Qrcode extends ControllerAbstract
          * @var AlipayWwwAuth $AlipayWwwAuth
          */
         $WxpayWwwAuth   = $this->Container->get(WxpayWwwAuth::class);
-        $assign_data    = $this->getPageViewInfo($user_id);
+        $assign_data    = $this->getPageViewInfo($user_id, MerchantChannelCode::TYPE_WXPAY);
 
         if($Request->getMethod() == HttpConstant::METHOD_POST){
             $auth_code      = $WxpayWwwAuth->getAuthCode($Request);
@@ -92,7 +95,7 @@ class Qrcode extends ControllerAbstract
          * @var AlipayWwwAuth $AlipayWwwAuth
          */
         $AlipayWwwAuth  = $this->Container->get(AlipayWwwAuth::class);
-        $assign_data    = $this->getPageViewInfo($user_id);
+        $assign_data    = $this->getPageViewInfo($user_id, MerchantChannelCode::TYPE_ALIPAY);
 
         if($Request->getMethod() == HttpConstant::METHOD_POST){
             $auth_code      = $AlipayWwwAuth->getAuthCode($Request);
@@ -104,9 +107,7 @@ class Qrcode extends ControllerAbstract
             }
 
             $TradeEntity                = $this->tradeToDatabase('alipay', $user_id, $trade_price);
-            $MerchantChannelRepository  = $this->Container->get(MerchantChannelRepository::class);
-            $MerchantChannelEntity      = $MerchantChannelRepository->findOneByTypeAndUserId($user_id, MerchantChannelCode::TYPE_ALIPAY);
-            $merchant_channel_key_info  = $MerchantChannelEntity->getKeyInfo();
+            $merchant_channel_key_info  = $assign_data['MerchantChannelEntity']->getKeyInfo();
 
             /**
              *
@@ -118,7 +119,7 @@ class Qrcode extends ControllerAbstract
             $TradePayRequest->channel       = 'ALIPAY_ONECD';
             $TradePayRequest->client_ip     = $Request->getClientIp();
             $TradePayRequest->out_trade_no  = $TradeEntity->getQirifuTradeNo();
-            $TradePayRequest->title         = $TradeEntity->getQirifuTradeNo();
+            $TradePayRequest->title         = $assign_data['merchant_name'] . '-' . $assign_data['system_name'];
             $TradePayRequest->total_fee     = bcmul($trade_price, 100);
             $TradePayRequest->notify_url    = $Router->generateAbsoluteUrl('trade_notify');
             $TradePayRequest->third_part    = json_encode([
@@ -252,9 +253,11 @@ class Qrcode extends ControllerAbstract
     /**
      *
      * @param string $user_id
-     * @return string[]|NULL[]
+     * @param int $merchant_channel_type
+     * @throws MessageException
+     * @return array
      */
-    private function getPageViewInfo(string $user_id) : array
+    private function getPageViewInfo(string $user_id, int $merchant_channel_type) : array
     {
         /**
          *
@@ -267,9 +270,21 @@ class Qrcode extends ControllerAbstract
             throw new MessageException('该商户的二维码尚未正式开通，不能使用');
         }
 
+        /**
+         *
+         * @var MerchantChannelRepository $MerchantChannelRepository
+         */
+        $MerchantChannelRepository  = $this->Container->get(MerchantChannelRepository::class);
+        $MerchantChannelEntity      = $MerchantChannelRepository->findOneByTypeAndUserId($user_id, $merchant_channel_type);
+
+        if(empty($MerchantChannelEntity) || $MerchantChannelEntity->getStatus() != MerchantChannelCode::STATUS_OK){
+            throw new MessageException('此商户该支付通道尚未开通。');
+        }
+
         return [
-            'merchant_name'     => $MerchantEntity->getName(),
-            'system_name'       => \Parameter::instance()->get('SYSTEM_NAME'),
+            'merchant_name'         => $MerchantEntity->getName(),
+            'system_name'           => \Parameter::instance()->get('SYSTEM_NAME'),
+            'MerchantChannelEntity' => $MerchantChannelEntity,
         ];
     }
 }
