@@ -244,6 +244,16 @@ class Merchant extends ControllerAbstract
                 throw new MessageException('非法请求。[status]');
             }
 
+            $merchant_channel_key_info  = [];
+            if($merchant_channel_type == MerchantChannelCode::TYPE_WXPAY){
+                $merchant_channel_key_info['sub_appid']     = $Request->getPostParam('sub_appid');
+                $merchant_channel_key_info['sub_mch_id']    = $Request->getPostParam('sub_mch_id');
+                $merchant_channel_key_info['is_direct']     = $Request->getPostParam('is_direct');
+                if(empty( $merchant_channel_key_info['sub_mch_id'] )){
+                    throw new MessageException('微信商户号必须填写');
+                }
+            }
+
             /**
              *
              * @var MerchantChannelRepository $MerchantChannelRepository
@@ -260,7 +270,7 @@ class Merchant extends ControllerAbstract
                 throw new MessageException('非法操作[merchant-channel]');
             }
             $MerchantChannelManager->load($MerchantChannelEntity);
-            $MerchantChannelManager->updateStatus($merchant_channel_status);
+            $MerchantChannelManager->updateStatus($merchant_channel_status, $merchant_channel_key_info);
             $MerchantChannelLogEntity   = $MerchantChannelLogManager->load();
             $MerchantChannelLogManager->create($MerchantChannelEntity, $merchant_channel_log_desc);
 

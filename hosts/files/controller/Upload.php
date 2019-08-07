@@ -15,8 +15,6 @@ class Upload extends ControllerAbstract
 {
     public function image(ServerRequestInterface $ServerRequest, $path = '')
     {
-        header("Access-Control-Allow-Origin: *");
-
         try
         {
             /**
@@ -39,7 +37,7 @@ class Upload extends ControllerAbstract
             $file_extendsion    = strrchr($client_file_name, '.');
             $fileid             = $UploadManager->genrateFileid();
             $file_name          = $fileid . $file_extendsion;
-            $url                = $Router->generateAbsoluteUrl('image', ['fileid' => $fileid]);
+            $url                = $Router->generateAbsoluteUrl('image_read', ['fileid' => $fileid]);
             $media_type         = $Upfile->getClientMediaType();
             $relative_file_path = $path . DIRECTORY_SEPARATOR . $file_name;
             $file_dir           = Constant::FILE_IMAGE_ROOT_PATH . DIRECTORY_SEPARATOR . $path;
