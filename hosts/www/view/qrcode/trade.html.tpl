@@ -109,7 +109,7 @@ html, body {
 	  }, function (data) {
 	      console.log(data)
 	      if ("9000" == data.resultCode) {
-              document.write('支付成功')
+              alert('支付成功')
 	      }
 	  });
 	}
