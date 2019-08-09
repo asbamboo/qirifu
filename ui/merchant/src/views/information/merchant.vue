@@ -24,7 +24,7 @@
                 :on-remove="handleFileRemove"
                 accept="image/*"
                 multiple
-                limit="20"
+                :limit="10"
                 drag
               >
                 <i class="el-icon-upload"></i>
@@ -222,7 +222,7 @@ export default {
   data() {
     return {
       merchant: Object.assign({}, merchant),
-      upfiles_desc: '只能上传图片。',
+      upfiles_desc: '只能上传图片(且小于2M)。',
       file_dialog_visible: false,
       file_dialog_url: '',
       file_upload_url: process.env.VUE_APP_UPLOAD_URL,
@@ -243,6 +243,9 @@ export default {
     handleFilePreview(file) {
       this.file_dialog_url = file.url
       this.file_dialog_visible = true
+    },
+    handleFileUploadError(err, file, file_list) {
+      console.log(err, file, file_list);
     },
     handleFileUploaded(response, file, file_list) {
       this.merchant.files = file_list

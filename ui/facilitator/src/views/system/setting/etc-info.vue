@@ -69,12 +69,12 @@
                 placeholder="请输入微信APPID"
               />
             </el-form-item>
-            <el-form-item label="微信APPID:">
+            <el-form-item label="微信appsecret:">
               <el-input
                 v-model="etc_info.wxpay_appsecret"
                 type="text"
                 name="wxpay_appsecret"
-                placeholder="请输入微信app secret"
+                placeholder="请输入微信app appsecret"
               />
             </el-form-item>
             <el-form-item>

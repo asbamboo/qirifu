@@ -66,14 +66,46 @@ class Qrcode extends ControllerAbstract
          *
          * @var AlipayWwwAuth $AlipayWwwAuth
          */
-        $WxpayWwwAuth   = $this->Container->get(WxpayWwwAuth::class);
-        $assign_data    = $this->getPageViewInfo($user_id, MerchantChannelCode::TYPE_WXPAY);
+        $WxpayWwwAuth               = $this->Container->get(WxpayWwwAuth::class);
+        $assign_data                = $this->getPageViewInfo($user_id, MerchantChannelCode::TYPE_WXPAY);
+        $assign_data['auth_info']   = [];
 
         if($Request->getMethod() == HttpConstant::METHOD_POST){
-            $auth_code      = $WxpayWwwAuth->getAuthCode($Request);
-            $auth_info      = $WxpayWwwAuth->getAuthTokenInfo(\Parameter::instance()->get('WXPAY_APPID'), \Parameter::instance()->get('WXPAY_APPSECRET'), $auth_code);
-            $trade_price    = $Request->getPostParam('trade_price');
-            var_dump($auth_code, $auth_info, $trade_price, '正在支付');exit;
+            $trade_price                = $Request->getPostParam('trade_price');
+            $auth_info                  = $Request->getPostParam('auth_info');
+            $TradeEntity                = $this->tradeToDatabase('wxpay', $user_id, $trade_price);
+            $merchant_channel_key_info  = $assign_data['MerchantChannelEntity']->getKeyInfo();
+
+            /**
+             *
+             * @var RouterInterface $Router
+             * @var TradePayRequest $TradePayRequest
+             */
+            $Router                         = $this->Container->get(RouterInterface::class);
+            $TradePayRequest                = $this->Container->get(TradePayRequest::class);
+            $TradePayRequest->channel       = 'WXPAY_ONECD';
+            $TradePayRequest->client_ip     = $Request->getClientIp();
+            $TradePayRequest->out_trade_no  = $TradeEntity->getQirifuTradeNo();
+            $TradePayRequest->title         = $assign_data['merchant_name'] . '-' . $assign_data['system_name'];
+            $TradePayRequest->total_fee     = bcmul($trade_price, 100);
+            $TradePayRequest->notify_url    = $Router->generateAbsoluteUrl('trade_notify');
+
+            if($merchant_channel_key_info['sub_mch_id'] == \Parameter::instance()->get('WXPAY_OWNER_MCH_ID')){
+                $TradePayRequest->byOwnerWxpay();
+                $TradePayRequest->third_part    = json_encode([
+                    'openid'                    => $auth_info['openid'],
+                ]);
+            }else{
+                $TradePayRequest->third_part    = json_encode([
+                    'sub_mch_id'                => $merchant_channel_key_info['sub_mch_id'],
+                    'openid'                    => $auth_info['openid'],
+                ]);
+            }
+
+            $TradePayResponse               = $TradePayRequest->exec();
+            $onecd_pay_json                 = json_decode($TradePayResponse->onecd_pay_json, true);
+
+            $assign_data['onecd_pay_json']  = $onecd_pay_json;
         }
 
         if(!$Request->getRequestParam('code')){
@@ -85,7 +117,14 @@ class Qrcode extends ControllerAbstract
             return new RedirectResponse($auth_url);
         }
 
-        return $this->view($assign_data, 'qrcode/trade.html.tpl');
+        if(!$Request->getRequestParam('auth_info')){
+            $auth_code                  = $WxpayWwwAuth->getAuthCode($Request);
+            $assign_data['auth_info']   = $WxpayWwwAuth->getAuthTokenInfo(\Parameter::instance()->get('WXPAY_APPID'), \Parameter::instance()->get('WXPAY_APPSECRET'), $auth_code);
+        }else{
+            $assign_data['auth_info']   = $Request->getRequestParam('auth_info');
+        }
+
+        return $this->view($assign_data, 'qrcode/wxpay.html.tpl');
     }
 
     private function alipay(string $user_id, ServerRequestInterface $Request)
@@ -146,7 +185,7 @@ class Qrcode extends ControllerAbstract
             return new RedirectResponse($auth_url);
         }
 
-        return $this->view($assign_data, 'qrcode/trade.html.tpl');
+        return $this->view($assign_data, 'qrcode/alipay.html.tpl');
     }
 
     public function notify(ServerRequestInterface $Request)

@@ -26,6 +26,18 @@ class ApiClient
         $this->run_mode     = \Parameter::instance()->get('ASBAMBOO_MODE');
     }
 
+    /**
+     * 由于微信支付服务商不能把自己添加为特约商户，
+     * 因此自己需要收款时，
+     * 只能走微信支付的普通商户版接口，
+     * 所以在asbamboo.com中单独穿件一个app应用
+     */
+    public function byOwnerWxpay()
+    {
+        $this->app_key      = \Parameter::instance()->get('WXPAY_OWNER_ASBAMBOO_APPKEY');
+        $this->app_serect   = \Parameter::instance()->get('WXPAY_OWNER_ASBAMBOO_APPSERECT');
+    }
+
     public function post(array $assign_data)
     {
         $assign_data    = $this->filterAssignData($assign_data);
