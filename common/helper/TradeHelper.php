@@ -45,6 +45,7 @@ class TradeHelper
 
         $TradeQueryRequest->out_trade_no    = $TradeEntity->getQirifuTradeNo();
 
+        $TradeQueryRequest->byDefaultAppKey();
         if($merchant_channel_type == MerchantChannelCode::TYPE_ALIPAY){
             $TradeQueryRequest->third_part      = json_encode(['app_auth_token' => $merchant_channel_key_info['app_auth_token']]);
         }else if($TradeEntity->getMerchantChannelType() == MerchantChannelCode::TYPE_WXPAY){

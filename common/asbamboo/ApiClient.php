@@ -21,9 +21,18 @@ class ApiClient
 
     public function __construct()
     {
+        $this->byDefaultAppKey();
+        $this->run_mode     = \Parameter::instance()->get('ASBAMBOO_MODE');
+    }
+
+    /**
+     * 一般情况下都使用后台配置的appkey与appserect
+     * - 特殊的系统服务商自己收款时由于微信不能自己做自己的特约商户，所以用byOwnerWxpay方法
+     */
+    public function byDefaultAppKey()
+    {
         $this->app_key      = \Parameter::instance()->get('ASBAMBOO_APPKEY');
         $this->app_serect   = \Parameter::instance()->get('ASBAMBOO_APPSERECT');
-        $this->run_mode     = \Parameter::instance()->get('ASBAMBOO_MODE');
     }
 
     /**
