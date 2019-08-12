@@ -47,18 +47,24 @@ class TradeHelper
 
         if($merchant_channel_type == MerchantChannelCode::TYPE_ALIPAY){
             $TradeQueryRequest->third_part      = json_encode(['app_auth_token' => $merchant_channel_key_info['app_auth_token']]);
+        }else if($TradeEntity->getMerchantChannelType() == MerchantChannelCode::TYPE_WXPAY){
+            if($merchant_channel_key_info['sub_mch_id'] == \Parameter::instance()->get('WXPAY_OWNER_MCH_ID')){
+                $TradeQueryRequest->byOwnerWxpay();
+            }else{
+                $TradeQueryRequest->third_part = json_encode(['sub_mch_id' => $merchant_channel_key_info['sub_mch_id']]);
+            }
         }
 
         $TradeQueryResponse                 = $TradeQueryRequest->exec();
 
         if($TradeQueryResponse->trade_status == 'CANCEL' && $TradeEntity->getStatus() != TradeCode::STATUS_CANCLE){
             // 取消 ===> 请求订单取消
-            $this->cancelTrade($TradeEntity);
+            $this->cancelTrade($TradeEntity, $merchant_channel_key_info);
 
         }else if($TradeQueryResponse->trade_status == 'NOPAY' || $TradeQueryResponse->trade_status == 'PAYFAILED' || $TradeQueryResponse->trade_status == 'PAYING'){
             // 状态为未支付 ===> 如果操过指定可支付时间， 那么请求订单取消
             if($TradeEntity->getCreateTime() < time() - CommonConstant::TRADE_TIMEOUT && $TradeEntity->getStatus() != TradeCode::STATUS_CANCLE){
-                $this->cancelTrade($TradeEntity);
+                $this->cancelTrade($TradeEntity, $merchant_channel_key_info);
             }
 
         }else if($TradeQueryResponse->trade_status == 'PAYOK' && $TradeEntity->getStatus() != TradeCode::STATUS_PAYOK){
@@ -96,7 +102,12 @@ class TradeHelper
         return $TradeEntity;
     }
 
-    public function cancelTrade(TradeEntity $TradeEntity) : void
+    /**
+     *
+     * @param TradeEntity $TradeEntity
+     * @param array $merchant_channel_key_info
+     */
+    public function cancelTrade(TradeEntity $TradeEntity, array $merchant_channel_key_info = []) : void
     {
         /**
          *
@@ -104,7 +115,17 @@ class TradeHelper
          */
         $TradeCancelRequest                = $this->Container->get(TradeCancelRequest::class);
         $TradeCancelRequest->out_trade_no  = $TradeEntity->getQirifuTradeNo();
+        if($TradeEntity->getMerchantChannelType() == MerchantChannelCode::TYPE_ALIPAY){
+            $TradeCancelRequest->third_part  = json_encode(['app_auth_token' => $merchant_channel_key_info['app_auth_token']]);
+        }else if($TradeEntity->getMerchantChannelType() == MerchantChannelCode::TYPE_WXPAY){
+            if($merchant_channel_key_info['sub_mch_id'] == \Parameter::instance()->get('WXPAY_OWNER_MCH_ID')){
+                $TradeCancelRequest->byOwnerWxpay();
+            }else{
+                $TradeCancelRequest->third_part = json_encode(['sub_mch_id' => $merchant_channel_key_info['sub_mch_id']]);
+            }
+        }
         $TradeCancelResponse               = $TradeCancelRequest->exec();
+
 
         if($TradeCancelResponse->trade_status == 'CANCEL'){
             /**

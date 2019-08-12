@@ -3,5 +3,6 @@
 .settings/
 node_modules/
 npm-debug.log
+qirifu.json
 /hosts/files/images/
 /vendor/
