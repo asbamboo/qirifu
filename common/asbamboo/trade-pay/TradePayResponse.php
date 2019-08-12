@@ -5,6 +5,7 @@ class TradePayResponse
 {
     public $in_trade_no;
     public $out_trade_no;
+    public $third_trade_no;
     public $channel;
     public $title;
     public $total_fee;

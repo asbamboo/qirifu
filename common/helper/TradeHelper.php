@@ -80,6 +80,7 @@ class TradeHelper
             $Db             = $this->Container->get(DbFactoryInterface::class);
             $TradeManager   = $this->Container->get(TradeManager::class);
             $TradeManager->load($TradeEntity);
+            $TradeManager->updateChannelTradeNo($TradeQueryResponse->third_trade_no);
             $TradeManager->updatePayok();
             $Db->getManager()->flush();
         }else if($TradeQueryResponse->trade_status == 'PAYED' && $TradeEntity->getStatus() != TradeCode::STATUS_PAYED){
@@ -95,6 +96,7 @@ class TradeHelper
             $Db             = $this->Container->get(DbFactoryInterface::class);
             $TradeManager   = $this->Container->get(TradeManager::class);
             $TradeManager->load($TradeEntity);
+            $TradeManager->updateChannelTradeNo($TradeQueryResponse->third_trade_no);
             $TradeManager->updatePayed();
             $Db->getManager()->flush();
         }
