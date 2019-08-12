@@ -15,27 +15,3 @@ export function fetchChannels() {
     method: 'get'
   })
 }
-
-export function order(data) {
-  return request({
-    url: '/trade/order',
-    method: 'post',
-    data: qs.stringify(data)
-  })
-}
-
-export function getAuthUrl(data) {
-  return request({
-    url: '/trade/auth-url',
-    method: 'post',
-    data: qs.stringify(data)
-  })
-}
-
-export function getAuthInfo(data) {
-  return request({
-    url: '/trade/auth-info',
-    method: 'post',
-    data: qs.stringify(data)
-  })
-}

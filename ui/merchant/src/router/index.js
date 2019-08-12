@@ -82,12 +82,6 @@ export const constantRoutes = [
   },
 
   {
-    path: '/trade/:user_id/order',
-    component: () => import('@/views/trade/order'),
-    hidden: true
-  },
-
-  {
     path: '/dashboard',
     component: Layout,
     children: [

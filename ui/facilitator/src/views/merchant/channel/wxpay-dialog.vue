@@ -18,15 +18,6 @@
             ></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="直连模式" v-if="post_form.status=='ok'">
-          <el-switch v-model="post_form.is_direct"></el-switch>
-        </el-form-item>
-        <el-form-item label="微信支付商户公账号(sub_appid)" v-if="post_form.status=='ok'">
-          <el-input
-            v-model="post_form.sub_appid"
-            autocomplete="off"
-          ></el-input>
-        </el-form-item>
         <el-form-item label="微信支付商户号(sub_mch_id)" v-if="post_form.status=='ok'">
           <el-input
             v-model="post_form.sub_mch_id"

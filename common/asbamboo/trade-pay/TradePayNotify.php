@@ -15,6 +15,7 @@ class TradePayNotify extends APiClient
     public $in_trade_no;
     public $title;
     public $out_trade_no;
+    public $third_trade_no;
     public $total_fee;
     public $client_ip;
 
@@ -42,11 +43,11 @@ class TradePayNotify extends APiClient
      */
     public function validateSign(ServerRequestInterface $Request)
     {
-        $app_serect = \Parameter::instance()->get('ASBAMBOO_APPSERECT');
-        if(!$this->checkSign($Request->getRequestParams(), $app_serect)){
+        $app_serect             = \Parameter::instance()->get('ASBAMBOO_APPSERECT');
+        $app_serect_wxowner     = \Parameter::instance()->get('WXPAY_OWNER_ASBAMBOO_APPSERECT');
+        if(!$this->checkSign($Request->getRequestParams(), $app_serect) && !$this->checkSign($Request->getRequestParams(), $app_serect_wxowner)){
             throw new SystemException('asbamboo返回值中签名无效');
         }
-
     }
 
     /**
@@ -59,6 +60,7 @@ class TradePayNotify extends APiClient
         $this->in_trade_no      = $Request->getRequestParam('in_trade_no');
         $this->title            = $Request->getRequestParam('title');
         $this->out_trade_no     = $Request->getRequestParam('out_trade_no');
+        $this->third_trade_no   = $Request->getRequestParam('third_trade_no');
         $this->total_fee        = $Request->getRequestParam('total_fee');
         $this->client_ip        = $Request->getRequestParam('client_ip');
         $this->trade_status     = $Request->getRequestParam('trade_status');

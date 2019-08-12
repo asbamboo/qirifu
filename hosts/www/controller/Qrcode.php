@@ -88,7 +88,7 @@ class Qrcode extends ControllerAbstract
             $TradePayRequest->out_trade_no  = $TradeEntity->getQirifuTradeNo();
             $TradePayRequest->title         = $assign_data['merchant_name'] . '-' . $assign_data['system_name'];
             $TradePayRequest->total_fee     = bcmul($trade_price, 100);
-            $TradePayRequest->notify_url    = $Router->generateAbsoluteUrl('trade_notify');
+            $TradePayRequest->notify_url    = $Router->generateAbsoluteUrl('qrcode_notify');
 
             if($merchant_channel_key_info['sub_mch_id'] == \Parameter::instance()->get('WXPAY_OWNER_MCH_ID')){
                 $TradePayRequest->byOwnerWxpay();
@@ -160,7 +160,7 @@ class Qrcode extends ControllerAbstract
             $TradePayRequest->out_trade_no  = $TradeEntity->getQirifuTradeNo();
             $TradePayRequest->title         = $assign_data['merchant_name'] . '-' . $assign_data['system_name'];
             $TradePayRequest->total_fee     = bcmul($trade_price, 100);
-            $TradePayRequest->notify_url    = $Router->generateAbsoluteUrl('trade_notify');
+            $TradePayRequest->notify_url    = $Router->generateAbsoluteUrl('qrcode_notify');
             $TradePayRequest->third_part    = json_encode([
                 'app_auth_token'            => $merchant_channel_key_info['app_auth_token'],
                 'seller_id'                 => $merchant_channel_key_info['user_id'],
@@ -223,12 +223,14 @@ class Qrcode extends ControllerAbstract
                 if($TradePayNotify->total_fee < bcmul($TradeEnity->getPrice(), 100)){
                     throw new SystemException('非法操作,实际支付金额小于交易应该支付金额1');
                 }
+                $TradeManager->updateChannelTradeNo($TradePayNotify->third_trade_no);
                 $TradeManager->updatePayok();
                 $Db->getManager()->flush();
             }elseif($TradePayNotify->trade_status == 'PAYED' && $TradeEnity->getStatus() != TradeCode::STATUS_PAYED){
                 if($TradePayNotify->total_fee < bcmul($TradeEnity->getPrice(), 100)){
                     throw new SystemException('非法操作,实际支付金额小于交易应该支付金额2');
                 }
+                $TradeManager->updateChannelTradeNo($TradePayNotify->third_trade_no);
                 $TradeManager->updatePayed();
                 $Db->getManager()->flush();
             }

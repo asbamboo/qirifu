@@ -85,55 +85,5 @@ export default [
         }
       }
     }
-  },
-
-  {
-    url: '/trade/auth-url',
-    type: 'post',
-    response: data => {
-
-      const post = data.body
-
-      let auth_url
-
-      if(post.pay_type == 'alipay'){
-        auth_url = 'https://openauth.alipaydev.com/oauth2/publicAppAuthorize.htm?app_id=2016090900468991&scope=auth_base&redirect_uri=http%3A%2F%2F192.168.0.104%3A9528%2Fhosts%2Fwww%2Fpublic%2F%23%2Ftrade%2F5d2c0a2d48de1%2Forder';
-      }else{
-        auth_url = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxd82f2f130bcf66d3&redirect_uri=http%3A%2F%2F192.168.0.106%3A9528%2Fhosts%2Fwww%2Fpublic%2F%23%2Ftrade%2F5d3e5f188a7dd%2Forder&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect';
-      }
-
-      return {
-        status: 'success',
-        data: {
-          auth_url: auth_url
-        }
-      }
-    }
-  },
-
-  {
-    url: '/trade/auth-info',
-    type: 'post',
-    response: config => {
-      return {
-        status: 'success',
-        data: {
-          user_id: 123456789
-        }
-      }
-    }
-  },
-
-  {
-    url: '/trade/order',
-    type: 'post',
-    response: config => {
-      return {
-        status: 'success',
-        data: {
-          onecd_pay_json: {trade_no: 4546546}
-        }
-      }
-    }
   }
 ]
