@@ -31,6 +31,7 @@ class TradeQueryRequest extends APiClient
         $TradeQueryResponse                     = new TradeQueryResponse();
         $TradeQueryResponse->in_trade_no        = $respone['decode_response']['data']['in_trade_no'] ?? null;
         $TradeQueryResponse->out_trade_no       = $respone['decode_response']['data']['out_trade_no'] ?? null;
+        $TradeQueryResponse->third_trade_no     = $respone['decode_response']['data']['third_trade_no'] ?? null;
         $TradeQueryResponse->channel            = $respone['decode_response']['data']['channel'] ?? null;
         $TradeQueryResponse->client_ip          = $respone['decode_response']['data']['client_ip'] ?? null;
         $TradeQueryResponse->title              = $respone['decode_response']['data']['title'] ?? null;

@@ -28,9 +28,10 @@ class TradeCancelRequest extends APiClient
             throw new SystemException($respone['message']);
         }
 
-        $TradeCancelResponse                    = new TradeCancelResponse();
+        $TradeCancelResponse                     = new TradeCancelResponse();
         $TradeCancelResponse->in_trade_no        = $respone['decode_response']['data']['in_trade_no'] ?? null;
         $TradeCancelResponse->out_trade_no       = $respone['decode_response']['data']['out_trade_no'] ?? null;
+        $TradeCancelResponse->third_trade_no     = $respone['decode_response']['data']['third_trade_no'] ?? null;
         $TradeCancelResponse->channel            = $respone['decode_response']['data']['channel'] ?? null;
         $TradeCancelResponse->client_ip          = $respone['decode_response']['data']['client_ip'] ?? null;
         $TradeCancelResponse->title              = $respone['decode_response']['data']['title'] ?? null;

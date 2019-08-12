@@ -39,19 +39,20 @@ class TradePayRequest extends APiClient
         }
 
         $TradePayResponse                       = new TradePayResponse();
-        $TradePayResponse->in_trade_no          = $respone['decode_response']['data']['in_trade_no'];
-        $TradePayResponse->out_trade_no         = $respone['decode_response']['data']['out_trade_no'];
-        $TradePayResponse->channel              = $respone['decode_response']['data']['channel'];
-        $TradePayResponse->title                = $respone['decode_response']['data']['title'];
-        $TradePayResponse->total_fee            = $respone['decode_response']['data']['total_fee'];
-        $TradePayResponse->trade_status         = $respone['decode_response']['data']['trade_status'];
-        $TradePayResponse->qr_code              = $respone['decode_response']['data']['qr_code'];
-        $TradePayResponse->app_pay_json         = $respone['decode_response']['data']['app_pay_json'];
-        $TradePayResponse->onecd_pay_json       = $respone['decode_response']['data']['onecd_pay_json'];
-        $TradePayResponse->cancel_ymdhis        = $respone['decode_response']['data']['cancel_ymdhis'];
-        $TradePayResponse->client_ip            = $respone['decode_response']['data']['client_ip'];
-        $TradePayResponse->payok_ymdhis         = $respone['decode_response']['data']['payok_ymdhis'];
-        $TradePayResponse->payed_ymdhis         = $respone['decode_response']['data']['payed_ymdhis'];
+        $TradePayResponse->in_trade_no          = $respone['decode_response']['data']['in_trade_no'] ?? null;
+        $TradePayResponse->out_trade_no         = $respone['decode_response']['data']['out_trade_no'] ?? null;
+        $TradePayResponse->third_trade_no       = $respone['decode_response']['data']['third_trade_no'] ?? null;
+        $TradePayResponse->channel              = $respone['decode_response']['data']['channel'] ?? null;
+        $TradePayResponse->title                = $respone['decode_response']['data']['title'] ?? null;
+        $TradePayResponse->total_fee            = $respone['decode_response']['data']['total_fee'] ?? null;
+        $TradePayResponse->trade_status         = $respone['decode_response']['data']['trade_status'] ?? null;
+        $TradePayResponse->qr_code              = $respone['decode_response']['data']['qr_code'] ?? null;
+        $TradePayResponse->app_pay_json         = $respone['decode_response']['data']['app_pay_json'] ?? null;
+        $TradePayResponse->onecd_pay_json       = $respone['decode_response']['data']['onecd_pay_json'] ?? null;
+        $TradePayResponse->cancel_ymdhis        = $respone['decode_response']['data']['cancel_ymdhis'] ?? null;
+        $TradePayResponse->client_ip            = $respone['decode_response']['data']['client_ip'] ?? null;
+        $TradePayResponse->payok_ymdhis         = $respone['decode_response']['data']['payok_ymdhis'] ?? null;
+        $TradePayResponse->payed_ymdhis         = $respone['decode_response']['data']['payed_ymdhis'] ?? null;
 
         return $TradePayResponse;
     }
