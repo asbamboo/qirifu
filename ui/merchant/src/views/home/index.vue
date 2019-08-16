@@ -17,7 +17,9 @@
           <div class="index-content">使用支付宝与微信官方通道（官方标准费率）</div>
           <div class="index-content">一码付收款系统</div>
           <div class="index-actions">
-            <el-button type="info" round>操作手册</el-button>
+            <a href="/docs/index.html">
+              <el-button type="info" round>操作手册</el-button>
+            </a>
             <router-link :to="'/login'">
               <el-button round>商户登录</el-button>
             </router-link>
@@ -49,7 +51,7 @@
             </span>
             <el-dropdown-menu slot="dropdown">
               <router-link :to="'/register'">
-                <el-dropdown-item>商户注册</el-dropdown-item>
+                <el-dropdown-item>账号注册</el-dropdown-item>
               </router-link>
               <el-dropdown-item>操作手册</el-dropdown-item>
               <el-dropdown-item>
@@ -153,6 +155,7 @@ export default {
 
     .index-container {
 
+      z-index: 99;
       height: 100%;
       padding-left: 10%;
 
@@ -171,10 +174,20 @@ export default {
         padding-left: 16px;
       }
 
+      @media (max-width: 768px) {
+        .index-title, .index-content {
+          display:none;
+        }
+      }
+
       .index-actions {
         margin-top: 80px;
         margin-bottom: 150px;
         margin-left: 16px;
+
+        button {
+          margin: 2px;
+        }
       }
     }
   }
