@@ -112,7 +112,7 @@ class Repository
         $andx           = $queryBuilder->expr()->andX();
 
         $andx->add($queryBuilder->expr()->in('t.status', ':status'));
-        $queryBuilder->setParameter('status', [Code::STATUS_NOPAY, Code::STATUS_PAYING, Code::STATUS_PAYFAILED]);
+        $queryBuilder->setParameter('status', [Code::STATUS_NOPAY, Code::STATUS_PAYING]);
 
         $andx->add($queryBuilder->expr()->gt('t.seq', ':limit_start_seq'));
         $queryBuilder->setParameter('limit_start_seq', $limit_start_seq);
